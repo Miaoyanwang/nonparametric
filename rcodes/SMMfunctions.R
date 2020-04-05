@@ -3,13 +3,19 @@ library(quadprog)
 
 eps = 10^-5
 
-sqrtH = function(Us,U){
-  h = eigen(Us%*%t(U))
-  return(h$vectors%*%diag(sqrt(pmax(h$values,eps))))
-}
 
-objv = function(B,b0,X,y,cost = 10){
-  return(sum(B*B)/2+cost*sum(pmax(1-y*unlist(lapply(X,function(x) sum(B*x)+b0)),0)))
+
+objv = function(B,b0,X,y,cost = 10,prob = F){
+  if (prob == F) {
+    value = sum(B*B)/2+cost*sum(pmax(1-y*unlist(lapply(X,function(x) sum(B*x)+b0)),0))
+  }else{
+    ind = which(y==1)
+    value = sum(B*B)/2 +
+      (1-prob)*cost*sum(pmax(1-y[ind]*unlist(lapply(X[ind],function(x) sum(B*x)+b0)),0)) +
+      prob*cost*sum(pmax(1-y[-ind]*unlist(lapply(X[-ind],function(x) sum(B*x)+b0)),0))
+
+  }
+  return(value)
 }
 
 # Generating dataset
@@ -69,91 +75,217 @@ kernelm = function(X,H,y,type = c("u","v")){
 
 
 
-smm = function(X,y,r,cost = 10){
+# smm = function(X,y,r,cost = 10){
+#   result = list()
+#   error = 10
+#   iter = 0
+#   # SMM
+#   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
+#
+#   #initialization
+#   U = randortho(m)[,1:r]
+#   # U = matrix(runif(m*r,-1,1),nrow = m)
+#   V = randortho(n)[,1:r]
+#   # V = matrix(runif(n*r,-1,1),nrow = n)
+#   obj = objv(U%*%t(V),0,X,y,cost);obj
+#
+#   while((iter <20)&(error>10^-4)){
+#     # update U fixing V
+#     Vs = V%*%solve(t(V)%*%V)
+#     H = Vs%*%t(V)
+#     dvec = rep(1,length(X))
+#     Dmat = kernelm(X,H,y,"u")
+#     Amat = cbind(y,diag(1,N),-diag(1,N))
+#     bvec = c(rep(0,1+N),rep(-cost,N))
+#     alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
+#     Bpart=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
+#     U = Bpart%*%Vs
+#
+#
+#     # update V fixing U
+#     Us = U%*%solve(t(U)%*%U)
+#     H = Us%*%t(U)
+#     Dmat = kernelm(X,H,y,"v")
+#     alpha = solve.QP(Dmat,dvec,Amat,bvec,meq = 1)
+#     Bpart=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
+#     V = t(Bpart)%*%Us
+#
+#
+#     ## intercept estimation
+#     Bhat = U%*%t(V);Bhat
+#     positiv = min(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==1)])
+#     negativ = max(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==-1)])
+#     if ((1-positiv)<(-1-negativ)) {
+#       b0hat = -(positiv+negativ)/2
+#     }else{
+#       gridb0 = seq(from = -1-negativ,to = 1-positiv,length = 100)
+#       b0hat = gridb0[which.min(sapply(gridb0,function(b) objv(Bhat,b,X,y)))]
+#     }
+#     obj = c(obj,objv(Bhat,b0hat,X,y,cost));obj
+#     iter = iter+1
+#     error = abs(-obj[iter+1]+obj[iter])/obj[iter];error
+#
+#   }
+#   predictor = function(x) sign(sum(Bhat*x)+b0hat)
+#   result$B = Bhat; result$b0 = b0hat; result$obj = obj; result$iter = iter
+#   result$error = error; result$predict = predictor
+#   return(result)
+# }
+
+
+
+
+# svm = function(X,y,cost = 10){
+#   result = list()
+#   error = 10
+#   iter = 0
+#   # SVM
+#   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
+#
+#   H = diag(1,n)
+#   dvec = rep(1,length(X))
+#   Dmat = kernelm(X,H,y,"u")
+#   Amat = cbind(y,diag(1,N),-diag(1,N))
+#   bvec = c(rep(0,1+N),rep(-cost,N))
+#   alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
+#   Bhat=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
+#   b0hat = -(min(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==1)])+
+#               max(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==-1)]))/2
+#   obj = objv(Bhat,b0hat,X,y,cost)
+#
+#   predictor = function(x) sign(sum(Bhat*x)+b0hat)
+#   result$B = Bhat; result$b0 = b0hat; result$obj = obj;
+#   result$predict = predictor
+#   return(result)
+# }
+
+
+## SMM with multiple initialization
+smm = function(X,y,r,cost = 10,rep = 10){
   result = list()
-  error = 10
-  iter = 0
+
   # SMM
   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
 
-  #initialization
-  U = randortho(m)[,1:r]
-  # U = matrix(runif(m*r,-1,1),nrow = m)
-  V = randortho(n)[,1:r]
-  # V = matrix(runif(n*r,-1,1),nrow = n)
-  obj = objv(U%*%t(V),0,X,y,cost);obj
+  compareobj = 10^100
+  for (i in 1:rep) {
+    error = 10
+    iter = 0
+    #initialization
+    U = randortho(m)[,1:r]
+    # U = matrix(runif(m*r,-1,1),nrow = m)
+    V = randortho(n)[,1:r]
+    # V = matrix(runif(n*r,-1,1),nrow = n)
+    obj = objv(U%*%t(V),0,X,y,cost);obj
 
-  while((iter <20)&(error>10^-4)){
-    # update U fixing V
-    Vs = V%*%solve(t(V)%*%V)
-    H = Vs%*%t(V)
-    dvec = rep(1,length(X))
-    Dmat = kernelm(X,H,y,"u")
-    Amat = cbind(y,diag(1,N),-diag(1,N))
-    bvec = c(rep(0,1+N),rep(-cost,N))
-    alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
-    Bpart=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
-    U = Bpart%*%Vs
-
-
-    # update V fixing U
-    Us = U%*%solve(t(U)%*%U)
-    H = Us%*%t(U)
-    Dmat = kernelm(X,H,y,"v")
-    alpha = solve.QP(Dmat,dvec,Amat,bvec,meq = 1)
-    Bpart=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
-    V = t(Bpart)%*%Us
+    while((iter <20)&(error>10^-3)){
+      # update U fixing V
+      Vs = V%*%solve(t(V)%*%V)
+      H = Vs%*%t(V)
+      dvec = rep(1,length(X))
+      Dmat = kernelm(X,H,y,"u")
+      Amat = cbind(y,diag(1,N),-diag(1,N))
+      bvec = c(rep(0,1+N),rep(-cost,N))
+      alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
+      Bpart=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
+      U = Bpart%*%Vs
 
 
-    ## intercept estimation
-    Bhat = U%*%t(V);Bhat
-    positiv = min(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==1)])
-    negativ = max(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==-1)])
-    if ((1-positiv)<(-1-negativ)) {
-      b0hat = -(positiv+negativ)/2
-    }else{
-      gridb0 = seq(from = -1-negativ,to = 1-positiv,length = 100)
-      b0hat = gridb0[which.min(sapply(gridb0,function(b) objv(Bhat,b,X,y)))]
+      # update V fixing U
+      Us = U%*%solve(t(U)%*%U)
+      H = Us%*%t(U)
+      Dmat = kernelm(X,H,y,"v")
+      alpha = solve.QP(Dmat,dvec,Amat,bvec,meq = 1)
+      Bpart=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
+      V = t(Bpart)%*%Us
+
+
+      ## intercept estimation
+      Bhat = U%*%t(V);Bhat
+      positiv = min(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==1)])
+      negativ = max(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==-1)])
+      if ((1-positiv)<(-1-negativ)) {
+        b0hat = -(positiv+negativ)/2
+      }else{
+        gridb0 = seq(from = -1-negativ,to = 1-positiv,length = 100)
+        b0hat = gridb0[which.min(sapply(gridb0,function(b) objv(Bhat,b,X,y)))]
+      }
+      obj = c(obj,objv(Bhat,b0hat,X,y,cost));obj
+      iter = iter+1
+      error = abs(-obj[iter+1]+obj[iter])/obj[iter];error
+
     }
-    obj = c(obj,objv(Bhat,b0hat,X,y,cost));obj
-    iter = iter+1
-    error = abs(-obj[iter+1]+obj[iter])/obj[iter];error
+    if (compareobj>obj[iter+1]) {
+      compareobj = obj[iter+1]
+      predictor = function(x) sign(sum(Bhat*x)+b0hat)
+      result$B = Bhat; result$b0 = b0hat; result$obj = obj; result$iter = iter
+      result$error = error; result$predict = predictor
+    }
 
   }
-  predictor = function(x) sign(sum(Bhat*x)+b0hat)
-  result$B = Bhat; result$b0 = b0hat; result$obj = obj; result$iter = iter
-  result$error = error; result$predict = predictor
   return(result)
 }
 
 
+kernelmat = function(x,y,kernels = function(x1,x2) sum(x1*x2)){
+  N = length(y)
+  Q = matrix(nrow = N,ncol = N)
+  for (i in 1:N) {
+    for(j in i:N){
+      Q[i,j] =kernels(x[i,],x[j,])*y[i]*y[j]
+      Q[j,i] = Q[i,j]
+    }
+  }
+  h = eigen(Q)
+  Q = (h$vectors)%*%diag(pmax(h$values,eps))%*%t(h$vectors)
+  return(Q)
+}
 
 
-
-
-
-svm = function(X,y,cost = 10){
+# SVM with kernel functions and weighted cost function
+svm = function(X,y,cost = 10, kernels = function(x1,x2) sum(x1*x2), p = .5){
+  if (p==.5) {
+    cost = 2*cost
+  }
   result = list()
   error = 10
   iter = 0
   # SVM
   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
 
-  H = diag(1,n)
+  x = matrix(unlist(X),nrow = N,byrow = T)
   dvec = rep(1,length(X))
-  Dmat = kernelm(X,H,y,"u")
+  Dmat = kernelmat(x,y,kernels)
   Amat = cbind(y,diag(1,N),-diag(1,N))
-  bvec = c(rep(0,1+N),rep(-cost,N))
+  bvec = c(rep(0,1+N),ifelse(y==1,-cost*(1-p),-cost*p))
   alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
-  Bhat=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
+
+  Bhat=matrix(t(y*alpha$solution)%*%x,nrow = m)
   b0hat = -(min(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==1)])+
               max(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==-1)]))/2
-  obj = objv(Bhat,b0hat,X,y,cost)
+  obj = objv(Bhat,b0hat,X,y,cost,prob = p)
 
   predictor = function(x) sign(sum(Bhat*x)+b0hat)
   result$B = Bhat; result$b0 = b0hat; result$obj = obj;
   result$predict = predictor
   return(result)
+}
+
+
+
+posterior = function(X,y,cost = 10,test,kernels = function(x1,x2) sum(x1*x2)){
+  a = 1:99
+  for(i in 1:99){
+    fit = svm(X,y,cost, kernels, p = i*0.01)$predict
+    a[i] = fit(test)
+  }
+  if (all(a==1)) {
+    return(1)
+  }else if(all(a==-1)){
+    return(0)
+  }else{
+    return((max(which(a==1))+min(which(a==-1)))/200)
+  }
 }
 
 
