@@ -259,13 +259,19 @@ svm = function(X,y,cost = 10, kernels = function(x1,x2) sum(x1*x2), p = .5){
   Amat = cbind(y,diag(1,N),-diag(1,N))
   bvec = c(rep(0,1+N),ifelse(y==1,-cost*(1-p),-cost*p))
   alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
+  coef = y*alpha$solution
 
-  Bhat=matrix(t(y*alpha$solution)%*%x,nrow = m)
-  b0hat = -(min(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==1)])+
-              max(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==-1)]))/2
+  Bhat=matrix(t(coef)%*%x,nrow = m)
+  # b0hat = -(min(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==1)])+
+  #             max(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==-1)]))/2
+  b0hat = -(min((Dmat%*%alpha$solution)[which(y==1)]*y[which(y==1)])+
+              max((Dmat%*%alpha$solution)[which(y==-1)]*y[which(y==-1)]))/2
   obj = objv(Bhat,b0hat,X,y,cost,prob = p)
 
-  predictor = function(x) sign(sum(Bhat*x)+b0hat)
+  predictor = function(y){
+    return(sign(sum(coef*apply(x,1, function(x) kernels(x,y)))+b0hat))
+  }
+  # predictor = function(x) sign(sum(Bhat*x)+b0hat)
   result$B = Bhat; result$b0 = b0hat; result$obj = obj;
   result$predict = predictor
   return(result)
@@ -288,5 +294,23 @@ posterior = function(X,y,cost = 10,test,kernels = function(x1,x2) sum(x1*x2)){
   }
 }
 
+posterior2 = function(dat,test){
+  a = 1:99
+  for(i in 1:99){
+    classcosts <- table(as.factor(dat$y))  # the weight vector must be named with the classes names
+    classcosts[1] <- i# a class -1 mismatch has a terrible cost
+    classcosts[2] <- 100 - i   # a class +1 mismatch not so much...
 
+    fit = svm(factor(y) ~ ., data = dat, scale = FALSE, kernel = "radial",
+              class.weights = classcosts)
+    a[i] = ifelse(predict(fit, test)==1,1,-1)
+  }
+  if (all(a==1)) {
+    return(1)
+  }else if(all(a==-1)){
+    return(0)
+  }else{
+    return((max(which(a==1))+min(which(a==-1)))/200)
+  }
+}
 
