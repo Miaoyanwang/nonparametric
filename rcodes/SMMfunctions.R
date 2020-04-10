@@ -1,6 +1,6 @@
 library(pracma)
 library(quadprog)
-
+library(e1071)
 eps = 10^-5
 
 
@@ -279,10 +279,10 @@ svm = function(X,y,cost = 10, kernels = function(x1,x2) sum(x1*x2), p = .5){
 
 
 
-posterior = function(X,y,cost = 10,test,kernels = function(x1,x2) sum(x1*x2)){
-  a = 1:99
-  for(i in 1:99){
-    fit = svm(X,y,cost, kernels, p = i*0.01)$predict
+posterior = function(X,y,cost = 10,test,precision=0.1,kernels = function(x1,x2) sum(x1*x2)){
+  a = 1:(1/precision-1)
+  for(i in 1:(1/precision-1)){
+    fit = svm(X,y,cost, kernels, p = i*precision)$predict
     a[i] = fit(test)
   }
   if (all(a==1)) {
@@ -290,27 +290,27 @@ posterior = function(X,y,cost = 10,test,kernels = function(x1,x2) sum(x1*x2)){
   }else if(all(a==-1)){
     return(0)
   }else{
-    return((max(which(a==1))+min(which(a==-1)))/200)
+    return((max(which(a==1))+min(which(a==-1)))/(2/precision))
   }
 }
 
-posterior2 = function(dat,test){
-  a = 1:99
-  for(i in 1:99){
-    classcosts <- table(as.factor(dat$y))  # the weight vector must be named with the classes names
-    classcosts[1] <- i# a class -1 mismatch has a terrible cost
-    classcosts[2] <- 100 - i   # a class +1 mismatch not so much...
-
-    fit = svm(factor(y) ~ ., data = dat, scale = FALSE, kernel = "radial",
-              class.weights = classcosts)
-    a[i] = ifelse(predict(fit, test)==1,1,-1)
-  }
-  if (all(a==1)) {
-    return(1)
-  }else if(all(a==-1)){
-    return(0)
-  }else{
-    return((max(which(a==1))+min(which(a==-1)))/200)
-  }
+posterior2 = function(dat,test,precision=0.1){
+    a = 1:(1/precision-1)
+    for(i in 1:(1/precision-1)){
+        classcosts <- table(as.factor(dat$y))  # the weight vector must be named with the classes names
+        classcosts[1] <- i# a class -1 mismatch has a terrible cost
+        classcosts[2] <- (1/precision) - i   # a class +1 mismatch not so much...
+        
+        fit = e1071::svm(factor(y) ~ ., data = dat, scale = FALSE, kernel = "radial",
+        class.weights = classcosts)
+        a[i] = ifelse(predict(fit, test)==1,1,-1)
+    }
+    if (all(a==1)) {
+        return(1)
+    }else if(all(a==-1)){
+        return(0)
+    }else{
+        return((max(which(a==1))+min(which(a==-1)))/(2*(1/precision)))
+    }
 }
 
