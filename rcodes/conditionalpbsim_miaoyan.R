@@ -72,7 +72,7 @@ points(dat$x.1,dat$x.2,col = as.factor(dat$y),pch=16)
 
 ## Classification:
 ## 1. (Method) Think about the implementation for non-linear low-rank matrix kernels. See my note.  
-## 2. (Theory) Find relavent literature about convergence rate of misclassification error. Extend to low-rank linear Kernels.  
+## 2. (Theory) Find relavent literature about convergence rate of misclassification error. Extend to linear low-rank matrix kernels.  
 
 ## Probability Estimation:
 ## 1. (Method) Extend above simulation to linear low-rank matrix kernels.
