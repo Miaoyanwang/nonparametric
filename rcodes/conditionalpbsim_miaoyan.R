@@ -76,8 +76,8 @@ points(dat$x.1,dat$x.2,col = as.factor(dat$y),pch=16)
 
 ## Probability Estimation:
 ## 1. (Method) Extend above simulation to low-rank matrix kernels.
-## 2. (Clarification) For probability estimation, does the regularity parameter C allow to vary for different pi? --> check Helen and others' work.
-## 3. (Clarification) Is the linear kernel rich enough to approximate most functions if C is allowed to vary?
-## 4. (Theory) what family of functions can be approximated by linear kernels? How about Gaussian kernels? Similar questions can be posed for matrix kernels. What functions can be well approxiamte by rank-r matrix kernels? How about nonlinear rank-r matrix kernels?
+## 2. (Clarification) Should we allow different regularity parameter C for different pi? --> check Helen Zhang and others' work.
+## 3. (Clarification) Are linear kernels (with varing C) rich enough to approximate most functions?
+## 4. (Theory) What family of functions can be approximated by linear kernels? Similar questions for matrix kernels. What functions can be well approxiamted by rank-r matrix kernels? How about nonlinear rank-r matrix kernels?
 
 
