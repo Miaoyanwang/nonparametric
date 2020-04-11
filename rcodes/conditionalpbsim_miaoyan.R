@@ -68,10 +68,16 @@ points(dat$x.1,dat$x.2,col = as.factor(dat$y),pch=16)
 ####################### end of simulation ####################
 
 
-## questions to investigate:
-## 1. extend simulation to low-rank matrix kernel.
-## 2. Impact of regularization parameter, C (cost). Does C allow to vary for different pi? --> check Biometrika Vol 95 No 1 p149-167.
-## 3. Is the linear kernel rich enough to approximate most functions if C is allowed to vary?
-## 4. (Theory) what family of functions can be approximated by linear kernels? How about Gaussian kernels? Similar questions for matrix kernels. What function family can be well approxiamte by rank-r matrix kernels? How about nonlinear rank-r matrix kernel?
+## What to do next:
+
+## Classification:
+## 1. (Method) Think about the implementation for non-linear low-rank matrix kernels. See my note.  
+## 2. (Theory) Find relavent literature on convergence rate on misclassification error. Extend to low-rank linear Kernels.  
+
+## Probability Estimation:
+## 1. (Method) Extend above simulation to low-rank matrix kernels.
+## 2. (Clarification) For probability estimation, does the regularity parameter C allow to vary for different pi? --> check Helen and others' work.
+## 3. (Clarification) Is the linear kernel rich enough to approximate most functions if C is allowed to vary?
+## 4. (Theory) what family of functions can be approximated by linear kernels? How about Gaussian kernels? Similar questions can be posed for matrix kernels. What functions can be well approxiamte by rank-r matrix kernels? How about nonlinear rank-r matrix kernels?
 
 
