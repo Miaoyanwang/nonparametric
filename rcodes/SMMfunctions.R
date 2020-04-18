@@ -1,6 +1,6 @@
 library(pracma)
 library(quadprog)
-library(e1071)
+
 eps = 10^-5
 
 
@@ -160,10 +160,12 @@ kernelm = function(X,H,y,type = c("u","v")){
 # }
 
 
-## SMM with multiple initialization
-smm = function(X,y,r,cost = 10,rep = 10){
+## SMM with multiple initialization and probability
+smm = function(X,y,r,cost = 10,rep = 10, p = .5){
   result = list()
-
+  if (p==.5){
+    cost = 2*cost
+  }
   # SMM
   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
 
@@ -176,7 +178,7 @@ smm = function(X,y,r,cost = 10,rep = 10){
     # U = matrix(runif(m*r,-1,1),nrow = m)
     V = randortho(n)[,1:r]
     # V = matrix(runif(n*r,-1,1),nrow = n)
-    obj = objv(U%*%t(V),0,X,y,cost);obj
+    obj = objv(U%*%t(V),0,X,y,cost,prob = p);obj
 
     while((iter <20)&(error>10^-3)){
       # update U fixing V
@@ -185,7 +187,7 @@ smm = function(X,y,r,cost = 10,rep = 10){
       dvec = rep(1,length(X))
       Dmat = kernelm(X,H,y,"u")
       Amat = cbind(y,diag(1,N),-diag(1,N))
-      bvec = c(rep(0,1+N),rep(-cost,N))
+      bvec = c(rep(0,1+N),ifelse(y==1,-cost*(1-p),-cost*p))
       alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
       Bpart=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
       U = Bpart%*%Vs
@@ -208,9 +210,9 @@ smm = function(X,y,r,cost = 10,rep = 10){
         b0hat = -(positiv+negativ)/2
       }else{
         gridb0 = seq(from = -1-negativ,to = 1-positiv,length = 100)
-        b0hat = gridb0[which.min(sapply(gridb0,function(b) objv(Bhat,b,X,y)))]
+        b0hat = gridb0[which.min(sapply(gridb0,function(b) objv(Bhat,b,X,y,cost,prob = p)))]
       }
-      obj = c(obj,objv(Bhat,b0hat,X,y,cost));obj
+      obj = c(obj,objv(Bhat,b0hat,X,y,cost,prob = p));obj
       iter = iter+1
       error = abs(-obj[iter+1]+obj[iter])/obj[iter];error
 
@@ -225,6 +227,7 @@ smm = function(X,y,r,cost = 10,rep = 10){
   }
   return(result)
 }
+
 
 
 kernelmat = function(x,y,kernels = function(x1,x2) sum(x1*x2)){
@@ -273,7 +276,7 @@ svm = function(X,y,cost = 10, kernels = function(x1,x2) sum(x1*x2), p = .5,minim
       b0hat = -(positiv+negativ)/2
     }else{
       gridb0 = seq(from = -1-negativ,to = 1-positiv,length = 100)
-      b0hat = gridb0[which.min(sapply(gridb0,function(b) objv(Bhat,b,X,y)))]
+      b0hat = gridb0[which.min(sapply(gridb0,function(b) objv(Bhat,b,X,y,prob = p)))]
     }
   }
   obj = objv(Bhat,b0hat,X,y,cost,prob = p)
@@ -288,7 +291,20 @@ svm = function(X,y,cost = 10, kernels = function(x1,x2) sum(x1*x2), p = .5,minim
 }
 
 
-
+posteriorSMM = function(X,y,r,test,cost = 10,rep = 10, precision = 0.1){
+  a = 1:(1/precision-1)
+  for(i in 1:(1/precision-1)){
+    fit = smm(X,y,r,cost,rep, p = i*precision)$predict
+    a[i] = fit(test)
+  }
+  if (all(a==1)) {
+    return(1)
+  }else if(all(a==-1)){
+    return(0)
+  }else{
+    return((max(which(a==1))+min(which(a==-1)))/(2/precision))
+  }
+}
 
 posterior = function(X,y,cost = 10,test,precision=0.1,kernels = function(x1,x2) sum(x1*x2)){
   a = 1:(1/precision-1)
@@ -306,22 +322,21 @@ posterior = function(X,y,cost = 10,test,precision=0.1,kernels = function(x1,x2) 
 }
 
 posterior2 = function(dat,test,precision=0.1){
-    a = 1:(1/precision-1)
-    for(i in 1:(1/precision-1)){
-        classcosts <- table(as.factor(dat$y))  # the weight vector must be named with the classes names
-        classcosts[1] <- i# a class -1 mismatch has a terrible cost
-        classcosts[2] <- (1/precision) - i   # a class +1 mismatch not so much...
-        
-        fit = e1071::svm(factor(y) ~ ., data = dat, scale = FALSE, kernel = "radial",
-        class.weights = classcosts)
-        a[i] = ifelse(predict(fit, test)==1,1,-1)
-    }
-    if (all(a==1)) {
-        return(1)
-    }else if(all(a==-1)){
-        return(0)
-    }else{
-        return((max(which(a==1))+min(which(a==-1)))/(2*(1/precision)))
-    }
-}
+  a = 1:(1/precision-1)
+  for(i in 1:(1/precision-1)){
+    classcosts <- table(as.factor(dat$y))  # the weight vector must be named with the classes names
+    classcosts[1] <- i# a class -1 mismatch has a terrible cost
+    classcosts[2] <- (1/precision) - i   # a class +1 mismatch not so much...
 
+    fit = e1071::svm(factor(y) ~ ., data = dat, scale = FALSE, kernel = "radial",
+                     class.weights = classcosts)
+    a[i] = ifelse(predict(fit, test)==1,1,-1)
+  }
+  if (all(a==1)) {
+    return(1)
+  }else if(all(a==-1)){
+    return(0)
+  }else{
+    return((max(which(a==1))+min(which(a==-1)))/(2*(1/precision)))
+  }
+}
