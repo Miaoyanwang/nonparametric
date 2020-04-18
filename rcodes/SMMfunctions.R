@@ -243,7 +243,7 @@ kernelmat = function(x,y,kernels = function(x1,x2) sum(x1*x2)){
 
 
 # SVM with kernel functions and weighted cost function
-svm = function(X,y,cost = 10, kernels = function(x1,x2) sum(x1*x2), p = .5){
+svm = function(X,y,cost = 10, kernels = function(x1,x2) sum(x1*x2), p = .5,minimization = FALSE){
   if (p==.5) {
     cost = 2*cost
   }
@@ -266,6 +266,16 @@ svm = function(X,y,cost = 10, kernels = function(x1,x2) sum(x1*x2), p = .5){
   #             max(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==-1)]))/2
   b0hat = -(min((Dmat%*%alpha$solution)[which(y==1)]*y[which(y==1)])+
               max((Dmat%*%alpha$solution)[which(y==-1)]*y[which(y==-1)]))/2
+  if(minimization==TRUE){
+    positiv = min(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==1)])
+    negativ = max(unlist(lapply(X,function(x) sum(Bhat*x)))[which(y==-1)])
+    if ((1-positiv)<(-1-negativ)) {
+      b0hat = -(positiv+negativ)/2
+    }else{
+      gridb0 = seq(from = -1-negativ,to = 1-positiv,length = 100)
+      b0hat = gridb0[which.min(sapply(gridb0,function(b) objv(Bhat,b,X,y)))]
+    }
+  }
   obj = objv(Bhat,b0hat,X,y,cost,prob = p)
 
   predictor = function(y){
@@ -276,6 +286,7 @@ svm = function(X,y,cost = 10, kernels = function(x1,x2) sum(x1*x2), p = .5){
   result$predict = predictor
   return(result)
 }
+
 
 
 
