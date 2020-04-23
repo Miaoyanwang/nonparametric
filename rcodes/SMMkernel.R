@@ -111,7 +111,8 @@ SMM = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = 
       # update V
       V = 0
       for(i in 1:N){
-        V = V+as.matrix(uth[i,,],nrow = r)*beta[i]*y[i]
+        V = V+as.matrix(uth[i,,],ncol = r)*beta[i]*y[i]
+        # nrow = r => ncol = r
       }
       V = V%*%utui
 
