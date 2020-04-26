@@ -172,11 +172,30 @@ SMM = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = 
 
 
 ## Some kernels (Expkernel does not work)
-Expkernel = function(Y,Z){
-  return(expm(-t(Y-Z)%*%(Y-Z)))
+#Expkernel = function(Y,Z){
+#  return(expm(-t(Y-Z)%*%(Y-Z)))
+#}
+
+#polykernel = function(Y,Z,deg = 3){
+#  n = ncol(Y)
+#  return((t(Y)%*%Z+diag(1,n))^deg)
+#}
+
+                                      
+## Modified kernel based on new note 042720 (by Chanwoo)
+expkernel = function(Y,Z){
+  n = ncol(Y)
+  A = matrix(0,n,n)
+  for(i in 1:n){
+    for(j in 1:n){
+      A[i,j] = t(Y[,i]-Z[,j])%*%(Y[,i]-Z[,j])
+    }
+  }
+  return(exp(-A))
 }
 
 polykernel = function(Y,Z,deg = 3){
   n = ncol(Y)
-  return((t(Y)%*%Z+diag(1,n))^deg)
+  return((t(Y)%*%Z+matrix(1,n,n))^deg)
 }
+
