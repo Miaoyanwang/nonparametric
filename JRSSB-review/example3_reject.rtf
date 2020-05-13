@@ -1,0 +1,38 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue38;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c20000;\cssrgb\c100000\c100000\c100000;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs22\fsmilli11200 \cf2 \cb3 \expnd0\expndtw0\kerning0
+In this paper, the authors propose an entropy-based information approach to testing for interaction effects. The asymptotical distribution of three-way interaction information is studied, in a special case when two explanatory variables are jointly independent of the third. \cb1 \
+\
+\cb3 This work seems to be part of a larger study, and the presented results are only incremental. The current analysis isn't properly interpreted (and probably can't be) because of discrepancy between the claimed null and actual null used in deriving the asymptotical distribution. The question is very interesting, though, and seems likely that with a completely new analysis, the manuscript might be of greater interest to this journal. \cb1 \
+\
+\cb3 Major shortcoming:\cb1 \
+\
+\cb3 1. The proposed framework does not clearly distinguish these two hypotheses:\cb1 \
+\
+\cb3 (a) H_0: II = 0 vs. H_A: II \\neq 0\cb1 \
+\
+\cb3 (b) H_0: (X_1, X_2) and Y are independent \'a0vs. H_A: (X_1, X_2) and Y are not independent \cb1 \
+\
+\cb3 Authors claim that they focus on hypothesis (a), but instead they use (b) to derive the null distribution. The discrepancy between these two would cause serious trouble in interpretation. Say, the test statistic falls in the rejection region based on (b) (see equation (23)), can one still argue for the interaction of (X_1,X_2) (but not their marginal effects) in predicting Y based on (a)? \cb1 \
+\
+\cb3 In fact, the null hypothesis (a) contains at least the following scenarios:\cb1 \
+\
+\cb3 (a1) (X_1,X_2) jointly independent of Y; i.e., (X_1,X_2) has no joint effects. \cb1 \
+\cb3 (a2) Both X_1, X_2 have marginal effects but no interaction effects (I.e. the interaction of between X_1 and X_2 does not predict Y).\cb1 \
+\cb3 (a3) At least one of the X_1, X_2 has no effect in predicting Y; e.g., there's no gain/loss by adding an additional attribute X_2 to the pair (X_1, Y). \cb1 \
+\
+\cb3 It would make more sense to consider the distribution of estimated II under (a2). The current null that (X_1, X_2) are jointly independent of Y implies that each of covariates is independent of Y; this is a fair strong assumption. In fact, as argued in the introduction, the interaction effect should be properly teased apart from the joint effects. \cb1 \
+\
+\cb3 2. The literature review is insufficient. There have been quite a lot recent work (Aleks Jakulin & Ivan Bratko, ICML 2004; Fan, Zhong et al, Gen Epi, 2011) that use interaction information to test for interaction. \'a0\cb1 \
+\
+\cb3 3. Section 3 is a simple application of large-sample theory, and most of results are already in the literature. I would suggest to remove them to appendix. One may keep Lemmas 5 and 7 only since they are relevant to Section 3.3. \'a0\cb1 \
+\
+\cb3 4. The main contribution is "3.3 special case with I=J=3". Are X_1 and X_2 assumed to have the same marginal probability (top on page 6 and simulation on page 26)? Such scenario is unpractical in reality. \cb1 \
+\
+\cb3 5. The authors only discuss the impact of the dependence of (X_1, X_2) to the estimation/testing. No analyses are performed on the three-way joint dependence model of (X_1, X_2, Y). The power study is also missing. The interaction information II is symmetric in all three variables, and it measures the three-way interaction information that cannot be explained by any of the two-way mutual information. If we want to use II to test for interaction, it is essential to characterize the distribution of estimated II under a wider range of independence/dependence models.}
