@@ -1,26 +1,32 @@
+source("SMMKfunctions.R")
 ######################### conditional probability ####################
 # P(x1|y=1)~ N((1,1),I), P(x2|y=1)~N((-1,-1),I)
 # P(x1|y=-1)~ N((0,0),I), P(x2|y=1)~N((0,0),I)
-N = 20
-x = rbind(cbind(rnorm(N,1),rnorm(N,1),rnorm(N,-1),rnorm(N,-1)),
-          cbind(rnorm(N),rnorm(N),rnorm(N),rnorm(N)))
+N = 50
+x = rbind(cbind(rnorm(N,1,.5),rnorm(N,1,.5),rnorm(N,-1,.5),rnorm(N,-1,.5)),
+          cbind(rnorm(N,sd = .5),rnorm(N,sd = .5),rnorm(N,sd = .5),rnorm(N,sd = .5)))
 X =  lapply(seq_len(nrow(x)),function(i) matrix(x[i,,drop = F],2,2))
-y = c(rep(1,20),rep(-1,20))
+y = c(rep(1,N),rep(-1,N))
 
 ### Realization of the data
 dat = as.data.frame(cbind(x[,1]+x[,2],x[,3]+x[,4],y))
 colnames(dat) = c("z1","z2","y")
 ggplot(data =dat, aes(x = z1, y = z2, colour = y))+geom_point()
 
+sresult = smmk(X,y,2)
+lresult = smmk(X,y,1)
+presult = smmk(X,y,1,polykernel)
+eresult = smmk(X,y,1,expkernel)
 
-lresult = SMM(X,y,1)
-presult = SMM(X,y,1,polykernel)
-
+spredictor = sresult$predict
 lpredictor = lresult$predict
 ppredictor = presult$predict
+epredictor = eresult$predict
 
+length(which(unlist(lapply(X,spredictor))==y))/length(y)
 length(which(unlist(lapply(X,lpredictor))==y))/length(y)
 length(which(unlist(lapply(X,ppredictor))==y))/length(y)
+length(which(unlist(lapply(X,epredictor))==y))/length(y)
 
 
 x1_seq = seq(min(x[,1]),max(x[,1]),length.out = 20)
