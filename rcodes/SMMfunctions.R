@@ -75,6 +75,7 @@ kernelm = function(X,H,y,type = c("u","v")){
 
 
 
+
 # smm = function(X,y,r,cost = 10){
 #   result = list()
 #   error = 10

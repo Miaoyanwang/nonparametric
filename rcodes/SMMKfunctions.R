@@ -1,5 +1,6 @@
 #SMMK
-
+library(pracma)
+library(quadprog)
 # Make sure Q matrix is positive definite
 Makepositive = function(mat){
   h = eigen(mat,symmetric = T)
@@ -38,20 +39,22 @@ objm = function(X,y,alpha,V,b,K,cost = 10){
 
 
 # Main function (not available for weighed loss yet)
-SMM = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = .5){
+smmk = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = .5){
   result = list()
   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
   K = Karray(X,kernel)
 
   compareobj = 10^10
-  for(i in 1:rep){
+  for(nsim in 1:rep){
     error = 10; iter = 0; V = randortho(n)[,1:r,drop = F]
-    obj = compareobj
+    ##obj = compareobj
 
 
     ### update U fixing V  ###
-    vtvi = solve(t(V)%*%V)
-    Hv = V%*%vtvi%*%t(V)
+    ## normalize V
+    V=svd(V)$u
+    ## vtvi = solve(t(V)%*%V) ## commented out by Miaoyan
+    Hv = V%*%t(V)
     Kv = matrix(nrow =N,ncol = N)
     for(i in 1:N){
       for(j in 1:N){
@@ -62,12 +65,11 @@ SMM = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = 
     Dmat = Makepositive((y%*%t(y))*Kv)
     Amat = cbind(y,diag(1,N),-diag(1,N))
     bvec = c(rep(0,1+N),ifelse(y==1,-cost*(1-p),-cost*p))
-    alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)$solution
-
+    res = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
+    alpha=res$solution
+    obj=-res$value
 
     while((iter < 20)&(error >10^-3)){
-
-
       ### update V fixing U ###
 
       # sum_{i,j} alpha_ialpha_jy_iy_jK(X_i,X_j)
@@ -87,12 +89,12 @@ SMM = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = 
       }
 
       # (U^TU)^{-1}
-      utui = t(V)%*%V%*%solve(t(V)%*%aayyK%*%V)%*%t(V)%*%V
+      utui = solve(t(V)%*%aayyK%*%V)
 
       # U^th(X_i)
       uth = array(dim = c(N,r,n))
       for(i in 1:N){
-        uth[i,,] = vtvi%*%t(V)%*%ayK[i,,]
+        uth[i,,] = t(V)%*%ayK[i,,]
       }
 
       # Ku[i,j] = tr(H_uh(X_i),H_uh(X_j))
@@ -111,15 +113,15 @@ SMM = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = 
       # update V
       V = 0
       for(i in 1:N){
-        V = V+as.matrix(uth[i,,],ncol = r)*beta[i]*y[i]
-        # nrow = r => ncol = r
+        V = V+rbind(uth[i,,])*beta[i]*y[i]
       }
-      V = V%*%utui
+      V = t(V)%*%utui
 
 
       ### update U fixing V  ###
-      vtvi = solve(t(V)%*%V)
-      Hv = V%*%vtvi%*%t(V)
+      V=svd(V)$u
+      #vtvi = solve(t(V)%*%V)
+      Hv = V%*%t(V)
       Kv = matrix(nrow =N,ncol = N)
       for(i in 1:N){
         for(j in 1:N){
@@ -130,12 +132,16 @@ SMM = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = 
       Dmat = Makepositive((y%*%t(y))*Kv)
       Amat = cbind(y,diag(1,N),-diag(1,N))
       bvec = c(rep(0,1+N),ifelse(y==1,-cost*(1-p),-cost*p))
-      alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)$solution
+      res = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
+      alpha=res$solution
 
+      obj = c(obj,-res$value)
+      iter = iter+1
+      error = abs(-obj[iter+1]+obj[iter])/obj[iter]
+    }
 
-
-      # slope part estimation
-
+    # slope part estimation
+    if (compareobj>obj[iter+1]) {
       slope = function(nX){
         coef <-  as.matrix(alpha*y)
         sp <-  t(coef)%*%unlist(lapply(X,function(x) sum(Hv*kernel(nX,x))))
@@ -151,11 +157,9 @@ SMM = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = 
         gridb0 = seq(from = -1-negativ,to = 1-positiv,length = 100)
         b0hat = gridb0[which.min(sapply(gridb0,function(b) objm(X,y,alpha,V,b,K,cost)))]
       }
-      obj = c(obj,objm(X,y,alpha,V,b0hat,K,cost));obj
-      iter = iter+1
-      error = abs(-obj[iter+1]+obj[iter])/obj[iter];error
-    }
-    if (compareobj>obj[iter+1]) {
+      ##obj = c(obj,objm(X,y,alpha,V,b0hat,K,cost));obj
+      #iter = iter+1
+      #error = abs(-obj[iter+1]+obj[iter])/obj[iter];error
       compareobj = obj[iter+1]
       predictor = function(nX) sign(slope(nX)+b0hat)
       result$slope = slope; result$b0 = b0hat; result$obj = obj[-1]; result$iter = iter
@@ -169,11 +173,20 @@ SMM = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = 
 
 
 ## Some kernels (Expkernel does not work)
-Expkernel = function(Y,Z){
-  return(exp(-t(Y-Z)%*%(Y-Z)))
+expkernel = function(Y,Z){
+  n = ncol(Y)
+  A = matrix(0,n,n)
+  for(i in 1:n){
+    for(j in 1:n){
+      A[i,j] = t(Y[,i]-Z[,j])%*%(Y[,i]-Z[,j])
+    }
+  }
+  return(exp(-A))
 }
 
 polykernel = function(Y,Z,deg = 3){
   n = ncol(Y)
-  return((t(Y)%*%Z+diag(1,n))^deg)
+  return((t(Y)%*%Z+matrix(1,n,n))^deg)
 }
+
+
