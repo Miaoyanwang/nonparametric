@@ -2,7 +2,11 @@ library(pracma)
 library(quadprog)
 
 eps = 10^-5
-
+Makepositive = function(mat){
+  h = eigen(mat,symmetric = T)
+  nmat = (h$vectors)%*%diag(pmax(h$values,10^-4))%*%t(h$vectors)
+  return(nmat)
+}
 
 
 objv = function(B,b0,X,y,cost = 10,prob = F){
@@ -186,7 +190,7 @@ smm = function(X,y,r,cost = 10,rep = 10, p = .5){
       Vs = V%*%solve(t(V)%*%V)
       H = Vs%*%t(V)
       dvec = rep(1,length(X))
-      Dmat = kernelm(X,H,y,"u")
+      Dmat = Makepositive(kernelm(X,H,y,"u"))
       Amat = cbind(y,diag(1,N),-diag(1,N))
       bvec = c(rep(0,1+N),ifelse(y==1,-cost*(1-p),-cost*p))
       alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
