@@ -168,9 +168,9 @@ kernelm = function(X,H,y,type = c("u","v")){
 ## SMM with multiple initialization and probability
 smm = function(X,y,r,cost = 10,rep = 10, p = .5){
   result = list()
-  if (p==.5){
-    cost = 2*cost
-  }
+  #if (p==.5){
+  #  cost = 2*cost
+  #}
   # SMM
   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
 
