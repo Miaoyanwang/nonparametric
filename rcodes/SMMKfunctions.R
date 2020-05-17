@@ -8,6 +8,13 @@ Makepositive = function(mat){
   return(nmat)
 }
 
+# Make symmnetric matrix [0,X^T;X,0]
+makesym = function(mat){
+  m = nrow(mat); n = ncol(mat)
+  nmat = rbind(cbind(matrix(0,n,n),t(mat)),cbind(mat,matrix(0,m,m)))
+  return(nmat)
+}
+
 # save kernel values
 Karray = function(X,kernel = function(X1,X2) t(X1)%*%X2){
   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
