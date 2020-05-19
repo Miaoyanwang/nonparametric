@@ -8,7 +8,6 @@ Makepositive = function(mat){
   return(nmat)
 }
 
-# Make symmnetric matrix [0,X^T;X,0]
 makesym = function(mat){
   m = nrow(mat); n = ncol(mat)
   nmat = rbind(cbind(matrix(0,n,n),t(mat)),cbind(mat,matrix(0,m,m)))
@@ -45,9 +44,42 @@ objm = function(X,y,alpha,V,b,K,cost = 10){
 
 
 
+## Some kernels (Expkernel does not work)
+expkernel = function(Y,Z){
+  n = ncol(Y)
+  A = matrix(0,n,n)
+  for(i in 1:n){
+    for(j in 1:n){
+      A[i,j] = t(Y[,i]-Z[,j])%*%(Y[,i]-Z[,j])
+    }
+  }
+  return(exp(-A))
+}
+
+polykernel = function(Y,Z,deg = 3){
+  n = ncol(Y)
+  return((t(Y)%*%Z+matrix(1,n,n))^deg)
+}
+
+
+linearkernel = function(X1,X2) t(X1)%*%X2
+
+
 # Main function (not available for weighed loss yet)
-smmk = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p = .5){
+smmk = function(X,y,r,kernel = c("linear","poly","exp"), cost = 10,rep = 1,p = .5){
   result = list()
+  
+  # Default is linear kernel and make sym adjustment if other kenrels used
+  kernel <- match.arg(kernel)
+  if (kernel == "linear") {
+    kernel = linearkernel
+  }else if(kernel == "poly"){
+    kernel = polykernel
+    X = lapply(X,makesym); r = 2*r
+  }else if(kernel =="exp"){
+    kernel = expkernel
+    X = lapply(X,makesym); r = 2*r
+  }
   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
   K = Karray(X,kernel)
 
@@ -178,22 +210,5 @@ smmk = function(X,y,r,kernel = function(X1,X2) t(X1)%*%X2, cost = 10,rep = 1,p =
   return(result)
 }
 
-
-## Some kernels (Expkernel does not work)
-expkernel = function(Y,Z){
-  n = ncol(Y)
-  A = matrix(0,n,n)
-  for(i in 1:n){
-    for(j in 1:n){
-      A[i,j] = t(Y[,i]-Z[,j])%*%(Y[,i]-Z[,j])
-    }
-  }
-  return(exp(-A))
-}
-
-polykernel = function(Y,Z,deg = 3){
-  n = ncol(Y)
-  return((t(Y)%*%Z+matrix(1,n,n))^deg)
-}
 
 
