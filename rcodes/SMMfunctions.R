@@ -2,11 +2,7 @@ library(pracma)
 library(quadprog)
 
 eps = 10^-5
-Makepositive = function(mat){
-  h = eigen(mat,symmetric = T)
-  nmat = (h$vectors)%*%diag(pmax(h$values,10^-4))%*%t(h$vectors)
-  return(nmat)
-}
+
 
 
 objv = function(B,b0,X,y,cost = 10,prob = F){
@@ -76,7 +72,6 @@ kernelm = function(X,H,y,type = c("u","v")){
   Q = (h$vectors)%*%diag(pmax(h$values,eps))%*%t(h$vectors)
   return(Q)
 }
-
 
 
 
@@ -168,9 +163,9 @@ kernelm = function(X,H,y,type = c("u","v")){
 ## SMM with multiple initialization and probability
 smm = function(X,y,r,cost = 10,rep = 10, p = .5){
   result = list()
-  #if (p==.5){
-  #  cost = 2*cost
-  #}
+  if (p==.5){
+    cost = 2*cost
+  }
   # SMM
   m= nrow(X[[1]]); n = ncol(X[[1]]); N = length(X)
 
@@ -190,7 +185,7 @@ smm = function(X,y,r,cost = 10,rep = 10, p = .5){
       Vs = V%*%solve(t(V)%*%V)
       H = Vs%*%t(V)
       dvec = rep(1,length(X))
-      Dmat = Makepositive(kernelm(X,H,y,"u"))
+      Dmat = kernelm(X,H,y,"u")
       Amat = cbind(y,diag(1,N),-diag(1,N))
       bvec = c(rep(0,1+N),ifelse(y==1,-cost*(1-p),-cost*p))
       alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
