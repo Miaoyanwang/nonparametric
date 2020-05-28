@@ -1,0 +1,543 @@
+%%%%%%%%%%%%%%%%%%%%%%%% color %%%%%%%%%%%%%%%%%%%%%%
+\xdefinecolor{lavendar}{rgb}{0.8,0.6,1}
+\xdefinecolor{olive}{cmyk}{0.64,0,0.95,0.4}
+\xdefinecolor{gold}{rgb}{1.,0.84,0.}
+\xdefinecolor{yaleblue}{RGB}{15,77,146}
+\xdefinecolor{calgold}{RGB}{183, 135, 39}
+\xdefinecolor{lace}{RGB}{255, 245, 230}    
+
+
+\def\olive#1{{\color{olive}#1}}
+\def\green#1{{\color{darkgreen}#1}}
+\def\red#1{{\color{red}#1}}
+\def\bfred#1{\textbf{\color{red}#1}}
+\def\bfblue#1{\textbf{\color{blue}#1}}
+\def\bfgreen#1{\textbf{\color{darkgreen}#1}}
+\def\brown#1{{\color{brown}#1}}
+
+\def\blue#1{{\color{blue}#1}}
+\def\cyan#1{{\color{cyan}#1}}
+\def\royalblue#1{{\color{RoyalBlue}#1}}
+\def\orange#1{{\color{orange}#1}}
+\def\white#1{{\color{white}#1}}
+\def\yellow#1{{\color{00}#1}}
+\def\gold#1{{\color{gold}#1}}
+\def\bfredonslide#1#2{{\color<#1>{red}\textbf<#1>{#2}}}
+\def\redonslide#1#2{{\color<#1>{red}{#2}}}
+
+\def\ncv#1#2{{\color<#1>{purple}\textbf<#1>{#2}}}
+\def\ncb#1#2{{\color<#1>{blue}\textbf<#1>{#2}}}
+\def\ncw#1#2{{\color<#1>{white}{#2}}}
+
+\def\RAL{\blue{RAL}}
+\def\RG{\red{RG}}
+
+
+% \xdefinecolor{grey}{RGB}{255, 245, 230}  
+\newcommand{\yellowblue}[1]{{%
+  \colorbox{structure}{\gold{#1}}%
+}}  
+\newcommand{\whiteblue}[1]{{%
+  \colorbox{structure}{\white{#1}}%
+}}
+\newcommand{\blueyellow}[1]{{%
+  \colorbox{gold}{\structure{#1}}%
+}}
+\newcommand{\blackgrey}[1]{{%
+  \colorbox{gray!50!bg}{#1}%
+}}
+\newcommand{\whitered}[1]{{%
+  \colorbox{red}{\white{#1}}%
+}}
+
+\newcommand{\blackwhite}[1]{{%
+  \colorbox{white}{{#1}}%
+}}  
+
+\newenvironment<>{goldblock}[1]{%
+  \begin{actionenv}#2%
+      \def\insertblocktitle{#1}%
+      \par%
+      \mode<presentation>{%
+        \setbeamercolor{block title}{fg=structure,bg=gold}
+       % \setbeamercolor{block body}{fg=black,bg=lace}
+       \setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!10!bg} 
+       \setbeamercolor{itemize item}{fg=calgold}
+       \setbeamertemplate{itemize item}[triangle]
+     }%
+      \usebeamertemplate{block begin}}
+    {\par\usebeamertemplate{block end}\end{actionenv}}
+
+
+% \setbeamercolor{block title}{use=structure,fg=white,bg=structure.fg!75!black}
+% \setbeamercolor{block title alerted}{use=alerted text,fg=white,bg=alerted text.fg!75!black}
+% \setbeamercolor{block title example}{use=example text,fg=white,bg=example text.fg!75!black}
+% 
+% \setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!10!bg}
+% \setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!10!bg}
+% \setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!10!bg}
+
+% \colorlet{structure}{green!60!black} for color substitution
+% Predefined colors: red, green, blue, cyan, magenta, yellow, black,
+% darkgray, gray, lightgray, orange, violet, purple, and brown
+
+
+% \input{macros}
+
+
+
+
+
+%%\newtheorem{theorem}{\bf Theorem }
+\def\thetheorem{\arabic{theorem}}
+\newtheorem{proposition}[theorem]{Proposition}
+% \newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\eref}[1]{Eq.(\ref{#1})}
+
+% \documentclass{beamer}
+% \mode<presentation>
+%   {
+%   \usetheme{Frankfurt}
+%   }
+% %\setbeameroption{show notes} 
+%   \usepackage{amsmath,amsthm, amssymb, latexsym}
+% %  \usepackage[orientation=portrait,size=a0,scale=1.0]{beamerposter}
+% 	\usepackage{times}
+% 	\usepackage{multirow}
+% 	\usepackage{natbib}
+% \setbeamertemplate{blocks}[rounded][shadow=true]
+
+\def\bfmath#1{\boldsymbol{#1}}
+% \def\bfmath#1{\mathbf{#1}}
+\def\bfe{{\bfmath{e}}}
+
+\def\bftheta{\bfmath{\theta}}
+\def\bfsigma{\bfmath{\sigma}}
+\def\bfxi{\bfmath{\xi}}
+\def\bfzero{\bfmath{0}}
+\def\bfpi{\bfmath{\pi}}
+\def\fall#1#2{[#1]_{#2}}
+\def\rise#1#2{(#1)_{#2}}
+\def\dt{d_{\theta}}
+
+
+\def\A{{\mbox{\tiny $A$}}}
+\def\B{{\mbox{\tiny $B$}}}
+\def\bbE{\mathbb{E}}
+\def\bbR{\mathbb{R}}
+\def\bbN{\mathbb{N}}
+\def\balls#1{\raisebox{-5pt}{\includegraphics[scale=0.5]{#1}}} % Fixes weird bounding box when exporting pdfs from PowerPoint
+\def\ds{\ensuremath{\displaystyle}}
+\def\ASF{{\mbox{\tiny \text{ASF}}}}
+\def\ESF{{\mbox{\tiny \text{ESF}}}}
+\def\WSF{{\mbox{\tiny \text{WSF}}}}
+\def\PIM{{\mbox{\tiny \text{PIM}}}}
+
+\def\sL{\mathscr{L}}
+\def\bfnA{{\bfmath{n}_{\mbox{\tiny $A$}}}}
+\def\bfnB{{\bfmath{n}_{\mbox{\tiny $B$}}}}
+\def\tA{\theta_\A}
+\def\tB{\theta_\B}
+\def\TA{\Theta_\A}
+\def\TB{\Theta_\B}
+\def\A{{\mbox{\tiny $A$}}} % For subscripts and superscripts
+\def\B{{\mbox{\tiny $B$}}}
+\def\C{{\mbox{\tiny $C$}}}
+\def\D{{\mbox{\tiny $D$}}}
+
+\def\phammer#1#2{(#1)^{(#2)}}
+\def\fall#1#2{(#1)_{#2\downarrow}}
+\def\rise#1#2{(#1)_{#2\uparrow}}
+
+\def\ooc{\bfzero,\bfzero,\bfc}
+\def\abc{\bfa,\bfb,\bfc}
+\def\cP{{\mathcal P}}
+
+\def\pim{\text{\scriptsize{PIM}}}
+\def\dial{\text{\scriptsize{Diallelic}}}
+
+\setbeamertemplate{navigation symbols}{}   
+%% frame numbering
+% \setbeamertemplate{footline}[frame number]
+
+% % have this if you'd like a recurring outline
+\AtBeginSection[]  % "Beamer, do the following at the start of every section"
+{
+% \addtocounter{framenumber}{-1}
+% \begin{frame}<beamer> 
+% \frametitle{Outline} % make a frame titled "Outline"]
+% \tableofcontents[currentsection]  % show TOC and highlight current section
+% \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%% color %%%%%%%%%%%%%%%%%%%%%%
+\def\green#1{{\color{darkgreen}#1}}
+\def\red#1{{\color{red}#1}}
+\def\black#1{{\color{black}#1}}
+\def\blue#1{{\color{blue}#1}}
+\def\orange#1{{\color{orange}#1}}
+\def\white#1{{\color{white}#1}}
+\def\nc#1#2{{\color<#1>{red}\textbf<#1>{#2}}}
+\def\ncv#1#2{{\color<#1>{purple}\textbf<#1>{#2}}}
+\def\ncb#1#2{{\color<#1>{blue}\textbf<#1>{#2}}}
+\def\ncr#1#2{{\color<#1>{red}{#2}}}
+\def\ncw#1#2{{\color<#1>{white}{#2}}}
+
+% \setbeamercovered{dynamic}
+\def\static{\setbeamercovered{invisible}}
+\def\dynamic{\setbeamercovered{dynamic}}
+%%% box color
+\colorlet{lightgreen}{green!10!white}
+\colorlet{darkgreen}{green!50!black}
+\setbeamercolor{uppergreen}{fg=white, bg=darkgreen}
+\setbeamercolor{lowergreen}{fg=black, bg=lightgreen}
+
+
+\def\bbE{\mathbb{E}}
+\def\bbP{\mathbb{P}}  
+\def\bbZ{\mathbb{Z}}   
+\setbeamercovered{invisible}
+
+%%  Boldface math
+\def\bfa{{\bfmath{a}}}
+\def\bfb{{\bfmath{b}}}
+\def\bfc{{\bfmath{c}}}
+\def\bfd{{\bfmath{d}}}
+\def\bfe{{\bfmath{e}}}
+\def\bff{{\bfmath{f}}}
+\def\bfg{{\bfmath{g}}}
+\def\bfh{{\bfmath{h}}}
+\def\bfi{{\bfmath{i}}}
+\def\bfj{{\bfmath{j}}}
+\def\bfk{{\bfmath{k}}}
+\def\bfl{{\bfmath{l}}}
+% \def\bfm{{\bfmath{\orange{m}}}}
+% \def\bfn{{\bfmath{\orange{n}}}}
+\def\bfm{{\bfmath{m}}}
+\def\bfn{{\bfmath{n}}}
+\def\bfo{{\bfmath{o}}}
+\def\bfp{{\bfmath{p}}}
+\def\bfq{{\bfmath{q}}}
+\def\bfr{{\bfmath{r}}}
+\def\bfs{{\bfmath{s}}}
+\def\bft{{\bfmath{t}}}
+\def\bfu{{\bfmath{u}}}
+\def\bfv{{\bfmath{v}}}
+\def\bfw{{\bfmath{w}}}
+\def\bfx{{\bfmath{x}}}
+\def\bfy{{\bfmath{y}}}
+\def\bfz{{\bfmath{z}}}
+
+\def\bfA{\bfmath{A}}
+\def\bfB{\bfmath{B}}
+\def\bfC{\bfmath{C}}
+\def\bfD{\bfmath{D}}
+\def\bfE{\bfmath{E}}
+\def\bfF{\bfmath{F}}
+\def\bfG{\bfmath{G}}
+\def\bfH{\bfmath{H}}
+\def\bfI{\bfmath{I}}
+\def\bfJ{\bfmath{J}}
+\def\bfK{\bfmath{K}}
+\def\bfL{\bfmath{L}}
+\def\bfM{\bfmath{M}}
+\def\bfN{\bfmath{N}}
+\def\bfO{\bfmath{O}}
+\def\bfP{\bfmath{P}}
+\def\bfQ{\bfmath{Q}}
+\def\bfR{\bfmath{R}}
+\def\bfS{\bfmath{S}}
+\def\bfT{\bfmath{T}}
+\def\bfU{\bfmath{U}}
+\def\bfV{\bfmath{V}}
+\def\bfW{\bfmath{W}}
+\def\bfX{\bfmath{X}}
+\def\bfY{\bfmath{Y}}
+\def\bfZ{\bfmath{Z}}
+
+
+%%                Calligraphic font
+\def\cA{{\mathcal A}}
+\def\cB{{\mathcal B}}
+\def\cC{{\mathcal C}}
+\def\cD{{\mathcal D}}
+\def\cE{{\mathcal E}}
+\def\cF{{\mathcal F}}
+\def\cG{{\mathcal G}}
+\def\cH{{\mathcal H}}
+\def\cI{{\mathcal I}}
+\def\cJ{{\mathcal J}}
+\def\cK{{\mathcal K}}
+\def\cL{{\mathcal L}}
+\def\cM{{\mathcal M}}
+\def\cN{{\mathcal N}}
+\def\cO{{\mathcal O}}
+\def\cP{{\mathcal P}}
+\def\cQ{{\mathcal Q}}
+\def\cR{{\mathcal R}}
+\def\cS{{\mathcal S}}
+\def\cT{{\mathcal T}}
+\def\cU{{\mathcal U}}
+\def\cV{{\mathcal V}}
+\def\cW{{\mathcal W}}
+\def\cX{{\mathcal X}}
+\def\cY{{\mathcal Y}}
+\def\cZ{{\mathcal Z}}
+
+
+
+%%                Calligraphic font
+\def\tA{{\mathcal A}}
+\def\tB{{\mathcal B}}
+\def\tC{{\mathcal C}}
+\def\tD{{\mathcal D}}
+\def\tE{{\mathcal E}}
+\def\tF{{\mathcal F}}
+\def\tG{{\mathcal G}}
+\def\tH{{\mathcal H}}
+\def\tI{{\mathcal I}}
+\def\tJ{{\mathcal J}}
+\def\tK{{\mathcal K}}
+\def\tL{{\mathcal L}}
+\def\tM{{\mathcal M}}
+\def\tN{{\mathcal N}}
+\def\tO{{\mathcal O}}
+\def\tP{{\mathcal P}}
+\def\tQ{{\mathcal Q}}
+\def\tR{{\mathcal R}}
+\def\tS{{\mathcal S}}
+\def\tT{{\mathcal T}}
+\def\tU{{\mathcal U}}
+\def\tV{{\mathcal V}}
+\def\tW{{\mathcal W}}
+\def\tX{{\mathcal X}}
+\def\tY{{\mathcal Y}}
+\def\tZ{{\mathcal Z}}
+
+
+%%                Script Fonts
+%%                requires mathrsfs
+\def\sA{\mathscr{A}}
+\def\sB{\mathscr{B}}
+\def\sC{\mathscr{C}}
+\def\sD{\mathscr{D}}
+\def\sE{\mathscr{E}}
+\def\sF{\mathscr{F}}
+\def\sG{\mathscr{G}}
+\def\sH{\mathscr{H}}
+\def\sI{\mathscr{I}}
+\def\sJ{\mathscr{J}}
+\def\sK{\mathscr{K}}
+\def\sL{\mathscr{L}}
+\def\sM{\mathscr{M}}
+\def\sN{\mathscr{N}}
+\def\sO{\mathscr{O}}
+\def\sP{\mathscr{P}}
+\def\sQ{\mathscr{Q}}
+\def\sR{\mathscr{R}}
+\def\sS{\mathscr{S}}
+\def\sT{\mathscr{T}}
+\def\sU{\mathscr{U}}
+\def\sV{\mathscr{V}}
+\def\sW{\mathscr{W}}
+\def\sX{\mathscr{X}}
+\def\sY{\mathscr{Y}}
+\def\sZ{\mathscr{Z}}
+
+\def\myeq#1{\centerline{$\ds #1$}}
+\newlength{\nodedist}
+\def\st{\ensuremath{:\,}}
+\def\bfzero{\orange{\mathbf{0}}}
+\def\bfpi{\bfmath{\pi}}
+\def\Exp{\text{Exp}}
+
+%%%%%%%%%%%%%%% Bhaskar, Kamm, Song
+\def\O{{|\mathcal{O}_{\n}|}}
+\def\Oset{{\mathcal{O}_{\n}}}
+% \def\n{\bfmath{n}}
+\def\qt{Q}
+\def\rt{R}
+\def\types{[K]}
+\newcommand{\bo}[1]{\ensuremath \mathbf{#1}}
+\def\m{\bo{m}}
+\def\n{\bo{n}}
+\def\e{\bo{e}}
+\def\t{\bo{t}}
+\DeclareMathOperator*{\worsterr}{\text{WorstErr}}
+
+%%%%%%%%%%%%%%%% ASF
+\def\qA{\bbP_A}
+\def\qB{\bbP_B}
+\def\qPade#1{P^{[#1]}_{\text{\rm\tiny Pad\'e}}}
+\def\Pade{{\mbox{\tiny \text{Pad\'e}}}}
+\def\ts{\text{\rm S}}
+\def\pd#1{\frac{\partial}{\partial #1}}
+\def\pdd#1#2{\frac{\partial^2}{\partial #1 \partial #2}}
+\def\partition#1{\cP_{#1}}
+\def\k{u}
+
+\def\nonNegR{\bbR_{\geq 0}}
+\def\posR{\bbR_{+}}
+
+
+\newcommand{\sch}[1]{\sigma(#1)}  % number of sign changes of a function
+\newcommand{\msch}[1]{\sS(#1)}  % number of sign changes of a function family or model family
+\newcommand{\rescale}[1]{R_{#1}}
+\newcommand{\rescalefn}[1]{\widetilde{#1}}
+\newcommand{\numroots}[1]{Z(#1)}
+\newcommand{\fF}{\cF} % function family
+\newcommand{\mF}{\cM} % model family
+\DeclareMathOperator*{\Dom}{Dom}
+\newcommand{\dom}[1]{\Dom(#1)}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\maximize}{maximize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+
+\def\eqdef{\stackrel{\text{\tiny def}}{=}}
+\def\fc{c} %% First coalescence
+\def\bffc{\mathbf{\fc}}
+\def\ip#1{\langle #1\rangle}
+\def\fixme#1{{\bf(FIXME: #1)}}
+\def\tb{\tau_B} %% bottleneck duration
+\def\gb{g_B} %% bottleneck duration
+\def\ta{\tau_A}
+\def\sfs{\xi}
+\def\bfsfs{\bfmath{\xi}}
+\def\sfshat{\hat{\xi}}
+\def\vep{\varepsilon}
+\def\II{I}
+\def\tII{t_{\II}}
+\def\etalower{\eta_{\ell}}
+\def\etaupper{\eta_{u}}
+\def\Sk#1#2{S^{(#1)}_{#2}}
+% \def\norm#1#2{\left\Vert #1 \right\Vert_{#2}}
+\def\Nref{N_{\text{\scriptsize ref}}}
+\def\Nfix{N_{\text{\scriptsize fix}}}
+\def\subfamily{\cU_{\II,J}}
+\def\rmI{{\rm I}}
+
+
+\def\dadi{$\partial$a$\partial$i}
+
+
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+  \mathop{%
+    \mathchoice
+    {\underbrace{\displaystyle#1}}%
+    {\underbrace{\textstyle#1}}%
+    {\underbrace{\scriptstyle#1}}%
+    {\underbrace{\scriptscriptstyle#1}}%
+  }\limits
+}
+
+
+\usepackage{bm}
+\newcommand{\normSize}[2]{#1\lVert#2#1\rVert_\sigma}
+\newcommand{\matr}[1]{\bm{#1}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\snorm}[1]{\left\lVert#1\right\rVert_\sigma}
+
+
+\newcommand{\er}[1]{\textcolor{red}{\em [Emile:  #1]}}
+\def\dim{\operatorname{dim}}
+\def\dimA{\dim(\tensor{A})}
+
+
+\def\poly{\operatorname{poly}}
+\def\vec{\operatorname{Vec}}
+\def\unfold{\operatorname{Unfold}}
+\def\tensor#1{\mathcal{#1}}
+\usepackage{stmaryrd}
+\def\entry#1{\llbracket #1 \rrbracket}
+\def\bigEntry#1{\Big\llbracket #1 \Big\rrbracket}
+\def\onek{\bm{1}_{[k]}}
+\def\zerok{\bm{0}_{[k]}}
+
+\def\tA{\tensor{A}}
+\def\tT{\tensor{T}}
+\def\tE{\tensor{E}}
+
+\def\trueT{\Theta_{\text{true}}} %% first true eigenvector
+
+\def\entry#1{\llbracket #1 \rrbracket}
+\def\est{\bm{\widehat u}_1} %% first eigenvector estimate
+\def\estv{\widehat \lambda_1}%% first eigenvalue estimate
+\def\esti{\bm{\widehat u}_i}%% i-th eigenvector estimate
+\def\estvi{\widehat \lambda_i}%% i-th eigenvalue estiamte
+\def\true{\bm{u}_1} %% first true eigenvector
+\def\truev{\lambda_1}%% first true eigenvalue
+\def\ls#1{\mathcal{#1}} %% space
+\def\ntensor{\mathcal{\widetilde T}} %% noisy tensor
+\def\nHOSVD{\mathcal{\widetilde T}_{(12)(3\ldots k)}} %% noisy two-mode HOSVD
+\def\tensor#1{\mathcal{#1}} %% tensor
+\def\entry#1{\llbracket #1 \rrbracket}
+\def\bigEntry#1{\Big\llbracket #1 \Big\rrbracket}
+\def\noisetensor{\mathcal{\widetilde E}} %% noise tensor
+\def\noiseHOSVD{\mathcal{\widetilde E}_{(12)(3\ldots k)}} % noise matrix unfolding
+\def\eqdef{\stackrel{\text{\tiny \rm def}}{=}} 
+\def\Vec{\operatorname{Vec}}
+\def\Spanspace{\operatorname{Span}}
+\def\Loss{\operatorname{Loss}}
+\def\bbR{\mathbb{R}}
+
+\newcommand{\FnormSize}[2]{#1\lVert#2#1\rVert_F} 
+\newcommand{\vectornorm}[1]{\left\lVert#1\right\rVert_2}
+\newcommand{\Fnorm}[1]{\left\lVert#1\right\rVert_F}
+\newcommand{\mnorm}[1]{\left\lVert#1\right\rVert_\text{max}}
+
+\def\ma{\bm{a}}
+\def\mb{\bm{b}}
+\def\mc{\bm{c}}
+\def\md{\bm{d}}
+\def\me{\bm{e}}
+\def\mf{\bm{f}}
+\def\mg{\bm{g}}
+\def\mh{\bm{h}}
+\def\mi{\bm{i}}
+\def\mj{\bm{j}}
+\def\mk{\bm{k}}
+\def\ml{\bm{l}}
+\def\mm{\bm{m}}
+\def\mn{\bm{n}}
+\def\mo{\bm{o}}
+\def\mp{\bm{p}}
+\def\mq{\bm{q}}
+\def\mr{\bm{r}}
+\def\ms{\bm{s}}
+\def\mt{\bm{t}}
+%\def\mu{\bm{u}}
+\def\mv{\bm{v}}
+\def\mw{\bm{w}}
+\def\mx{\bm{x}}
+\def\my{\bm{y}}
+\def\mz{\bm{z}}
+
+\def\mA{\bm{A}}
+\def\mB{\bm{B}}
+\def\mC{\bm{C}}
+\def\mD{\bm{D}}
+\def\mE{\bm{E}}
+\def\mF{\bm{F}}
+\def\mG{\bm{G}}
+\def\mH{\bm{H}}
+\def\mI{\bm{I}}
+\def\mJ{\bm{J}}
+\def\mK{\bm{K}}
+\def\mI{\bm{I}}
+\def\mM{\bm{M}}
+\def\mN{\bm{N}}
+\def\mO{\bm{O}}
+\def\mP{\bm{P}}
+\def\mQ{\bm{Q}}
+\def\mR{\bm{R}}
+\def\mS{\bm{S}}
+\def\mT{\bm{T}}
+%\def\mu{\bm{u}}
+\def\mV{\bm{V}}
+\def\mW{\bm{W}}
+\def\mX{\bm{X}}
+\def\mY{\bm{Y}}
+\def\mZ{\bm{Z}}
+
