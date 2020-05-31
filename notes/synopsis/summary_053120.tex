@@ -309,7 +309,7 @@ where $\omega_{\pi_h}(y) = 1-\pi_h$ if $y = 1$ and $\pi_h$ if $y =1$.
 for all $h=1,\ldots,H$.
 \item Step 4. Estimate the target probability function by
 \begin{align}\label{eq:est}
-\hat g(\mX)={1\over H} \sum_{h\in[H]} \mathds{1}\left\{\mX\in \hat \tD_h \right\}.
+\hat p(\mX)={1\over H} \sum_{h\in[H]} \mathds{1}\left\{\mX\in \hat \tD_h \right\}.
 \end{align}
 
 %\item 
@@ -331,22 +331,22 @@ for all $h=1,\ldots,H$.
 
 \begin{frame}{Theory: Probability prediction via low-rank kernels}
 \begin{block}{High-dimensional consistency (Lee and Wang, 2020+)}
-Assume the true $g\in \tF$, where $\tF$ is the RKHS induced by $\langle \cdot,\ \cdot\rangle_{\text{rank-r}}$. 
+Assume the true $p\in \tF$, where $\tF$ is the RKHS induced by $\langle \cdot,\ \cdot\rangle_{\text{rank-r}}$. 
 \begin{itemize}
 \item Given any $\pi\in[0,1]$, the solution to~\eqref{eq:sequence} yields the Bayes rule:
 \[
-{\color{red}\text{sign}}[\hat f_\pi(\mX)] \stackrel{\text{in $p$}}{\longrightarrow} {\color{red}\text{sign}}[g(\mX)-\pi], \ \text{as }  n, d\to \infty \text{ while } {d/ n}\to 0.
+{\color{red}\text{sign}}[\hat f_\pi(\mX)] \stackrel{\text{in $p$}}{\longrightarrow} {\color{red}\text{sign}}[p(\mX)-\pi], \ \text{as }  n, d\to \infty \text{ while } {d/ n}\to 0.
 \]
 \item Our probability estimator~\eqref{eq:est} is consistent:
 \[
-\hat g(\mX) \stackrel{\text{in $p$}}{\longrightarrow} g(\mX), \quad \text{as}\ H, n,d \to \infty \text{ while } {d/n}\to 0.
+\hat p(\mX) \stackrel{\text{in $p$}}{\longrightarrow} p(\mX), \quad \text{as}\ H, n,d \to \infty \text{ while } {d/n}\to 0.
 \]
 \end{itemize}
 \end{block}
 
 \begin{itemize}
 \item To the best of our knowledge, this is the first result for SVM-based prob.\ estimation in large dimension ($d^2$), large sample size ($n$) regime. 
-\item {\it \scriptsize Detailed proofs, assumptions? Convergence in terms of smoothness of $g$, $r$, $d$, $n$, and $H$? Do we really need the assumption, $g\in \tF$; i.e., $g(\cdot)$ linear in $\mX$? Perhaps not... composition of monotonic + linear functions is also fine.. indictor functions are dense in $L[0,1]^2$...}
+\item {\it \scriptsize Detailed proofs, assumptions? Convergence in terms of smoothness of $p$, $r$, $d$, $n$, and $H$? Do we really need the assumption, $p\in \tF$; i.e., $p(\cdot)$ linear in $\mX$? Perhaps not... composition of monotonic + linear functions is also fine.. indicator functions are dense in $L[0,1]^2$...}
 \end{itemize}
 
 \end{frame}
