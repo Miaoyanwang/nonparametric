@@ -173,7 +173,7 @@ where $p\colon \mathbb{R}^{d_1\times d_2}\mapsto [0,1]$ is the regression functi
 y \ind \mX \large|{\color{red}\phi(\mX)},
 \]
 where $\phi\colon \mathbb{R}^{d_1\times d_2}\mapsto \mathbb{R}^{r_1\times r_2}$ is the dimension reduction of interest. 
-\item Probability estimation concerns {\color{red}conditional mean}, whereas SDR concerns {\color{red}conditional independence} (stronger than mean). 
+\item Probability estimation concerns {\color{red}conditional mean}, whereas SDR concerns {\color{red}conditional independence}. 
 \end{itemize}
 \end{frame}
 
@@ -183,7 +183,7 @@ where $\phi\colon \mathbb{R}^{d_1\times d_2}\mapsto \mathbb{R}^{r_1\times r_2}$ 
 \begin{itemize}
 \item Classification is an easier task than probability estimation. 
 \item First, we develop a large-margin classifier for {\color{red} matrix predictors in high dimensions}.
-\item Consider the classifier, $\hat g(\mX) = {\color{red}\text{sign}}\{\hat f(\mX)\}$, where $\hat f(\cdot)\colon \mathbb{R}^{d_1\times d_2}\mapsto \mathbb{R}$ is the solution to the following optimization over a function class $\tF$:
+\item Consider the classifier, ${\color{red}\text{sign}}\{\hat f(\mX)\}$, where $\hat f(\cdot)\colon \mathbb{R}^{d_1\times d_2}\mapsto \mathbb{R}$ is the solution to the following optimization over a function class $\tF$:
 \begin{equation}\label{eq:SMM}
 \hat f = \argmin_{f\in\tF}\left\{\sum_i \left[1-y_i f(\mX_i)\right]_{+}+\lambda\FnormSize{}{f}^2\right\}.
 \end{equation}
@@ -239,7 +239,7 @@ where $\mP\in \mathbb{R}^{r\times d_1}$ is a (unknown) rank-$r$ projection matri
 f(\cdot)=\sum_{i=1}^n \alpha_i y_i {\color{red}\langle \mX_i,\ \cdot \rangle_{\mP}}.
 \end{align}
 \item The function $f\in \tF_r$, where $\tF_r$ is the reproducing kernel Hilbert Space (RKHS) induced by rank-$r$ kernels $\{\langle \cdot,\ \cdot\rangle_{\mP}\colon {\text{projection }} \mP\in\mathbb{R}^{r\times d_1}\}$. 
-\item Column-wise projection kernel can be similarly introduced $\Rightarrow$ same decision function. {\it A coincidence or something fundamental?} {\color{blue} May be because of rank theorem: r columns are enough to explain structure of  matrix X, by the same way r rows are enough for information of the matrix}
+\item Column-wise projection kernel can be similarly introduced $\Rightarrow$ same decision function ($\sum_{i=1}^n\alpha_iy_I\mP_r\mX_i = \sum_{i=1}^n\alpha_iy_i\mX_i\mP_c$). {\it A coincidence or something fundamental?} 
 \end{itemize}
 \end{frame}
 
@@ -289,7 +289,7 @@ for any $h=1,\ldots,H$.
 
 We develop the following algorithm to solve for the target function: 
 \begin{itemize}
-\item Step 1. Choose a sequence of weights $\pi_h = {h\over M}, \text{for }h=1,\ldots,H$.
+\item Step 1. Choose a sequence of weights $\pi_h = {h\over H}, \text{for }h=1,\ldots,H$.
 \item Step 2. For each weight $\pi_h\in[0,1]$, solve the following {\color{red}weighted low-rank support matrix machine (SMM)}:
 \begin{align}\label{eq:sequence}
 \hat \mB_h&=\argmin_{{\color{red}\text{rank}(\mB)\leq r}} \left\{\sum_{i}\omega_{\pi_h}(y_i)\left[1-y_i\langle \mX_i,\mB \rangle\right]_++\lambda\FnormSize{}{\mB}^2\right\},
@@ -357,9 +357,21 @@ Assume the true $p\in \tF$, where $\tF$ is the RKHS induced by $\langle \cdot,\ 
 \item A challenging problem is to identify the {\color{red}sufficient features} with minimal modeling assumption in the prediction model. 
 \item We develop a robust sufficient dimension reduction (SDR) method for matrix predictors in high dimensions. 
 %\item The low-rank SMM algorithm lends itself well to the SDR problem. 
+\begin{block}{Bilinear sufficient dimension reduction (SDR)}
+Let $(\mX,y)\in\mathbb{R}^{{\color{red}d_1\times d_2}}\times \{0,1\}$ be the pair of r.v.'s of interest.  Bilinear SDR seeks a pair of matrices $\mP_r\in\mathbb{R}^{r_1\times d_1}, \mP_c\in\mathbb{R}^{r_2\times d_2}$ such that
+\[
+y\ind \mX \big|\KeepStyleUnderBrace{\mX\times_1\mP_r\times_2\mP_c}_{\text{\color{red}$r_1$-by-$r_2$}}.
+\]
+The minimum dimension of $(r_1,r_2)$ is called the structure dimension. 
+%We refer to the cartesian product of subspaces, $S_{Y|\mX}=\text{Span}(\mP_r)\times \text{Span}(\mP_c)$, as the bilinear central subspace. 
+\end{block} 
 \end{itemize}
 
-\vspace{.5cm}
+\end{frame}
+
+
+
+\begin{frame}{Theory: SDR via low-rank kernels}
 We have SDR procedure based on  step 1 and 2 in Algorithm above.\\
 Add two steps to Algorithm: 
 \begin{enumerate}
@@ -370,19 +382,6 @@ Add two steps to Algorithm:
 \]
 Perform a rank-$(r_1,r_2,r_1r_2)$ Tucker decomposition on $\tB$. Let $\hat \mP_c, \hat \mP_r$ denote the estimated factor matrices at the first two modes. 
 \end{enumerate}
-\end{frame}
-
-
-
-\begin{frame}{Theory: SDR via low-rank kernels}
-\begin{block}{Bilinear sufficient dimension reduction (SDR)}
-Let $(\mX,y)\in\mathbb{R}^{{\color{red}d_1\times d_2}}\times \{0,1\}$ be the pair of r.v.'s of interest.  Bilinear SDR seeks a pair of matrices $\mP_r\in\mathbb{R}^{r_1\times d_1}, \mP_c\in\mathbb{R}^{r_2\times d_2}$ such that
-\[
-y\ind \mX \big|\KeepStyleUnderBrace{\mX\times_1\mP_r\times_2\mP_c}_{\text{\color{red}$r_1$-by-$r_2$}}.
-\]
-The minimum dimension of $(r_1,r_2)$ is called the structure dimension. 
-%We refer to the cartesian product of subspaces, $S_{Y|\mX}=\text{Span}(\mP_r)\times \text{Span}(\mP_c)$, as the bilinear central subspace. 
-\end{block} 
 
 \begin{block}{Unbiasedness (Lee and Wang, 2020+)}
 Under suitable assumptions$^*$, our proposed $\hat \mP_r$ and $\hat \mP_c$ are asymptotically unbiased estimators for $\mP_r$ and $\mP_c$, respectively; i.e.
@@ -392,6 +391,14 @@ Under suitable assumptions$^*$, our proposed $\hat \mP_r$ and $\hat \mP_c$ are a
 \end{block}
 
 {\scriptsize Assume: (1) $\mathbb{E}(\mX|\mX\times_1\mP_r\times_2\mP_c)$ is a linear function of $\mX\times_1\mP_r\times_2\mP_c$; (2) $\text{Cov}(\text{vec}(\mX))=\Sigma_r\otimes \Sigma_c$}.
+\end{frame}
+
+\begin{frame}{Choosing rank}
+\begin{itemize}
+\item The algorithm takes the rank $r$ in probability function estimation and $(r_2,r_2)$ in SDR.
+\item In practice, the ranks are hardly known and needs to be chosen from the data.
+\item Our proposal is to use grid search with cross-validation.
+\end{itemize}
 \end{frame}
 
 
@@ -407,8 +414,8 @@ Under suitable assumptions$^*$, our proposed $\hat \mP_r$ and $\hat \mP_c$ are a
     \scalebox{0.8}{
     \begin{tabular}{c|c|c|c|c}
     \hline& N = 100& N = 200 & N = 300 & N = 400\\
-    \hline Error (SMM) & 0.4827&0.1903&0.1020&0.0663\\
     \hline Error (SVM) & 0.5404&0.3149&0.1361&0.0734\\
+    \hline Error (SMM) & {\color{red}0.4827}&\color{red}0.1903&\color{red}0.1020&\color{red}0.0663\\
     \hline
     \end{tabular}}
     \caption{\scriptsize Error = $\FnormSize{}{\mB-\hat \mB}$, where both $\mB, \hat \mB$ are normalized to have F-norm 1.}
@@ -426,10 +433,10 @@ Under suitable assumptions$^*$, our proposed $\hat \mP_r$ and $\hat \mP_c$ are a
 \hline
 SVM & 0.90 & 0.95 & 0.9 & 0.75 & 0.9 & 0.88\\
 \hline
-SMM & 0.95 & 0.95 & 1.0 & 0.75 & 0.9 & 0.91\\
+SMM & 0.95 & 0.95 & 1.0 & 0.75 & 0.9 & \color{red}0.91\\
 \hline
 \end{tabular}}
-\caption{\scriptsize 1-MCR in linearly separable data case}
+\caption{\scriptsize Classification accuracy in linearly separable data case}
 \label{tab: mcr}
 \end{table}
 
@@ -444,10 +451,10 @@ SMM & 0.95 & 0.95 & 1.0 & 0.75 & 0.9 & 0.91\\
 \hline
 SVM & 0.55 & 0.65 & 0.75 & 0.6 & 0.75 & 0.66\\
 \hline
-SMM & 0.50 & 0.80 & 0.75 & 0.7 & 0.75 & 0.70\\
+SMM & 0.50 & 0.80 & 0.75 & 0.7 & 0.75 &\color{red} 0.70\\
 \hline
 \end{tabular}}
-\caption{\scriptsize 1-MCR in linearly non separable data case}
+\caption{\scriptsize Classification accuracy in linearly non separable data case}
 \end{table}
 \end{itemize}
 
@@ -549,7 +556,7 @@ $\mK(\mX,\mX')\neq \mK(\mX',\mX)$; $\mK(\mX, \mX')\neq \mK(\mX^T, \mX'^T)$.}
 \begin{itemize}
 \item Nonparametric classifier: $\text{sign}[\hat f(\cdot)]\colon \mathbb{R}^{d_1\times d_2}\mapsto\{-1,1\}$, where
 \[
-\hat f(\cdot)=\sum_i \hat \alpha_iy_i \text{tr}\left[\mK(\cdot,\ \mX_i)\hat \mP^T\hat \mP \right].
+\hat f(\cdot)= \sum_i \hat \alpha_iy_i\langle \cdot,X_i\rangle_{\hat\mP,h} = \sum_i \hat \alpha_iy_i \text{tr}\left[\mK(\cdot,\ \mX_i)\hat \mP^T\hat \mP \right].
 \]
 \item Nonparametric regression:
 \begin{align}
@@ -582,7 +589,7 @@ SMM(polynomial) & 0.75 & 0.55 & \color{red}0.85 & 0.55 & 0.75 & 0.69\\
 SMM(gaussian) & 0.65 & 0.50 &\color{red} 0.85 & 0.70 & 0.80 & 0.70\\
 \hline
 \end{tabular}}
-    \caption{\scriptsize 1-MCR on 5 folded Cross validation(CV)}
+    \caption{\scriptsize  Classification accuracy on 5 folded Cross validation(CV)}
     \label{tab:sim1.1}
 \end{table}
 
@@ -605,7 +612,7 @@ SMM(polynomial) & {\color{red}0.80} & {\color{red}0.750} & 0.785 \\
 SMM(gaussian) & 0.71 & 0.745 & 0.830 \\
 \hline
 \end{tabular}}
-    \caption{\scriptsize Averaged 1-MCR of 5 folded CV according to different methods.}
+    \caption{\scriptsize Averaged classification accuracy of 5 folded CV according to different methods.}
     \label{tab:cv}
 \end{table}
 \end{itemize}

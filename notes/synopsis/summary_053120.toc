@@ -3,8 +3,8 @@
 \beamer@subsectionintoc {2}{1}{Classification}{7}{0}{2}
 \beamer@subsectionintoc {2}{2}{Probability function estimation}{13}{0}{2}
 \beamer@subsectionintoc {2}{3}{Sufficient dimension reduction}{16}{0}{2}
-\beamer@subsectionintoc {2}{4}{Simulations}{18}{0}{2}
-\beamer@sectionintoc {3}{Nonlinear learning with low-rank kernels}{21}{0}{3}
-\beamer@subsectionintoc {3}{1}{Nonlinear matrix-valued kernels}{21}{0}{3}
-\beamer@subsectionintoc {3}{2}{Nonlinear learning with matrix predictors}{23}{0}{3}
-\beamer@subsectionintoc {3}{3}{Simulations}{24}{0}{3}
+\beamer@subsectionintoc {2}{4}{Simulations}{19}{0}{2}
+\beamer@sectionintoc {3}{Nonlinear learning with low-rank kernels}{22}{0}{3}
+\beamer@subsectionintoc {3}{1}{Nonlinear matrix-valued kernels}{22}{0}{3}
+\beamer@subsectionintoc {3}{2}{Nonlinear learning with matrix predictors}{24}{0}{3}
+\beamer@subsectionintoc {3}{3}{Simulations}{25}{0}{3}
