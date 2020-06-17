@@ -193,7 +193,7 @@ smm = function(X,y,r,cost = 10,rep = 10, p = .5){
       Dmat = Makepositive(kernelm(X,H,y,"u"))
       Amat = cbind(y,diag(1,N),-diag(1,N))
       bvec = c(rep(0,1+N),ifelse(y==1,-cost*(1-p),-cost*p))
-      alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1,factorize=TRUE)
+      alpha = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
       Bpart=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
       U = Bpart%*%Vs
 
@@ -202,7 +202,7 @@ smm = function(X,y,r,cost = 10,rep = 10, p = .5){
       Us = U%*%solve(t(U)%*%U)
       H = Us%*%t(U)
       Dmat = kernelm(X,H,y,"v")
-      alpha = solve.QP(Dmat,dvec,Amat,bvec,meq = 1,factorize=TRUE)
+      alpha = solve.QP(Dmat,dvec,Amat,bvec,meq = 1)
       Bpart=matrix(t(y*alpha$solution)%*%matrix(unlist(X),nrow = length(X),byrow = T),nrow = m)
       V = t(Bpart)%*%Us
 

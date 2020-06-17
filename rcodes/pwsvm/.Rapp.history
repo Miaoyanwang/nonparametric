@@ -1,8 +1,0 @@
-rm(list = ls())#
-library(kernlab)#
-#
-setwd("~/Desktop/pwsvm_R")
-rm(list = ls())#
-library(kernlab)#
-#
-setwd("~/Desktop/pwsvm_R")
