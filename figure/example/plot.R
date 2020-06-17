@@ -1,3 +1,4 @@
+## written by Miaoyan Wang, 2020
 library(rgl)
 library("RColorBrewer")
 library(viridis) ## use more refined color scale
