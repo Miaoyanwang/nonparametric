@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+ \documentclass[12pt]{article}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{enumerate}
@@ -64,14 +64,15 @@
   \bigskip
   \bigskip
   \begin{center}
-    {\LARGE\bf Large margin based regression for matrix feature}
+    {\LARGE\bf Nonparametric learning with matrix-valued predictors in high dimensions}
 \end{center}
   \medskip
 } \fi
 
 \bigskip
 \begin{abstract}
-The text of your abstract. 200 or fewer words.
+We consider the problem of learning the relationship between binary outcomes and high-dimensional matrix-valued predictors. Such data problems arise commonly in brain imaging studies, sensor network localization, and personalized medicine. Existing regression analysis often takes a parametric procedure by imposing a pre-specified relation f between variables. However, parametric model is insufficient in capturing complex regression surfaces with respect to high-dimensional matrix-valued predictors. Here, we propose a flexible nonparametric framework for various learning tasks, including classification, level-set estimation, and regression, that specifically accounts for the matrix structure in predictors.
+Unlike classical approaches, our method adapts to the possibly non-smooth, non-linear pattern in the regression function of interest. The proposal achieves accuracy and interpretability by a joint optimization of prediction and dimension reduction in matrix space. Generalization bounds, estimation consistency, and convergence rate are established. We demonstrate the advantage of our method over previous approaches through simulations and applications to XXX data analyses.
 \end{abstract}
 
 \noindent%
@@ -87,97 +88,104 @@ The text of your abstract. 200 or fewer words.
 \label{sec:meth}
 \setcounter{subsection}{-1}
 \subsection{Three main problems}
-Assume that we are given a set of training data $\{(\mX_1,y_1),\ldots,(\mX_n,y_n)\}$ with data matrix $\mX_i\in\mathbb{R}^{d_1\times d_2}$ and class labels $y_i\in\{+1,-1\}$ drawn according to some unknown probability density function $p_{\mX,y}(\mX,y)$. Define $p(\mX) = \mathbb{E}(y|\mX)$. 
+Assume that we are given i.i.d. training samples $\{(\mX_1,y_1),\ldots,(\mX_n,y_n)\}$ drawn according to some unknown probability density function $\mathbb{P}_{\mX,y}(\mX,y)$ where  data matrix $\mX_i\in\mathbb{R}^{d_1\times d_2}$ and class labels $y_i\in\{+1,-1\}$ . Define the regression function $p(\mX) = \mathbb{E}\left(\frac{y+1}{2}|\mX\right)$. 
 We consider three major problems on this setting: classification, level set estimation, and regression estimation.
 
 \begin{enumerate}[label={2.\arabic*}]
-\item {\it The problem of classification}: We aim to address learning a model with a low error on the training data. One successful approach is large-margin classifier. We consider  a large margin classifier that minimizes a cost function in $f$ over a decision function class $\tF$
+\setcounter{enumi}{1}
+\item {\it The problem of classification}: Classification is the problem of identifying to which of a set of categories a new observation belongs, based on training samples. We aim to establish a decision rule $g(\mX)$ that has small error
+\begin{align}
+    \mathbb{P}_{\mX,y}\left(y\neq g(\mX)\right),
+\end{align}
+where $g(\mX) = \text{sign}(f(\mX))$ and $f:\mathbb{R}^{d_1\times d_2}\rightarrow \mathbb{R}$ is a decision function. The classification problem has long been interested. Many attempts have been developed and performed well for example, decision tree, nearest neighbor, neural network and support vector machine to name a few. However, most of methods have focused on vector valued features. In many classification problems, the input features are naturally represented as matrices or tensors rather than vectors. One example is a study of an electroencephalography data set of alcoholism. The data records voltage value measured from 64 channels of electrodes on 256 subjects for 256 time points, so each feature data is $256\times 64$ matrix and the response is binary indicator of subject being alcoholic or control \citep{zhou2014regularized}. Another example is pedestrian detection from image data. Each image was divided into 9 regions where local orientation statistics were generated with a total of 22 numbers per region, so each feature data is $22 \times 9$ matrix and the response is whether the image is pedestrian \citep{Shashua2004PedestrianDF}. We want to tackles matrix valued classification preserving the matrix structure.
+\item {\it The problem of level set estimation}: The $\pi$-level set of $p$ given a fixed $\pi\in[0,1]$ is the set 
+\begin{align}
+S(\pi) = \{\mX\in\mathbb{R}^{d_1\times d_2}: p(\mX)>\pi\}.
+\end{align}
+ Accurate and efficient level set estimation plays an important role in many applications.
+ One example can be found in medical decision making. In Osteosarcoma treatment, the degree of tumor necrosis is used to guide the choice of postoperative chemotherapy \citep{man2005expression}. Patients with $\geq 90 \%$ necrosis is labeled as 1, which is response variable $y$. Suppose that $\mX$ is a feature matrix collected from the patient such as gene expression levels on each tissue. Knowledge of the regression level set is needed to allow effective postoperative chemotherapy without a biopsy. 
+ We consider a nonparametric way to estimate the $\pi$-level set of the regression function based on classification problem.
+%Level set estimation plays crucial roles in many applications such as digital elevation maps, medical imaging and pattern recognition.
+\item {\it The problem of regression estimation}: Regression function calculates expectation of $y$ given a feature matrix $\mX$ on the basis of a training set of data. In our setting, the regression $ \mathbb{E}(y|\mX)$  is equivalent to  the conditional probability $\mathbb{P}(y = 1|\mX)$ because the class label $y$ is binary. Knowledge about the class probability itself is of significant interest and can tell us the confidence of the outcome of classification. Traditionally, the regression problem is addressed 
+through distribution assumption like logistic regression or linear discriminant analysis (LDA). In many applications, however, it is often difficult to  justify the assumptions made in logistic regression or satisfy the Gaussian assumption in LDA. These issues become more challenging for matrix features because of high dimensionality.
+We establish distribution free method for estimating the regression function $p(\mX)$ based on level set estimation.  
+\end{enumerate}
+The three problems require more and more information sequentially.
+Classification problem can be completed from level set $S(\frac{1}{2})$ utilizing Bayes rule. The level set estimation problem becomes trivial when we have all information about regression function.  
+Accordingly, classical approach for the three problems is to find a solution for regression first, and address the other two based on the estimation. This is why the regression problem is also called soft classification. However, our approach finds classification rule first and address the level set estimation and regression problem in order. Through the sequence of solving the problems, we successfully solve the problems without assuming probability distribution.
+
+
+The three problems have some challenges and require a new method because the input dataset consists of matrices not vectors.
+When utilizing classical methods based on vectors to solve the problems, we have to transform the feature matrices to vectors. However, this vectorization would destroy the structural information of the data matrices. Moreover, the reshaping matrices to vectors results in very high dimensionality which leads to overfitting problem.
+We propose a new methodology for those problems. Our method exploits the structural information of the data matrix. We take advantage of low-rank assumption to describe such structure and overcome overfitting problem.
+
+\subsection{Choice of decision function space}\label{sec:fcn class}
+Here, we consider a set of linear predictors as decision function class and extend to non-linear case in Section \ref{sec:nonlinear}.
+ We impose low-rankness on a linear predictor of the form $f(\mX) = \langle \mB,\mX\rangle,$
+where $\mB,\mX\in\mathbb{R}^{d_1\times d_2}$ and $\langle \mX,\mX'\rangle = \text{Tr}(\mX^T\mX')$.
+Specifically,  the coefficient matrix $\mB$ has low-rank $r$  usually much smaller than the matrix size  $\min(d_1,d_2)$,
+\begin{align}\label{eq:lowrank}
+\mB = \mU\mV^T \text{ where } \mU \in\mathbb{R}^{d_1\times r} ,\mV\in\mathbb{R}^{d_2\times r}\text{ and } r\leq\min(d_1,d_2).
+\end{align}
+The condition determines trade-off between model complexity and flexibility.  This low-rankness makes distinction from classical classification problem for feature vectors and preserves structural information of feature matrices.
+ 
+\subsection{Classification}
+\label{subsec:pb1}
+
+We consider  a large margin classifier that minimizes a cost function in $f$ over a decision function class $\tF$
 \begin{align}
 \label{eq:large-margin}
 \min_{f\in\tF}n^{-1}\sum_{i=1}^n L\left(y_i f(\mX_i)\right)+\lambda J(f),
 \end{align}
-where $J(f)$ is a regularization term for model complexity and $L(z)$ is a margin loss that is a function of the functional margin $yf(\mX)$. Examples of such loss functions are the hinge loss function $L(z) = (1-z)_+$ and the logistic loss function $L(z) =\log(1+e^{-z})$.  
-
-
-\item {\it The problem of level set estimation}: The $\pi$-level set of $p$ given a fixed $\pi\in[0,1]$ is the set 
-\begin{align}
-S^*= S(p,\pi) = \{\mX\in\mathbb{R}^{d_1\times d_2}: p(\mX)>\pi\}.
-\end{align}
-We consider the problem of estimating the $\pi$-level set 
-of the regression function without assuming any certain models but utilizing the large-margin classifier. 
-%Level set estimation plays crucial roles in many applications such as digital elevation maps, medical imaging and pattern recognition.
-\item {\it The problem of regression estimation}: Based on level set estimation problem, we aim to establish a model-free method for  estimating $p(\mX) = \mathbb{E}(y|\mX)$.  In our setting, the regression $ \mathbb{E}(y|\mX)$  is equivalent to  the conditional probability $\mathbb{P}(y = 1|\mX)$ because the class label $y$ is binary.  This problem is also known as soft classification, since the estimated probability can be used to determine the classification boundary.
-\end{enumerate}
-
-When utilizing classical methods based on feature vectors to solve the above problems, we have to transform the feature matrices to vectors. However, this vectorization would destroy the structural information of the data matrices. Moreover, the reshaping matrices to vectors results in very high dimensionality which leads to overfitting problem.
-
-We propose a methodology for those problems. Our method exploits the structural information of the data matrix. We take advantage of low-rank assumption to describe the correlation within a matrix and overcome overfitting problem.
- 
-\subsection{Classification}
-\label{subsec:pb1}
-It is well known that the hinge loss enjoys sparseness and robustness, which are two desirable properties for a good classifiers. For demonstration, we focus on the hinge loss case in Equation \eqref{eq:large-margin}. However, our estimation schemes and theorems are applicable to general large-margin classifiers.
-We propose a linear predictor with low-rank coefficient matrix  of the form $f_{\mB}(\mX) = \langle \mB,\mX\rangle,$
-where $\mB,\mX\in\mathbb{R}^{d_1\times d_2}$ and $\langle \mX,\mX'\rangle = \text{Tr}(\mX^T\mX')$. We can extend the linear model to non-linear case in Section \ref{sec:nonlinear}.
-We impose low-rank structure on the coefficient matrix $\mB$,
-\begin{align}
-\mB = \mU\mV^T \text{ where } \mU \in\mathbb{R}^{d_1\times r} ,\mV\in\mathbb{R}^{d_2\times r}\text{ and } r\leq\min(d_1,d_2)
-\end{align}
- We  see that the condition provides a reasonable trade-off between model complexity and model flexibility. This low-rankness makes distinction from classical classification problem for feature vectors and considers structural information of feature matrices. Based on the considered function class, we present the following formulation from Equation \eqref{eq:large-margin}:
+where $J(f)$ is a regularization term for model complexity and $L(z)$ is a margin loss that is a function of the functional margin $yf(\mX)$. Examples of such loss functions are the hinge loss function $L(z) = (1-z)_+$ and the logistic loss function $L(z) =\log(1+e^{-z})$.  For demonstration, we focus on the hinge loss case in Equation \eqref{eq:large-margin}. However, our estimation schemes and theorems are applicable to general large-margin classifiers.
+Based on the decision function class in Section \ref{sec:fcn class}, we solve the following optimization problem
 \begin{align}
 \label{eq:opt}
-\min_{\{(\mU,\mV)\in\mathbb{R}^{d_1\times r}\times \mathbb{R}^{d_2\times r}\}}n^{-1}\sum_{i=1}^n \left(1-y_i\langle \mU\mV^T,\mX_i\rangle\right)_++\lambda \FnormSize{}{\mU\mV^T}^2
+(\hat \mU,\hat \mV) = \argmin_{\{(\mU,\mV)\in\mathbb{R}^{d_1\times r}\times \mathbb{R}^{d_2\times r}\}}n^{-1}\sum_{i=1}^n \left(1-y_i\langle \mU\mV^T,\mX_i\rangle\right)_++\lambda \FnormSize{}{\mU\mV^T}^2.
 \end{align}
-Notice that when the rank of the coefficient matrix is full rank, the optimization problem \eqref{eq:opt} degenerates to the conventional linear SVM with vectorized feature matrices.
+Notice that when the coefficient matrix has full rank, the optimization problem \eqref{eq:opt} degenerates to the conventional linear SVM with vectorized feature matrices. From the solution to \eqref{eq:opt}, our estimated decision rule is \begin{align}\hat g(\mX) = \text{sign}\left(\langle \hat\mU. \hat\mV^T,\mX\rangle\right)\end{align}
 
-We show that the solution of \eqref{eq:opt} has the form  (one can check Supplement for the details)
-\begin{align}\label{eq:form}
+We make two remarks on the implication of our formulation \eqref{eq:opt}.
+First, the formulation \eqref{eq:opt} implies a joint learning of dimension reduction and classification risk minimization. This is one of our contribution to combine two different processes into one. To check this, we see the a dual representation of the solution to \eqref{eq:opt}.
+\begin{align}\label{eq:dualrep}
 f(\mX) = \sum_{i=1}^n \alpha_i y_i\langle \mP_r\mX_i, \mP_r \mX\rangle,
 \end{align}
-where $\{\alpha_i\}_{i=1}^n$ are  solution  (spare)  of the dual problem in \eqref{eq:opt} and $\mP_r\in\mathbb{R}^{r\times d_1}$ is the projection matrix induced by low rank coefficient $\mU,\mV$. Let $\langle \cdot,\cdot\rangle_{\mP_r}$ denote the low rank linear kernel for a pair of matrices:
+where $\{\alpha_i\}_{i=1}^n$ are  (sparse) dual solution of \eqref{eq:opt} and $\mP_r\in\mathbb{R}^{r\times d_1}$ is the projection matrix induced by low rank coefficient $\mU,\mV$. 
+The projection matrix plays role in reducing the feature dimension.  From the representation, we see that the optimization \eqref{eq:opt} finds the best projection matrix and coefficient that reduce feature dimension and minimize the classification risk at the same time.
+Second, the dual representation \eqref{eq:dualrep} can be viewed as an element of the reproducing kernel Hilbert space (RKHS) induced by rank-$r$ linear kernel defined as
 \begin{align}\label{eq:linear kernel}
 \langle \mX,\mX'\rangle_{\mP_r} \stackrel{\text{def}}{=}\langle \mP_r\mX,\mP_r\mX'\rangle, \quad\text{ for all } \mX,\mX'\in\mathbb{R}^{d_1\times d_2}.
 \end{align}
-The solution function $f(\cdot)$ can be written $f(\cdot) = \sum_{i=1}^n \alpha_iy_i\langle\mX_i,\cdot\rangle_{\mP_r},$ which can be viewed as an element in the reproducing kernel Hilbert space induced by rank-$r$ linear kernels $\{\langle \cdot,\cdot\rangle_{\mP}: \mP\in\mathbb{R}^{r\times d_1}\text{ is a projection matrix} \}$.  
-Therefore, we estimate the optimal hyperplane that separate the training data the best on projected feature matrices.  The classification rule $\hat G(\mX)$ can be written as \begin{align}
-\hat G(\mX) = \text{sign}\left(\sum_{i=1}^n \hat \alpha_i y_i\langle \mX_i,\mX\rangle_{\hat \mP_r}\right),
-\end{align}
-where  $\{\hat \alpha_i\}_{i=1}^n$ are estimated coefficients and $\hat \mP_r$ is an estimated projection matrix.
-The detailed algorithm for the estimation will appear in Section \ref{sec:alg}. 
+From the rank-$r$ linear kernel $\langle \cdot,\cdot\rangle_{\mP_r}$, the solution \eqref{eq:dualrep} is written $f(\cdot) = \sum_{i=1}^n \alpha_iy_i\langle\mX_i,\cdot\rangle_{\mP_r},$ which consist of RKHS.  This RKHS perspective of the solution is a key ingredient to expand to nonlinear case in Section \ref{sec:nonlinear}.
+
 
 \subsection{Level set estimation}
 \label{subsec:pb2}
-Since the large-margin classifier showed good performance in classification, one might expect to extract any information about level set $S(p,\pi)$ from the large-margin classifier. \citet{lin2002support} showed that the solution $\hat f$ to \eqref{eq:large-margin} targets directly at $\text{sign}\left(p(\mX)-\frac{1}{2}\right)$. Moreover, \citet{wang2008probability} proved that the minimizer $\hat f_\pi$ to $\pi$-weighted loss function is a consistent estimate of $\text{sign}(p(\mX)-\pi)$. 
-Therefore, we solve the regularization problem with weighed loss function from  \eqref{eq:large-margin},
+We propose weighted loss function from \eqref{eq:large-margin} to estimate the level set. 
 \begin{align}
 \label{eq:weighted}
 \min_{f\in\tF}n^{-1}\sum_{i=1}^n \omega_{\pi}(y_i)L\left(y_if(\mX_i)\right)+ \lambda J(f),
 \end{align}
-where $\omega_\pi(y) = 1-\pi $ if $y = 1$ and $\pi$ if $y = -1$.  From the solution $\hat f_\pi$ to \eqref{eq:weighted}, we estimate the level set $\hat S(p,\pi) = \{\mX:\mathbb{R}^{d_1\times d_2} : \text{sign}(\hat f_\pi(\mX)) = 1\}$.
+where $\omega_\pi(y) = 1-\pi $ if $y = 1$ and $\pi$ if $y = -1$. The weighted loss accepts unequal costs for positive and negative misclassifications in margin classifier, where $\pi$ is the known cost for the negative and $1-\pi$ is for the positive classes. Notice that equal cost $\pi = \frac{1}{2}$ make \eqref{eq:weighted} reduce to \eqref{eq:large-margin}. 
+The optimizer to Equation \eqref{eq:weighted} with respect to all measurable function class yields an consistent estimate of the Bayes rule $g_\pi(\mX) = \text{sign}\left(f_\pi(\mX)\right)$ with $f_\pi(\mX) = p(\mX) - \pi$ \citep{lin2002support,wang2008probability}. 
+Therefore, under the considered decision function class as in Section \ref{sec:fcn class}, we obtain a minimizer $\hat f_\pi$ to \eqref{eq:weighted} and estimate the level set as
+\begin{align}\label{eq:levelset}\hat S(\pi) = \{\mX:\mathbb{R}^{d_1\times d_2} : \text{sign}(\hat f_\pi(\mX)) = 1\}
+.\end{align}
 
 
 \subsection{Regression function estimation}
 \label{subsec:pb3}
-Our proposed method is designed to estimate  the regression function $p(\mX)\stackrel{\text{def}}{=}\mathbb{E}(y = 1|\mX)$ at any $\mX$ which does not necessarily belong to the observed training data set. Consider the following two steps of approximation to the target function.
+We propose a method to estimate  the regression function $p(\mX)\stackrel{\text{def}}{=}\mathbb{E}(y = 1|\mX)$ at any $\mX$ which does not necessarily belong to the observed training data set. Linearity in the candidate function space does not rule out nonlinear regression functions. In fact, non-smooth, non-continuous regression functions are allowed in our framework. Consider the following two steps of approximation to the target function.
 \begin{align}
 \label{eq:approx}
-p(\mX) &\stackrel{\text{step1}}{\approx} \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX: p(\mX)\leq\frac{h}{H}\right\}\\&\stackrel{\text{step2}}{\approx} \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX\in\hat S^c(p,h/H)\right\},
+p(\mX) &\stackrel{\text{step1}}{\approx} \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX: p(\mX)\leq\frac{h}{H}\right\}\\&\hspace{.2cm}=\hspace{.2cm} \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX\notin S\left(\frac{h}{H}\right)\right\}
+\\&\stackrel{\text{step2}}{\approx} \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX\notin\hat S\left(\frac{h}{H}\right)\right\}.
 \end{align}
-where $\hat S(p,\pi) = \{\mX:\mathbb{R}^{d_1\times d_2} : \text{sign}(\hat f_\pi(\mX)) = 1\}$.
-Step 1 approximates the target probability by linear combination of step functions and Step 2 uses the fact that estimated level set in Section \ref{subsec:pb2} is consistent.
-The probability estimation scheme can be summarized as follows.\\
-{\bf Shceme}\vspace{-.4cm}
-\begin{enumerate}[label={S.\arabic*}]
-\item Choose a sequence of weight $\pi_h = \frac{h}{H}$, for $h = 1,\ldots, H$.
-\item For each weight $\pi_h\in[0,1]$, solve Equation \eqref{eq:weighted} with $\omega_{\pi_h}(y)$
-\item Denote the sequence of solutions and estimated level sets
-\begin{align}
-\{\hat f_h\}_{h=1}^H \text{ and } \{\hat S(p,h/H)\}_{h=1}^H.
+Step 1 approximates the target probability by linear combination of step functions where $H$ is a smooth parameter. In step 2, we plug in the level set estimation \eqref{eq:levelset} in Section \ref{subsec:pb2} given $\pi = h/H$. Here we use consistency of level set estimation.
+Therefore, we estimate the regression function,\begin{align}
+\hat p(\mX) = \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX\notin\hat S\left(\frac{h}{H}\right)\right\},
 \end{align}
-\item Estimate the target probability function by 
-\begin{align}
-\hat p(\mX) = \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX\in\hat S^c(p,h/H)\right\}.
-\end{align}
-\end{enumerate}
+by repeatedly estimating the level sets in \eqref{eq:levelset} with different $\pi$ values, say  $\pi = \frac{h}{H}$ for $h = 1,\ldots, H$. 
 
 
 
