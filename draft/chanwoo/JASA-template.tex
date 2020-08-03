@@ -71,13 +71,13 @@
 
 \bigskip
 \begin{abstract}
-We consider the problem of learning the relationship between binary outcomes and high-dimensional matrix-valued predictors. Such data problems arise commonly in brain imaging studies, sensor network localization, and personalized medicine. Existing regression analysis often takes a parametric procedure by imposing a pre-specified relation f between variables. However, parametric model is insufficient in capturing complex regression surfaces with respect to high-dimensional matrix-valued predictors. Here, we propose a flexible nonparametric framework for various learning tasks, including classification, level-set estimation, and regression, that specifically accounts for the matrix structure in predictors.
-Unlike classical approaches, our method adapts to the possibly non-smooth, non-linear pattern in the regression function of interest. The proposal achieves accuracy and interpretability by a joint optimization of prediction and dimension reduction in matrix space. Generalization bounds, estimation consistency, and convergence rate are established. We demonstrate the advantage of our method over previous approaches through simulations and applications to XXX data analyses.
+We consider the problem of learning the relationship between a binary label response and a high-dimensional matrix-valued predictor. Such data problems arises commonly in brain imaging studies, sensor network localization, and personalized medicine. Existing regression analysis often takes a parametric procedure by imposing a pre-specified relationship between variables. However, parametric model is insufficient in capturing complex regression surfaces with respect to high-dimensional matrix-valued predictors. Here, we propose a flexible nonparametric framework for various learning tasks, including classification, level-set estimation, and regression, that specifically accounts for the matrix structure in the predictors. Unlike classical approaches, our method adapts to the possibly non-smooth, non-linear pattern in the regression function of interest. The proposal achieves prediction and interpretability simultaneously via a joint optimization of prediction rules and dimension reduction in the matrix space. Generalization bounds, estimation consistency, and convergence rate are established. We demonstrate the advantage of our method over previous approaches through simulations and applications to XXX imaging data analyses. 
 \end{abstract}
 
 \noindent%
-{\it Keywords:}  3 to 6 keywords, that do not appear in the title
+{\it Keywords:} Nonparametric learning, matrix-valued predictors, high dimension, classification, level-set estimation, regression.
 \vfill
+
 
 \newpage
 \spacingset{1.5} % DON'T change the spacing!
@@ -87,8 +87,16 @@ Unlike classical approaches, our method adapts to the possibly non-smooth, non-l
 \section{Methods}
 \label{sec:meth}
 \setcounter{subsection}{-1}
+
+Consider a statistical learning problem where we would like to model the relationship between a feature $\mX \in \tX$ and a response $Y\in\tY$. Suppose that we observe a sample of of $n$ data points, $(\mX_1,Y_1),\ldots,(\mX_n,Y_n)$, identically and independently distributed (i.i.d.) according to a unknown distribution $\mathbb{P}(\mX,Y)$ over $\tX\times \tY$. We are interested in predicting a new response $Y_{n+1}$ from a new feature value $\mX_{n+1}$. The observations $\{(\mX_i,Y_i)\}_{i=1}^n$ are called the training data and $(\mX_{n+1},Y_{n+1})$ the test point. When no confusion arises, we often omit the subscript $(n+1)$ and simply write $(\mX,Y)$ for the prototypical test point. The test point is assumed independent of the training data and is drawn from the same unknown distribution $\mathbb{P}$. Our goal is to make accurate prediction under a wide range of distributions. In particular, we consider a non-parametric, distribution-free setting with no strong assumptions on the data generative distribution other than i.i.d. 
+
+
+We focus on the setting with matrix-valued predictors and binary label response; that is, $\tX=\mathbb{R}^{d_1\times d_2}$ and $\tY=\{-1,1\}$. Matrix-valued predictors ubiquitously arise in modern applications. One example is from electroencephalography studies of alcoholism. The data set records voltage value measured from 64 channels of electrodes on 256 subjects for 256 time points~\citep{zhou2014regularized}. Each feature data is $256\times 64$ matrix and the response is binary indicator of subject being alcoholic or control. Another example is pedestrian detection from image data. Each image was divided into 9 regions where local orientation statistics are generated with a total of 22 numbers per region. This yields a $22 \times 9$ matrix-valued feature matrix and a binary label response indicating whether the image is pedestrian~\citep{Shashua2004PedestrianDF}. 
+
+In the above two examples and many other studies, researchers are interested in \emph{interpretable prediction}, where the goal is to not only make accurate prediction but also identify important features that are informative to the prediction. A common challenge in the aforementioned two examples is the complex structure in the feature space. Notably, the ambient dimension with matrix-valued feature is $d_1d_2$, while the number of sample is $n$. Modern applications are often in the high dimensional regime where $d_1d_2$ is comparable to, or even larger, than the sample size $n$. (do we allow $d$ to increase with $n$ in the asymptotic result?). ...(to be continued)
+
 \subsection{Three main problems}
-Assume that we are given i.i.d. training samples $\{(\mX_1,y_1),\ldots,(\mX_n,y_n)\}$ drawn according to some unknown probability density function $\mathbb{P}_{\mX,y}(\mX,y)$ where  data matrix $\mX_i\in\mathbb{R}^{d_1\times d_2}$ and class labels $y_i\in\{+1,-1\}$ . Define the regression function $p(\mX) = \mathbb{E}\left(\frac{y+1}{2}|\mX\right)$. 
+%Assume that we are given i.i.d. training samples $\{(\mX_1,y_1),\ldots,(\mX_n,y_n)\}$ drawn according to some unknown probability density function $\mathbb{P}_{\mX,y}(\mX,y)$ where  data matrix $\mX_i\in\mathbb{R}^{d_1\times d_2}$ and class labels $y_i\in\{+1,-1\}$. Define the regression function $p(\mX) = \mathbb{E}\left(\frac{y+1}{2}|\mX\right)$. 
 We consider three major problems on this setting: classification, level set estimation, and regression estimation.
 
 \begin{enumerate}[label={2.\arabic*}]
@@ -98,6 +106,8 @@ We consider three major problems on this setting: classification, level set esti
     \mathbb{P}_{\mX,y}\left(y\neq g(\mX)\right),
 \end{align}
 where $g(\mX) = \text{sign}(f(\mX))$ and $f:\mathbb{R}^{d_1\times d_2}\rightarrow \mathbb{R}$ is a decision function. The classification problem has long been interested. Many attempts have been developed and performed well for example, decision tree, nearest neighbor, neural network and support vector machine to name a few. However, most of methods have focused on vector valued features. In many classification problems, the input features are naturally represented as matrices or tensors rather than vectors. One example is a study of an electroencephalography data set of alcoholism. The data records voltage value measured from 64 channels of electrodes on 256 subjects for 256 time points, so each feature data is $256\times 64$ matrix and the response is binary indicator of subject being alcoholic or control \citep{zhou2014regularized}. Another example is pedestrian detection from image data. Each image was divided into 9 regions where local orientation statistics were generated with a total of 22 numbers per region, so each feature data is $22 \times 9$ matrix and the response is whether the image is pedestrian \citep{Shashua2004PedestrianDF}. We want to tackles matrix valued classification preserving the matrix structure.
+
+
 \item {\it The problem of level set estimation}: The $\pi$-level set of $p$ given a fixed $\pi\in[0,1]$ is the set 
 \begin{align}
 S(\pi) = \{\mX\in\mathbb{R}^{d_1\times d_2}: p(\mX)>\pi\}.
