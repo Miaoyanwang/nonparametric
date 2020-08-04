@@ -97,11 +97,15 @@ Consider a statistical learning problem where we would like to model the relatio
 
 We focus on the scenario with matrix-valued predictors and binary label response; that is, $\tX=\mathbb{R}^{d_1\times d_2}$ and $\tY=\{-1,1\}$. Matrix-valued predictors ubiquitously arise in modern applications. One example is from electroencephalography studies of alcoholism. The data set records voltage value measured from 64 channels of electrodes on 256 subjects for 256 time points~\citep{zhou2014regularized}. Each feature is a $256\times 64$ matrix and the response is a binary indicator of subject being alcoholic or control. Another example is pedestrian detection from image data. Each image is divided into 9 regions where local orientation statistics are generated with a total of 22 numbers per region. This yields a $22 \times 9$ matrix-valued feature and a binary label response indicating whether the image is pedestrian~\citep{Shashua2004PedestrianDF}. 
 
-In the above two examples and many other studies, researchers are interested in \emph{interpretable prediction}, where the goal is to not only make accurate prediction but also identify features that are informative to the prediction. A key challenge in our setting is the complex structure in the feature space. Notably, the ambient dimension with matrix-valued feature is $d_1d_2$, while the number of sample is $n$. Modern applications are often in the high dimensional regime where $d_1d_2$ is comparable to, or even larger, than the sample size $n$. (do we allow $d$ to increase with $n$ in the asymptotic result?). ...(to be continued)
+In the above two examples and many other studies, researchers are interested in \emph{interpretable prediction}, where the goal is to not only make accurate prediction but also identify features that are informative to the prediction. While classical learning algorithms have been successful in prediction with vector-valued predictors, the key challenge with matrix-valued predictors is the complex structure in the feature space. 
+A naive approach is to transform the feature matrices to vectors and apply classical methods based on vectors to solve the problem. However, this vectorization would destroy the structural information of the data matrices. Moreover, the reshaping matrices to vectors results in high dimensionality which leads to overfitting. Notably, the ambient dimension with matrix-valued feature is $d_1d_2$, while the number of sample is $n$. 
+%Modern applications are often in the high dimensional regime where $d_1d_2$ is comparable to, or even larger, than the sample size $n$. 
+Our method exploits the structural information in the data matrix to overcome these challenges. 
+
 
 \subsection{Three main problems}
 %Assume that we are given i.i.d. training samples $\{(\mX_1,y_1),\ldots,(\mX_n,y_n)\}$ drawn according to some unknown probability density function $\mathbb{P}_{\mX,y}(\mX,y)$ where  data matrix $\mX_i\in\mathbb{R}^{d_1\times d_2}$ and class labels $y_i\in\{+1,-1\}$. Define the regression function $p(\mX) = \mathbb{E}\left(\frac{y+1}{2}|\mX\right)$. 
-We consider three major supervised learning problems: classification, level set estimation, and regression estimation.
+Before we proceed with our proposal for matrix-valued features, we present the concrete learning problems of our interest. We consider three major supervised learning problems: classification, level set estimation, and regression estimation.
 
 \begin{enumerate}[label={2.\arabic*}]
 \setcounter{enumi}{1}
@@ -131,10 +135,6 @@ The three problems represent common learning tasks with increasing difficulties.
 Classification problem can be completed from level set $S(\frac{1}{2})$ utilizing Bayes rule. The level set estimation problem becomes trivial when we have all information about regression function.  
 Accordingly, classical approach for the three problems is to find a solution for regression first, and address the other two based on the estimation. This is why the regression problem is also called soft classification. However, our approach finds classification rule first and address the level set estimation and regression problem in order. Through the sequence of solving the problems, we successfully solve the problems without assuming probability distribution.
 
-
-The three problems have some challenges and require a new method because the input dataset consists of matrices not vectors.
-When utilizing classical methods based on vectors to solve the problems, we have to transform the feature matrices to vectors. However, this vectorization would destroy the structural information of the data matrices. Moreover, the reshaping matrices to vectors results in very high dimensionality which leads to overfitting problem.
-We propose a new methodology for those problems. Our method exploits the structural information of the data matrix. We take advantage of low-rank assumption to describe such structure and overcome overfitting problem.
 
 \subsection{Choice of decision function space}\label{sec:fcn class}
 Here, we consider a set of linear predictors as decision function class and extend to non-linear case in Section \ref{sec:nonlinear}.
