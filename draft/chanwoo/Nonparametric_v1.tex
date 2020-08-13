@@ -145,29 +145,32 @@ Classification problem can be completed from level set $S(\frac{1}{2})$ utilizin
 Accordingly, classical approach for the three problems is to find a solution for regression first, and address the other two based on the estimation. This is why the regression problem is also called soft classification. However, our approach finds classification rule first and address the level set estimation and regression problem in order. Through the sequence of solving the problems, we successfully solve the problems without assuming probability distribution.
 
 
+
 \subsection{Choice of decision function space}\label{sec:fcn class}
+The aforementioned three problems are formulated as empirical structure minimization over functions with matrices as inputs.
+In this section, we introduce function classes we consider for the minimization problem. we propose a family of matrix kernels, which are building blocks for defining functions in matrix space. Kernel methods defined on non-vector objects have recently evolved into a rapidly developing branch of learning on structured data. Informally, a matrix kernel is a distance measure between two matrices with the same size using proper notion of similarity. Unlike vectors, matrix-valued inputs represent two-way relationship across rows and columns at a time. Taking into account of this two-way relationship is essential in the kernel development.
+Our proposed kernel uses concept from latent factor models and incorporates the two-way similarities via low rank regularization. We start introducing linear function class in matrix space and generalize nonlinear one based on our proposed matrix kernel. 
 
-Here, we consider a set of linear predictors as decision function class and extend to non-linear case.
-\subsubsection{Linear predictors}\label{subsec:linear class}
- We impose low-rankness on a linear predictor of the form $f(\mX) = \langle \mB,\mX\rangle,$
-where $\mB,\mX\in\mathbb{R}^{d_1\times d_2}$ and $\langle \mX,\mX'\rangle = \text{Tr}(\mX^T\mX')$.
-Specifically,  the coefficient matrix $\mB$ has low-rank $r$  usually much smaller than the matrix size  $\min(d_1,d_2)$,
+\subsubsection{Linear function class}\label{subsec:linear class}
+We propose the linear functions as a decision function class, $f(\mX) = \langle \mB,\mX\rangle,$
+where $\mB,\mX\in\mathbb{R}^{d_1\times d_2}$ and $\langle \mX,\mX'\rangle = \text{Tr}(\mX^T\mX')$. The inner product is called Frobenius inner product in the space of matrices and is a generalization of the dot product from vector spaces.
+We impose low-rankness on the linear predictor to consider the degeneracy of the coefficient matrix $\mB$ and leverage the structure information within the predictor $\mX$.
+Specifically,  the coefficient matrix has low-rank $r$  usually much smaller than the matrix size  $\min(d_1,d_2)$,
 \begin{align}\label{eq:lowrank}
-\mB = \mU\mV^T \text{ where } \mU \in\mathbb{R}^{d_1\times r} ,\mV\in\mathbb{R}^{d_2\times r}\text{ and } r\leq\min(d_1,d_2).
+\mB = \mC\mP^T \text{ where } \mC \in\mathbb{R}^{d_1\times r} ,\mP\in\mathbb{R}^{d_2\times r}\text{ and } r\leq\min(d_1,d_2).
 \end{align}
-The condition determines trade-off between model complexity and flexibility.  This low-rankness makes distinction from classical classification problem for feature vectors and preserves structural information of feature matrices.
+The low-rankness makes distinction from classical classification problem in vector spaces and preserves structural information of feature matrices. The low rank constraint on coefficient matrix has been proposed in Support Vector Machine (SVM) classification problem \citep{pirsiavash2009bilinear,luo2015support} in matrix spaces. However these papers only focus on application to the classification problem. Our paper is not confined in classification but further apply the linear function class to level set estimation and regression estimations. Furthermore, we extend linear case to nonlinear case based on matrix kernel concept in the next section. There are some prior work on matrix/tensor kernels. Most of these methods, however, are inadaptive and do not use label information to guide the kernel construction. We propose a new matrix kernel that solves the limitation.
 
-\subsubsection{Nonlinear predictors}\label{subsec:nonlinear class}
-We generalize classical kernel method for vector case to matrix case. Before proposing a new matrix feature mapping and kernel, we introduce notations and operations used later. Let $\phi_i\colon\mathbb{R}^{d_i}\rightarrow \tH_i$ be feature mappings with a classical kernel $K_i\colon\mathbb{R}^{d_i}\times \mathbb{R}^{d_i}\rightarrow \mathbb{R}$ for $i = 1,2.$ $\tH_i$ denotes image space of $\phi_i$ and a possibly infinite dimensional Hilbert space. Let  Let $\tH^{d_1\times d_2}$ = $\{\mX\colon\mX = \entry{x_{ij}},x_{ij}\in\tH\}$ denote the collection of $d_1$ by $d_2$ matrices with each entry taking value in a Hilbert space $\tH$.  Matrix algebraic operations are carried over from $\mathbb{R}^{d_1\times d_2}$ to $\tH^{d_1\times d_2}$ as follows,
-\begin{prop}
-    Let $\mA = \entry{a_{ij}}$ and $\mA' = \entry{a'_{ij}}$ be two matrices in $\tH^{d_1\times d_2}$ and $\mB = \entry{b_{ij}}$ be a matrix in $\tH^{d_2\times d_3}$.  Let $\mP\in\mathbb{R}^{r\times d_1}$ and $\mP'\in\mathbb{R}^{d_2\times r}$ be real valued matrices. Then, we have well defined operations.
-    \begin{itemize}
-    \item Inner product: $\langle \mA,\mA' \rangle = \sum_{ij}\langle a_{ij},a'_{ij}\rangle\in\mathbb{R}.$
-    \item Linear combination: $\mP\mA = \entry{c_{ij}}\in\tH^{r\times d_2}$ where $c_{ij} = \sum_{k\in[d_1]}p_{ik}a_{kj}$ for all $(i,j)\in[r]\times[d_2]$ and  $\mA\mP' = \entry{c'_{ij}}\in\tH^{d_1\times r}$ where $c'_{ij} = \sum_{k\in[d_1]}a_{ik}p'_{kj}$ for all $(i,j)\in[d_1]\times[r]$.
-    \item Summation:  $\mA+\mA' = \entry{a_{ij}+a'_{ij}}\in\tH^{d_1\times d_2}.$
-    \item Matrix product: $\mA\mB' = \entry{c_{ij}}\in\mathbb{R}^{d_1\times d_3}$, where $c_{ij} = \sum_{k\in[d_2]}\langle a_{ik},b_{kj}\rangle,$ for all $(i,j)\in[d_1]\times[d_3].$ 
-\end{itemize}
-\end{prop}
+
+
+\subsubsection{Nonlinear function class}\label{subsec:nonlinear class}
+We generalize classical kernel method in vector spaces to matrix spaces. We briefly summarize kernel method for vector features and introduce new notations and operations which will be used later.
+
+It has been popular and successful to extend linear classifiers in vector space to nonlinear classifiers using kernel method. Classical linear classifier finds linear boundaries in the input vector feature space. By introducing feature mapping which maps input feature space to enlarged dimension space, learning nonlinear classifier becomes possible. In fact, we need not specify the feature mapping at all to obtain an optimal function that minimizes pre-determined loss function. Instead, the learning process only requires knowledge of the kernel function that computes inner products in the transformed enlarged space, thereby avoiding heavy computation. We generalize this kernel approach to the case when input feature is matrix-valued.
+
+
+Before proposing a new matrix feature mapping and kernel, we introduce notations and operations needed later. Let $\phi_i\colon\mathbb{R}^{d_i}\rightarrow \tH_i$ be feature mappings with a classical kernel defined on vectors $K_i\colon\mathbb{R}^{d_i}\times \mathbb{R}^{d_i}\rightarrow \mathbb{R}$ for $i = 1,2.$ $\tH_i$ denotes enlarged feature space by $\phi_i$ and a possibly infinite dimensional Hilbert space.  Let $\tH^{d_1\times d_2}$ = $\{\mX\colon\mX = \entry{x_{ij}},x_{ij}\in\tH\}$ denote the collection of $d_1$ by $d_2$ matrices with each entry taking value in a Hilbert space $\tH$.   Matrix algebraic operations are carried over from operations on real valued matrices. One can check exact definitions of operations in Supplement.
+
 
 Now we present matrix the matrix kernel and associated feature mapping.
 We define matrix valued feature mapping over  the $d_1$-by-$d_2$ matrix space.
@@ -177,23 +180,24 @@ Let $\phi_1\colon\mathbb{R}^{d_1}\rightarrow \tH_1 $ and $\phi_2\colon\mathbb{R}
     \Phi(\mX)\colon \mathbb{R}^{d_1\times d_2} &\rightarrow (\tH_1\times \tH_2)^{d_1\times d_2}\\
     \mX &\mapsto \Phi(\mX) = \entry{\Phi(\mX)_{ij}}\text{ where } \Phi(\mX)_{ij}\stackrel{\text{def}}{=}\left(\phi_2(\mX_{i:}),\phi_1(\mX_{:j})\right).
 \end{align}
-We can define a linear function  $f\colon \mathbb{R}^{d_1\times d_2}\rightarrow \mathbb{R}$ with respect to $\Phi(\mX)\in(\tH_1\times \tH_2)^{d_1\times d_2}$,
+Notice that the matrix feature mapping considers both row-wise and column-wise enlarged features.
+From the feature mapping, the linear function $f\colon \mathbb{R}^{d_1\times d_2}\rightarrow \mathbb{R}$ with respect to enlarged space $\Phi(\mX)\in(\tH_1\times \tH_2)^{d_1\times d_2}$ is defined as,
 \begin{align}\label{eq:linearfcn}
     f(\mX) \stackrel{\text{def}}{=}\langle \mB,\Phi(\mX) \rangle ,\text{ where }& \mB=\entry{(\mb^{\text{row}}_i,\mb^{\text{col}}_j)}\in(\tH_1\times \tH_2)^{d_1\times d_2},\\\text{ with }& \mb^{\text{row}}_i\in\tH_1\text{ and } \mb^{\text{col}}_j\in\tH_2 \text{ for all } (i,j)\in[d_1]\times[d_2].
 \end{align}
 \end{defn}
-
 Notice we impose this structure on $\mB$ for identifiability issue.
-Matrix valued feature map \eqref{eq:featuremap} and corresponding linear function \eqref{eq:linearfcn} is reduced down to existing vector version  and can be generalized to tensor case (see Supplement for the details).
- Suppose $\mB$ in \eqref{eq:linearfcn} admits low rank decomposition, 
+These matrix valued feature mapping \eqref{eq:featuremap} and corresponding linear function \eqref{eq:linearfcn} are generalization from existing classical kernel method in vector spaces and can be extended naturally to tensor case (see Supplement for the details).
+ We assume that the coefficient $\mB$ in \eqref{eq:linearfcn} admits low rank decomposition as in Section \ref{subsec:linear class}, 
  \begin{align}\label{eq:lowrk}
      \mB = \mP_1\mC\mP_2^T,\text{ where }& \mP_1\in\mathbb{R}^{d_1\times r},\mP_2\in\mathbb{R}^{d_2\times r} \text{ and } \mC = \entry{(\mc_i^{\text{row}},\mc_j^{\text{col}})}\in(\tH_1\times \tH_2)^{r\times r},\\
      \text{ with }&\mc^{\text{row}}_i\in\tH_1\text{ and } \mc^{\text{col}}_j\in\tH_2 \text{ for all } i,j\in[r].
  \end{align}
  Again, we have the structured $\mC$ for identifiability. 
-   When classical kernels $K_i$  are linear kernels whose corresponding feature maps $\phi_i$ are identify  $i=1,2$, One can check that considered linear functions with low-rank $r$ in \eqref{eq:lowrk} is equivalent to linear functions with low-rank $2r$ in Section \ref{subsec:linear class}.
-   
-   Now we define matrix kernel associated with the matrix feature mapping.
+  When feature mapping $\phi_i$ is identity for $i=1,2$ implying the linear case in Section \ref{subsec:linear class}, we show that considered linear functions \eqref{eq:linearfcn} with low-rank $r$ defined by \eqref{eq:lowrk} are equivalent to the linear functions in Section \ref{subsec:linear class} with the low-rank $r$ constraint \eqref{eq:lowrank}.
+  Therefore, our matrix feature mapping is generalization of classical feature mapping on vector spaces and extension to nonlinear case from linear functions on matrix features.
+  
+Now we define matrix kernel associated with the matrix feature mapping.
 \begin{defn}\label{def:kernel}
 Let $K_i(\cdot,\cdot)$ be classical kernels which can be represented as $K_i(\cdot,\cdot) = \langle \phi_i(\cdot),\phi_i(\cdot)\rangle$ for $i=1,2$. Let weight matrices $\mW_i = \entry{w^{(i)}_{jk}}\in\mathbb{R}^{d_i\times d_i}$ be  rank-$r$ semi-positive definite matrices for $i = 1,2$. Then $\{\mW_i,K_i\}_{i=1,2}$  induce matrix kernel defined by
 \begin{align}
@@ -201,142 +205,173 @@ Let $K_i(\cdot,\cdot)$ be classical kernels which can be represented as $K_i(\cd
     (\mX,\mX')&\mapsto \mK(\mX,\mX')  = \sum_{j,k\in[d_1]}w^{(1)}_{jk}K_1(\mX_{j:},\mX'_{k:})+\sum_{j,k\in[d_2]}w^{(2)}_{jk}K_2(\mX_{:j},\mX'_{:k}).
 \end{align}
 \end{defn}
-Notice that this kernel definition is generalization from classical kernel based on vector valued features. We can associate the feature mapping in Definition \ref{def:map} with the matrix kernel like classical case which based on vectors. Given $\{\mW_i,K_i\}_{i=1,2}$, we have
+The matrix kernel incorporates classical kernel in vector spaces. Like classical kernel, we can associate the feature mapping in Definition \ref{def:map} with the matrix kernel. Given $\{\mW_i,K_i\}_{i=1,2}$, we have
 \begin{align}\mK(\mX,\mX')& = \sum_{j,k\in[d_1]}w^{(1)}_{jk}K_1(\mX_{j:},\mX'_{k:})+\sum_{j,k\in[d_2]}w^{(2)}_{jk}K_2(\mX_{:j},\mX'_{:k}) \\
 &=\langle (\mW_1,\mW_2)\Phi(\mX),(\mW_1,\mW_2)\Phi(\mX')\rangle.
 \end{align}
-By Definition \ref{def:kernel}, we can successfully learn weight matrices thereby nonlinear function given pre-specified row-wise and column-wise kernels $\{K_i\}_{i=1,2}$ avoiding feature mapping in Definition \ref{def:map}. In Section \ref{subsec:pb1}, we specify learning problem and show how we learn nonlinear function using the matrix kernel.
+We can view the matrix kernel as weighted inner product of the feature mappings. From the kernel representation, we learn nonlinear function successfully  avoiding specification of feature mapping $\Phi(\mX)$ as in classical vector case given pre-specified row and column-wise kernels $K_1,K_2$.
 
 
 
 \subsection{Classification}
 \label{subsec:pb1}
-
-We consider a large margin classifier that minimizes a cost function in $f$ over a decision function class $\tF$
+\label{subsec:pb1}
+We estimate a decision function $f\colon\mathbb{R}^{d_1\times d_2}\rightarrow \mathbb{R}$ over function class introduced in Section \ref{sec:fcn class}. The decision function class denoted as $\tF$ can be either linear or nonlinear. 
+We propose a large margin classifier that minimizes a cost function in $f$ over the function class $\tF$.
 \begin{align}
 \label{eq:large-margin}
 \min_{f\in\tF}n^{-1}\sum_{i=1}^n L\left(y_i f(\mX_i)\right)+\lambda J(f),
 \end{align}
 where $J(f)$ is a regularization term for model complexity and $L(z)$ is a margin loss that is a function of the functional margin $yf(\mX)$. Examples of such loss functions are the hinge loss function $L(z) = (1-z)_+$ and the logistic loss function $L(z) =\log(1+e^{-z})$.  For demonstration, we focus on the hinge loss case in Equation \eqref{eq:large-margin}. However, our estimation schemes and theorems are applicable to general large-margin classifiers.
 
-Here we present the solution to~\eqref{eq:large-margin} with nonlinear kernels; linear case is a special case of nonlinear case. Based on the decision function class in Section \ref{subsec:nonlinear class}, we solve the following optimization problem.
+We present the solution to~\eqref{eq:large-margin} with nonlinear kernels which incorporate linear case. Based on the considered decision function class, we solve the following optimization problem,
 \begin{align}
-\label{eq:opt}
+\label{eq:opteq}
 (\hat \mP_1,\hat\mC,\hat\mP_2) = \argmin_{\{(\mP_1,\mP_2,\mC)\in\mathbb{R}^{d_1\times r}\times \mathbb{R}^{d_2\times r}\times (\tH_1\times \tH_2)^{r\times r}\}}n^{-1}\sum_{i=1}^n \left(1-y_i\langle \mP_1\mC\mP_2^T,\mX_i\rangle\right)_++\lambda \FnormSize{}{\mP_1\mC\mP_2^T}^2.
 \end{align}
-Notice that the optimization problem \eqref{eq:opt} degenerates to the conventional SVM with vectorized feature matrices when the coefficient is full rank. From the solution to \eqref{eq:opt}, our estimated decision rule is \begin{align}\hat g(\mX) = \text{sign}(\hat f(\mX)) =  \text{sign}\left(\langle \hat\mP_1\hat\mC\hat\mP_2^T,\mX\rangle\right)\end{align}
+Notice that the optimization problem \eqref{eq:opteq} degenerates to the conventional SVM with vectorized feature matrices when feature mapping is identity and the coefficient is full rank. From the solution to \eqref{eq:opteq}, our estimated classifier is written 
+\begin{align}\label{eq:formulation}\hat g(\mX) = \text{sign}(\hat f(\mX)) =  \text{sign}\left(\langle \hat\mP_1\hat\mC\hat\mP_2^T,\mX\rangle\right).\end{align}
 
 
-We make a remark on the implication of our formulation \eqref{eq:opt}.
-The formulation \eqref{eq:opt} implies a joint learning of dimension reduction and classification risk minimization. This is one of our contribution to combine two different processes into one. To check this, we see the a dual representation of the solution to \eqref{eq:opt}.
+We make a remark on the implication of the formulation \eqref{eq:formulation}.
+The solution \eqref{eq:formulation} implies a joint learning of dimension reduction and classification risk minimization. This is one of our contribution to combine two different processes into one. To check this, we see the a dual representation of the solution to \eqref{eq:opteq},
 \begin{align}\label{eq:dualrep}
 f(\mX) &= 
-&= \sum_{i=1}^n\alpha_iy_i\left(\sum_{j,k\in[d_1]} [\mH_{\mP_1}]_{jk},K_1(\mX^{(i)}_{j:},\mX_{k:})+\sum_{j,k\in[d_1]} [\mH_{\mP_2}]_{jk},K_2(\mX^{(i)}_{:j},\mX_{:k})\right).
+&= \sum_{i=1}^n\alpha_iy_i\left(\sum_{j,k\in[d_1]} [\mH_{\mP_1}]_{jk},K_1(\mX^{(i)}_{j:},\mX_{k:})+\sum_{j,k\in[d_1]} [\mH_{\mP_2}]_{jk},K_2(\mX^{(i)}_{:j},\mX_{:k})\right),
 \end{align}
-where $\{\alpha_i\}_{i=1}^n$ are  (sparse) dual solution of \eqref{eq:opt}, $\mX^{(i)}_{jk}$ denotes (j,k)-entry of $\mX_i$ and $\mH_{\mA} = \mA(\mA^T\mA)^{-1}\mA^T$. Notice that the last representation of \eqref{eq:dualrep} is a linear combination of matrix kernel induced by weight matrices $\{\mH_{\mP_i}\}_{i=1,2}$ and row and column-wise kernels $\{K_i\}_{i=1,2}$. 
-Therefore, our considered function space can be written as 
+where $\{\alpha_i\}_{i=1}^n$ are  (sparse) dual solution to \eqref{eq:opteq} and $\mX^{(i)}_{jk}$ denotes (j,k)-entry of $\mX_i$. Notice that the representation  \eqref{eq:dualrep} can be viewed as an element of reproducing kernel Hilbert space (RKHS) induced by matrix kernel with weight matrices $\{\mH_{\mP_i}\}_{i=1,2}$ and row and column-wise kernels $K_1,K_2$.
+Therefore, our considered function space $\tF$ can be written as  
 \begin{align}
     \tF &= \{f\colon\mX\mapsto\langle\mP_1\mC\mP_2^T,\Phi(\mX)\rangle|\mC\in(\tH_1\times \tH_2)^{d_1\times d_2} \text{ and }\mP_i \in\mathbb{R}^{d_i\times r} \text{ for } i=1,2\}\\
     &=\{f\in \text{RKHS induced by matrix kernel } \mK \text{ with } \{\mH_{\mP_i},K_i\}_{i=1,2}\}.
 \end{align}
-The projection matrices $\{\mH_{\mP_i}\}_{i=1,2}$ play role in reducing the feature dimension and at the same time, with coefficients $\malpha$ find the best function that minimizes the classification risk. The procedure is summarized as the optimization over the union or RKHS induced by low rank weight matrices $\{\mW_i\}_{i=1,2,}$
+Given row and column-wise kernels, we estimate weight matrices and an element of RKHS induced by the estimated weight matrices.
+The projection matrices $\{\mH_{\mP_i}\}_{i=1,2}$ play role in reducing  the feature dimension and at the same time, we find the best element of RKHS that minimizes the classification risk by estimating coefficients $\malpha$ in \eqref{eq:dualrep}. The procedure is summarized as the following optimization
 \begin{align}
     \max_{f\in\tF}L(f)  = \max_{\substack{\text{rank}(\mW_i)\leq r,\\ \mW_i\succeq 0,i = 1,2}}\max_{\substack{f\in\text{RKHS} (\mK)\\ |\{\mW_i,K_i\}_{i=1,2}}}L(f).
 \end{align}
 
+
 \subsection{Level set estimation}
 \label{subsec:pb2}
-We propose weighted loss function from \eqref{eq:large-margin} to estimate the level set. 
+We propose weighted loss function from \eqref{eq:large-margin} to estimate the level set, 
 \begin{align}
 \label{eq:weighted}
 \min_{f\in\tF}n^{-1}\sum_{i=1}^n \omega_{\pi}(y_i)L\left(y_if(\mX_i)\right)+ \lambda J(f),
 \end{align}
 where $\omega_\pi(y) = 1-\pi $ if $y = 1$ and $\pi$ if $y = -1$. The weighted loss accepts unequal costs for positive and negative misclassifications in margin classifier, where $\pi$ is the known cost for the negative and $1-\pi$ is for the positive classes. Notice that equal cost $\pi = \frac{1}{2}$ make \eqref{eq:weighted} reduce to \eqref{eq:large-margin}. 
-The optimizer to Equation \eqref{eq:weighted} with respect to all measurable function class yields an consistent estimate of the Bayes rule $g_\pi(\mX) = \text{sign}\left(f_\pi(\mX)\right)$ with $f_\pi(\mX) = p(\mX) - \pi$ \citep{lin2002support,wang2008probability}. 
-Therefore, under the considered decision function class as in Section \ref{sec:fcn class}, we obtain a minimizer $\hat f_\pi$ to \eqref{eq:weighted} and estimate the level set as
-\begin{align}\label{eq:levelset}\hat S(\pi) = \{\mX:\mathbb{R}^{d_1\times d_2} : \text{sign}(\hat f_\pi(\mX)) = 1\}
+The optimizer to Equation \eqref{eq:weighted} with respect to all measurable function class yields an consistent estimate of the Bayes rule $g_\pi(\mX) = \text{sign}\left(f_\pi(\mX)\right)$ where $f_\pi(\mX) = p(\mX) - \pi$ \citep{lin2002support,wang2008probability}. 
+Therefore, under the considered decision function class, we obtain a minimizer $\hat f_\pi$ to \eqref{eq:weighted} and estimate the level set as
+\begin{align}\label{eq:levelset}\hat S(\pi) = \{\mX\in\mathbb{R}^{d_1\times d_2} : \text{sign}(\hat f_\pi(\mX)) = 1\}
 .\end{align}
 
 
 \subsection{Regression function estimation}
 \label{subsec:pb3}
-We propose a method to estimate  the regression function $p(\mX)\stackrel{\text{def}}{=}\mathbb{E}(y = 1|\mX)$ at any $\mX$ which does not necessarily belong to the observed training data set. Linearity in the candidate function space does not rule out nonlinear regression functions. In fact, non-smooth, non-continuous regression functions are allowed in our framework. Consider the following two steps of approximation to the target function.
+We propose a method to estimate  the regression function $p(\mX)\stackrel{\text{def}}{=}\mathbb{E}(y = 1|\mX)$ at any $\mX$ which does not necessarily belong to the observed training data set. Non-smooth, non-continuous regression functions are allowed in our framework. Consider the following two steps of approximation to the target function.
 \begin{align}
 \label{eq:approx}
 p(\mX) &\stackrel{\text{step1}}{\approx} \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX: p(\mX)\leq\frac{h}{H}\right\}\\&\hspace{.2cm}=\hspace{.2cm} \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX\notin S\left(\frac{h}{H}\right)\right\}
 \\&\stackrel{\text{step2}}{\approx} \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX\notin\hat S\left(\frac{h}{H}\right)\right\}.
 \end{align}
-Step 1 approximates the target probability by linear combination of step functions where $H$ is a smooth parameter. In step 2, we plug in the level set estimation \eqref{eq:levelset} in Section \ref{subsec:pb2} given $\pi = h/H$. Here we use consistency of level set estimation.
-Therefore, we estimate the regression function,\begin{align}
+Step 1 approximates the target probability by linear combination of step functions where $H$ is a smooth parameter. In step 2, we plug in the level set estimation defined in \eqref{eq:levelset} given $\pi = h/H$. Here we use consistency of level set estimation.
+Therefore, we estimate the regression function as,\begin{align}
 \hat p(\mX) = \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX\notin\hat S\left(\frac{h}{H}\right)\right\},
 \end{align}
-by repeatedly estimating the level sets in \eqref{eq:levelset} with different $\pi$ values, say  $\pi = \frac{h}{H}$ for $h = 1,\ldots, H$. 
+by repeatedly estimating the level sets as \eqref{eq:levelset} with different $\pi$ values, say  $\pi = \frac{h}{H}$ for $h = 1,\ldots, H$. 
 
 
 
-\section{Algorithm}
+
+
+
+
+\section{Algorithm ({\color{red} concatenated version})}
 \label{sec:alg}
-In this Section, we describe the algorithm to seek the optimizer of Equation  \eqref{eq:large-margin} in the case of hinge loss function $L(z) = (1-z)_+$ and linear function class $\tF = \{f:f(\cdot)= \langle \mU\mV^T,\cdot\rangle, \text{ where }\mU\in\mathbb{R}^{d_1\times r}\mV\in\mathbb{R}^{d_2\times r}\}$.
-Equation \eqref{eq:large-margin} is written as 
+In this Section, we describe an algorithm to seek the optimizer of Equation  \eqref{eq:large-margin} in the case of hinge loss function $L(z) = (1-z)_+$. We consider nonlinear decision function class $\tF = \{f\colon\mX\mapsto\langle\mC \mP^T,\Phi(\mX)\rangle|\mC = (\mC_1,\mC_2)\in\tH_1^{d_1}\times \tH_2^{d_2} \text{ and }\mP = (\mP_1,\mP_2)\in\mathbb{R}^{d_1\times r} \times \mathbb{R}^{d_2\times r}\}$ given row and columnwise kernels $K_1,K_2$.
+Notice Equation \eqref{eq:opteq} is written as 
 \begin{align}
-\min_{\{(\mU,\mV)\in\mathbb{R}^{d_1\times r}\times \mathbb{R}^{d_2\times r}\}}n^{-1}\sum_{i=1}^n \left(1-y_i\langle \mU\mV^T,\mX_i\rangle\right)_++\lambda \FnormSize{}{\mU\mV^T}^2
+    \label{eq:opt}
+    &\min_{\substack{\mC\in\tH_1^{d_1}\times \tH_2^{d_2} ,\\\mP\in\mathbb{R}^{d_1\times r} \times \mathbb{R}^{d_2\times r}}}\frac{1}{2}\FnormSize{}{\mC\mP^T}^2+ C\sum_{i=1}^n \xi_i,\\
+    &\text{subject to } y_i\langle\mC\mP^T,\Phi(\mX_i)\rangle\leq 1-\xi_i\text{ and } \xi_i\geq 0, i=1,\ldots,n.
 \end{align}
-We optimize Equation \eqref{eq:opt} with a coordinate descent algorithm that solves one block holding the other block fixed.  Each step is a convex optimization and can be solved with quadratic programming.
-To be specific, when we fix $\mV$ and update $\mU$ we have the following equivalent dual problem 
+Optimization problem \eqref{eq:opt} is non-convex problem because low-rank constraint makes feasible set non-convex.
+We propose to utilize coordinate descent algorithm that solves one block holding the other block fixed. From this approach, we can solve a convex problem in each step.
+To be specific, first we update $\mC$ holding $\mP$ fixed.
+The dual problem of Equation \eqref{eq:opt} with fixed $\mP$ is 
 \begin{align}
- \hspace{1.5cm}\max_{\malpha\in\mathbb{R}^n:\malpha\geq0}& \left(\sum_{i=1}^n\alpha_i-\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j\langle \mX_i,\mX_j \mV(\mV^T\mV)^{-1}\mV^T\rangle\right)\\
-    \text{subject to}&\quad\sum_{i=1}^Ny_i\alpha_i = 0,\quad0\leq\alpha_i\leq\frac{1}{2\lambda n},\quad i=1.\cdots,n,
-    \end{align}
-   We use quadratic programming to solve this dual problem and update $\mU = \sum_{i=1}^n\alpha_iy_i\mX_i\mV(\mV^T\mV)^{-1}.$
-Similar approach is applied to update $\mV$ fixing $\mU$.  The Algorithm \ref{alg:linear} gives the full description.
+    \label{eq:dual1}
+    &\max_{\malpha = (\alpha_1,\ldots,\alpha_n)}-\sum_{i=1}^n\alpha_i + \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_j y_iy_j \langle \Phi(\mX_i)\mP(\mP^T\mP)^{-1}\mP^T,\Phi(\mX_j)\mP(\mP^T\mP)^{-1}\mP^T\rangle\\
+    &\text{ subject to }  0\leq \alpha_i\leq C, i=1,\ldots,n.
+\end{align}
+We use quadratic programming to solve the dual problem and update $\mC$ as
+\begin{align}\label{eq:C}
+    \mC = \sum_{i=1}^n \alpha_iy_i \Phi(\mX_i) \mP(\mP^T\mP)^{-1}\in\tH_r^r\times \tH_c^r.
+\end{align}
+We use the formula \eqref{eq:C} without information about feature mapping $\Phi(\cdot)$.
+Second, we assume that $\mC$ is fixed and update $\mP$. The dual problem of Equation \eqref{eq:opt} with fixed $\mC$ is 
+\begin{align}
+    \label{eq:dual2}
+    &\max_{\malpha = (\alpha_1,\ldots,\alpha_n)}-\sum_{i=1}^n\alpha_i + \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_j y_iy_j\langle 
+    \mC\left((\mC^T\mC)^{-1}\mC^T\Phi(\mX_i)\right),\mC\left((\mC^T\mC)^{-1}\mC^T\Phi(\mX_j)\right)\rangle,\\
+    &\text{ subject to }  0\leq \alpha_i\leq C, i=1,\ldots,n,
+\end{align}
+We can find an optimizer of \eqref{eq:dual2} based on kernel information only. We obtain the following formula by plugging \eqref{eq:C} into components of \eqref{eq:dual2}. 
+\begin{align}\label{eq:helpeq}
+ &\mC^T\mC = \sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_jy_iy_j(\mP^T\mP)^{-1}\mP^T\mK(i,j) \mP(\mP^T\mP)^{-1}\in\mathbb{R}^{r\times r}\times \mathbb{R}^{r\times r},\\
+ &\mC^T\Phi(\mX_i) = \sum_{j=1}^n \alpha_iy_i(\mP^T\mP)^{-1}\mP^T\mK(i,j)\in\mathbb{R}^{r\times d_1}\times \mathbb{R}^{r\times d_2},
+\end{align}
+where $\mK(i,j) \stackrel{\text{def}}{=} \left( \Phi_1(\mX_i)^T\Phi_1(\mX_j),\Phi_2(\mX_i)^T\Phi_2(\mX_j)\right)\in \mathbb{R}^{d_1\times d_1}\times \mathbb{R}^{d_2\times d_2}$. Notice that $[\Phi_1(\mX_i)^T
+\Phi_1(\mX_j)]_{ss'} = K_1(\mX^{(i)}_{s:},\mX^{(j)}_{s':})$ and vice versa for $\Phi_2(\cdot)$.
+Therefore, we update $\mP$  from an optimal coefficient $\malpha$ to \eqref{eq:dual2} without specifying feature mapping.
+\begin{align}
+    \mP = \sum_{i=1}^n\alpha_iy_i(\mC^T\mC)^{-1}\mC^T\Phi(\mX_i).
+\end{align}
+We end up obtaining nonlinear function output of the form,
+\begin{align}\label{eq:output}
+    \hat f(\mX) = \sum_{k=1}^n\hat\alpha_ky_k&\bigg(\sum_{i=1}^{d_1}\sum_{j=1}^{d_1}[\hat\mP_1(\hat\mP_1^T\hat\mP_1)^{-1}\hat\mP_1^T]_{ij}K_r\left([\mX_k]_{i:},[\mX]_{j:}\right)\\ &+\sum_{i=1}^{d_2}\sum_{j=1}^{d_2}[\hat\mP_2(\hat\mP_2^T\hat\mP_2)^{-1}\hat\mP_2^T]_{ij}K_c\left([\mX_k]_{:i},[\mX]_{:j}\right)\bigg).
+\end{align}
+Algorithm \ref{alg:svm} gives the full description for classification. 
+
+By the similar way with little modification, we can obtain an algorithm for weighted margin classifier \eqref{eq:weighted}. From the explanation in Section \ref{subsec:pb2} and \ref{subsec:pb3}, we summarize level set and regression estimation procedure in Algorithm \ref{alg:regest}.
+ \begin{algorithm}[h]
+ \label{alg:svm}
+\KwIn{$(\mX_1,y_1),\cdots,(\mX_n,y_m)$, rank $r$, and pre-specified kernels $K_1,K_2$}
+{\bf Initizlize:} $\mP^{(0)}\in\mathbb{R}^{d_1\times r}\times \mathbb{R}^{d_2\times r}$\\
+{\bf Do until converges}\\
+\hspace*{.5cm}{\bf Update} $\mC$ fixing $\mP$ :\\[.1cm]
+\hspace*{.4cm} Solve $\max_{\malpha}-\sum_{i=1}^n\alpha_i + \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_j y_iy_j \langle \Phi(\mX_i),\Phi(\mX_j)\mP(\mP^T\mP)^{-1}\mP^T\rangle$\\
+\hspace{.5cm} $\mC = \sum_{i=1}^n \alpha_iy_i \Phi(\mX_i) \mP(\mP^T\mP)^{-1}$.\\[.1cm]
+\hspace*{.5cm}{\bf Update} $\mP$ fixing $\mC$ :\\[.1cm]
+\hspace*{.4cm} Solve  $ \max_{\malpha}-\sum_{i=1}^n\alpha_i + \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_j y_iy_j\langle 
+    \Phi(\mX_i),\mC\left((\mC^T\mC)^{-1}\mC^T\Phi(\mX_j)\right)\rangle$.\\
+\hspace{.5cm} $\mP = \sum_{i=1}^n\alpha_iy_i(\mC^T\mC)^{-1}\mC^T\Phi(\mX_i)$.\\[.1cm]
+\KwOut{ $\hat f$ of the form \eqref{eq:output}}
+    \caption{{\bf Classification algorithm} }
+\end{algorithm}
+
+
+
+
 
  \begin{algorithm}[h]
- \label{alg:linear}
-\KwIn{$(\mX_1,y_1),\cdots,(\mX_n,y_m)$, rank $r$}
-{\bf Parameter:} U,V\\
-{\bf Initizlize:} $\mU^{(0)}, \mV^{(0)}$\\
-{\bf Do until converges}\\
-\hspace*{.5cm}{\bf Update} $\mU$ fixing $\mV$ :\\[.1cm]
-\hspace*{.4cm} Solve $ \max_{\malpha}\sum_{i=1}^n\alpha_i-\frac{1}{2}\sum_{i=1}^n \sum_{j=1}^n\alpha_i\alpha_jy_iy_j\langle \mX_i,\mX_j\mV(\mV^T\mV)^{-1}\mV^T\rangle$.\\
-\hspace{.5cm} $\mU = \sum_{i=1}^n\alpha_iy_i \mX_i\mV(\mV^T\mV)^{-1}$.\\[.1cm]
-\hspace*{.5cm}{\bf Update} $\mV$ fixing $\mU$ :\\[.1cm]
-\hspace*{.4cm} Solve  $ \max_{\malpha}\sum_{i=1}^n\alpha_i-\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j\langle \mX_i,\mU(\mU^T\mU)^{-1}\mU^T\mX_j\rangle$.\\
-\hspace{.5cm} $\mV = \sum_{i=1}^n\alpha_iy_i \mX_i^T\mU(\mU^T\mU)^{-1}$.\\[.1cm]
-\KwOut{ $\mB = \mU\mV^T$}
-    \caption{{\bf Linear classification algorithm} }
-\label{alg:smm}
+ \label{alg:regest}
+\KwIn{$(\mX_1,y_1),\cdots,(\mX_n,y_m)$, rank $r$,pre-specified kernels $K_1,K_2$, and smooth parameter $H$.}
+{\bf Initialize:} $\pi_h = (h-1)/H$ for $h = 1, \ldots, H+1$\\
+{\bf For $h = 1,\ldots, H+1$:}\\
+\hspace*{.5cm}{\bf Level set $\hat S(\pi_h)$ estimation:}\\
+\hspace*{1cm}{\bf Train} weighted margin classifier $\hat f_{\pi_h}$ from \eqref{eq:weighted} based on Algorithm \ref{alg:svm}.
+\\[.1cm]
+\hspace*{.9cm} $\hat S(\pi_h) = \{\mX\in\mathbb{R}^{d_1\times d_2}:\text{sign}(\hat f_{\pi_h}(\mX)) = 1\}.$
+\\[.1cm]
+{\bf Regression $\hat p(\mX)$ estimation:} \\[.1cm]
+\hspace*{.4cm} $\hat p(\mX) = \sum_{h=1}^H\frac{1}{H}\mathds{1}\left\{\mX\notin\hat S\left(\pi_h\right)\right\}.$\\[.1cm]
+\KwOut{ Level sets $\hat S(\pi_h)$ for $h =1,\ldots H$ and regression function $\hat p(\mX)$.}
+    \caption{{\bf Level set \& Regression Algorithm} }
 \end{algorithm}
-\fixme{Miaoyan}{Add Algorithm 2 for Regression Estimation. Put it in an algorithm environment}
 
-\section{Extension to nonlinear case}
-\fixme{Miaoyan}{Possible to move this section to Sec 2.1?}
 
-\label{sec:nonlinear}
-We extend linear function class to non-linear class with kernel trick. We enlarge feature space through feature mapping $\mh:\mathbb{R}^{d_1\times d_2}\rightarrow \mathbb{R	}^{d_1\times d_2'}$. Once this mapping fixed, the procedure is the same as before.
-We fit the linear classifier using pair of input feature and label $\{\mh(\mX_i),y_i\}_{i=1}^n$.
-Define a nonlinear low rank kernel in similar way to linear case.
-\begin{align}\label{eq:nonlinear kernel}
-\langle \mX,\mX'\rangle_{\mP_r,h} &\stackrel{\text{def}}{=} \langle \mP_r h(\mX),\mP_r h(\mX')\rangle = \text{trace}\left[\mK(\mX,\mX')\mP_r^T\mP_r\right]\quad\text{ for all } \mX,\mX'\in\mathbb{R}^{d_1\times d_2},
-\end{align}
-where $\mK(\mX,\mX')\stackrel{\text{def}}{=} h(\mX)h^T(\mX')
-\in \mathbb{R}^{d_1\times d_1}$ denotes the matrix product of mapped features.
-The solution function $ f(\cdot)$ of \eqref{eq:large-margin} on enlarged feature can be written 
-\begin{align}
-f(\cdot) = \sum_{i=1}^n\alpha _i y_i \langle \mP_r h(\mX_i), \mP_r h(\cdot)\rangle =  \sum_{i=1}^n  \alpha _i y_i \langle \mX_i, \cdot\rangle_{ \mP_r,h}  =  \sum_{i=1}^n  \alpha _i y_i \text{trace}\left[\mK(\mX_i,\cdot)\ \mP_r^T \mP_r\right],
-\end{align}
-which involves feature mapping $h(\mX)$ only thorough inner products. In fact, we need not specify the the transformation $h(\mX)$ at all but only requires knowledge of the $
-\mK(\mX,\mX')$. A sufficient condition and a necessary condition for $\mK$ being reasonable appear in Supplement.
-Three popular choices for $\mK$ are
-\begin{itemize}
-\item Linear kernel: $\mK(\mX,\mX')=\mX\mX'^T$.
-\item Polynomial kernel with degree $m$: $\mK(\mX,\mX')=(\mX\mX'^T+\lambda\mI)^{\circ m}$.
-\item Gaussian kernel: the $(i,j)$-th entry of $\mK(\mX,\mX')$ is 
-\[
-\left[\mK(\mX,\mX')\right]_{(i,j)}=\exp\left\{-{1\over 2\sigma^2} \|\mX[i,\colon]-\mX'[j,\colon]\|_2^2\right\}
-\]
-for all $(i,j)\in[d_1]\times[d_1]$.
-\end{itemize}
-One can check detailed description for non-linear case algorithm in Supplement.
+
 \section{Theory}
 \label{sec:thm}
 \section{Conclusion}
@@ -344,10 +379,20 @@ One can check detailed description for non-linear case algorithm in Supplement.
 
 
 \bigskip
+\appendix
 \begin{center}
 {\large\bf SUPPLEMENTARY MATERIAL}
 \end{center}
-
+\section{Hilbert-space valued matrix operations}
+\begin{prop}
+    Let $\mA = \entry{a_{ij}}$ and $\mA' = \entry{a'_{ij}}$ be two matrices in $\tH^{d_1\times d_2}$ and $\mB = \entry{b_{ij}}$ be a matrix in $\tH^{d_2\times d_3}$.  Let $\mP\in\mathbb{R}^{r\times d_1}$ and $\mP'\in\mathbb{R}^{d_2\times r}$ be real valued matrices. Then, we have well defined operations.
+    \begin{itemize}
+    \item Inner product: $\langle \mA,\mA' \rangle = \sum_{ij}\langle a_{ij},a'_{ij}\rangle\in\mathbb{R}.$
+    \item Linear combination: $\mP\mA = \entry{c_{ij}}\in\tH^{r\times d_2}$ where $c_{ij} = \sum_{k\in[d_1]}p_{ik}a_{kj}$ for all $(i,j)\in[r]\times[d_2]$ and  $\mA\mP' = \entry{c'_{ij}}\in\tH^{d_1\times r}$ where $c'_{ij} = \sum_{k\in[d_1]}a_{ik}p'_{kj}$ for all $(i,j)\in[d_1]\times[r]$.
+    \item Summation:  $\mA+\mA' = \entry{a_{ij}+a'_{ij}}\in\tH^{d_1\times d_2}.$
+    \item Matrix product: $\mA\mB' = \entry{c_{ij}}\in\mathbb{R}^{d_1\times d_3}$, where $c_{ij} = \sum_{k\in[d_2]}\langle a_{ik},b_{kj}\rangle,$ for all $(i,j)\in[d_1]\times[d_3].$ 
+\end{itemize}
+\end{prop}
 
 \bibliographystyle{chicago}
 \bibliography{tensor_wang}
