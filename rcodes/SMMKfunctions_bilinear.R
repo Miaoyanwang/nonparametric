@@ -106,7 +106,7 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
         
      ######################### Step 2. update row projection #########################
      
-     ############### auxiliary quantities. Notation follows from 0818.pdf ###############
+     ############### auxiliary quantities. Notation follows from 0821.pdf ###############
     
      W_col=P_col%*%t(P_col)
      W_row=P_row%*%t(P_row)
@@ -164,7 +164,7 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
      
      ########### Step 4. update column projection ######################
      
-     ############### auxiliary quantities. Notation follows from 0818.pdf ##########
+     ############### auxiliary quantities. Notation follows from 0821.pdf ##########
      M=array(dim=c(N,N,d_col,d_col))
      row_sum = matrix(nrow = N,ncol = N)
      for(i in 1:N){
