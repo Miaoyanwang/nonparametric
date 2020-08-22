@@ -119,7 +119,7 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       }
     }
       
-       A=array(0,dim=c(N,d_row,r_row))
+      A=array(0,dim=c(N,d_row,r_row))
       B=matrix(0,nrow=d_row,ncol=d_row)
       for(i in 1:N){
           for(j in 1:N){
@@ -158,7 +158,7 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
      W_row = P_row%*%t(P_row)
     
      ########### Step 3. implicite update Core  #########################
-     res=update_core(X,y,P_row,P_col,K_row,K_col,cost=cost,p=p,intercept=F)
+ res=update_core(X,y,P_row,P_col,K_row,K_col,cost=cost,p=p,intercept=F)
      obj = c(obj,-res$value)
      alpha = res$alpha
      
