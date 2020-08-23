@@ -189,7 +189,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       
       
       
-      fx = function(Xnew){
+      slope = function(Xnew){
         
         newK = rep(0,n)
         for( i in 1:n){
@@ -201,14 +201,16 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       }
       
       # intercept part estimation (update b)
-      positiv = min(unlist(lapply(X,fx))[which(y==1)])
-      negativ = max(unlist(lapply(X,fx))[which(y==-1)])
+      positiv = min(unlist(lapply(X,slope))[which(y==1)])
+      negativ = max(unlist(lapply(X,slope))[which(y==-1)])
       intercept = -(positiv+negativ)/2
       
       compareobj = obj[iter+1]
-      dfunc = function(Xnew) fx(Xnew)+intercept ; classifier = function(Xnew) sign(fx(Xnew)+intercept)
+      predictor = function(Xnew) sign(fx(Xnew)+intercept)
+      
       result$alpha = alpha
-      result$dfunc = dfunc; result$classifier = classifier
+      result$slope = slope; result$predict = predictor
+      result$intercept = intercept
       result$P_row = P_row; result$P_col = P_col
       result$obj = obj[-1]; result$iter = iter; result$error = error
     }
