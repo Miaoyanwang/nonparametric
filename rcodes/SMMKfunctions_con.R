@@ -6,56 +6,98 @@ Makepositive = function(mat){
   return(nmat)
 }
 
-Karray2 = function(X, kernel = function(a,b) sum(a*b),type = c("row","col")){
-  d1= nrow(X[[1]]); d2 = ncol(X[[1]]); n = length(X)
-  if(type == "row"){
-    KX = array(dim = c(n,n,d1,d1))
-    for(i in 1:n){
-      for(j in 1:n){
-        KX[i,j, , ] = K(X[[i]],X[[j]],kernel,type)
-      }
+Karray = function(X,kernel = function(X1,X2) t(X1)%*%X2, type="col"){
+  N = length(X);
+  if(type=="row"){
+    Xt=list();
+    for(i in 1:N){
+      Xt[[i]]=t(X[[i]])
     }
-  }else{
-    KX = array(dim = c(n,n,d2,d2))
-    for(i in 1:n){
-      for(j in 1:n){
-        KX[i,j, , ] = K(X[[i]],X[[j]],kernel,type)
-      }
+    X=Xt
+  }
+  
+  m= nrow(X[[1]]); n = ncol(X[[1]]);
+  K = array(dim = c(N,N,n,n))
+  for(i in 1:N){
+    for(j in 1:N){
+      K[i,j, , ] = kernel(X[[i]],X[[j]])
     }
   }
-  return(KX)
+  return(K)
+}
+
+# K = function(A,B,kernel = function(a,b) sum(a*b),type = c("row","col")){
+#   if(nrow(A) != nrow(B)) stop("two matrix sizes are different")
+#   if(ncol(A) != ncol(B)) stop("two matrix sizes are different")
+#   d1 = nrow(A); d2 = ncol(A)
+#   if (type == "row") {
+#     Kab = matrix(nrow= d1,ncol = d1)
+#     for(i in 1:d1){
+#       for(j in 1:d1){
+#         Kab[i,j] = kernel(A[i,],B[j,])
+#       }
+#     }
+#   }else{
+#     Kab = matrix(nrow= d2,ncol = d2)
+#     for(i in 1:d2){
+#       for(j in 1:d2){
+#         Kab[i,j] = kernel(A[,i],B[,j])
+#       }
+#     }
+#   }
+#   return(Kab)
+# }
+
+expkernel = function(Y,Z){
+  n = ncol(Y)
+  A = matrix(0,n,n)
+  for(i in 1:n){
+    for(j in 1:n){
+      A[i,j] = t(Y[,i]-Z[,j])%*%(Y[,i]-Z[,j])
+    }
+  }
+  return(exp(-A))
+}
+
+polykernel = function(Y,Z,deg = 3){
+  n = ncol(Y)
+  return((t(Y)%*%Z+matrix(1,n,n))^deg)
 }
 
 
-K = function(A,B,kernel = function(a,b) sum(a*b),type = c("row","col")){
-  if(nrow(A) != nrow(B)) stop("two matrix sizes are different")
-  if(ncol(A) != ncol(B)) stop("two matrix sizes are different")
-  d1 = nrow(A); d2 = ncol(A)
-  if (type == "row") {
-    Kab = matrix(nrow= d1,ncol = d1)
-    for(i in 1:d1){
-      for(j in 1:d1){
-        Kab[i,j] = kernel(A[i,],B[j,])
-      }
-    }
-  }else{
-    Kab = matrix(nrow= d2,ncol = d2)
-    for(i in 1:d2){
-      for(j in 1:d2){
-        Kab[i,j] = kernel(A[,i],B[,j])
-      }
-    }
-  }
-  return(Kab)
-}
+linearkernel = function(X1,X2) t(X1)%*%X2
 
+constkernel = function(X1,X2) return(matrix(0,nrow=ncol(X1),ncol=ncol(X1)))
 
-SMMK_con = function(X,y,r,kernel = function(a,b) sum(a*b), cost = 10, rep = 1, p = .5){
+SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_col = c("linear","poly","exp","const"), cost = 10, rep = 1, p = .5){
   result = list()
   
+  # Default is linear kernel.
+  kernel_row <- match.arg(kernel_row)
+  if (kernel_row == "linear") {
+    kernel_row = linearkernel
+  }else if(kernel_row == "poly"){
+    kernel_row = polykernel
+  }else if(kernel_row =="exp"){
+    kernel_row = expkernel
+  }else if(kernel_row == "const"){
+    kernel_row = constkernel
+  }
+  
+  kernel_col <- match.arg(kernel_col)
+  if (kernel_col == "linear") {
+    kernel_col = linearkernel
+  }else if(kernel_col == "poly"){
+    kernel_col = polykernel
+  }else if(kernel_col =="exp"){
+    kernel_col = expkernel
+  }else if(kernel_col == "const"){
+    kernel_col = constkernel
+  }
+  
   d1 = nrow(X[[1]]); d2 = ncol(X[[1]]); n = length(X)
-  K_row = Karray2(X,kernel,type = "row")
-  K_col = Karray2(X,kernel,type = "col")
+  K_row = Karray(X,kernel_row,type="row")
+  K_col = Karray(X,kernel_col,type="col")
   compareobj = 10^10
   for(nsim in 1:rep){
     error = 10; iter = 0; obj = 10^10
@@ -64,7 +106,7 @@ SMMK_con = function(X,y,r,kernel = function(a,b) sum(a*b), cost = 10, rep = 1, p
     
     
     
-    while((iter < 20)&(error >10^-5)){
+    while((iter < 20)&(error >10^-4)){
       # update C
       W_row = P_row%*%t(P_row); W_col = P_col%*%t(P_col)
       Dmat = matrix(nrow = n,ncol = n)
@@ -145,23 +187,30 @@ SMMK_con = function(X,y,r,kernel = function(a,b) sum(a*b), cost = 10, rep = 1, p
       res = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
       alpha=res$solution
       
-      fx = function(Xnew){
+      
+      
+      slope = function(Xnew){
         
-        value = t(as.matrix(alpha*y))%*%
-          unlist(lapply(X,
-                        function(x) sum(W_row*K(x,Xnew,kernel,type = "row"))+
-                          sum(W_col*K(x,Xnew,kernel,type = "col"))))
-        return(value)
+        newK = rep(0,n)
+        for( i in 1:n){
+          newK[i] = sum(W_row*kernel_row(t(Xnew),t(X[[i]])))+
+            sum(W_col*kernel_col(Xnew,X[[i]]))
+        }
+        
+        return(sum(alpha*y*newK))
       }
+      
       # intercept part estimation (update b)
-      positiv = min(unlist(lapply(X,fx))[which(y==1)])
-      negativ = max(unlist(lapply(X,fx))[which(y==-1)])
+      positiv = min(unlist(lapply(X,slope))[which(y==1)])
+      negativ = max(unlist(lapply(X,slope))[which(y==-1)])
       intercept = -(positiv+negativ)/2
       
       compareobj = obj[iter+1]
-      dfunc = function(Xnew) fx(Xnew)+intercept ; classifier = function(Xnew) sign(fx(Xnew)+intercept)
+      predictor = function(Xnew) sign(fx(Xnew)+intercept)
+      
       result$alpha = alpha
-      result$dfunc = dfunc; result$classifier = classifier
+      result$slope = slope; result$predict = predictor
+      result$intercept = intercept
       result$P_row = P_row; result$P_col = P_col
       result$obj = obj[-1]; result$iter = iter; result$error = error
     }
