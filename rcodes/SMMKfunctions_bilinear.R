@@ -215,7 +215,7 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
      if(iter==1) error=10
      else error=abs(obj[iter*4]-obj[(iter-1)*4])/obj[iter*4] ## each loop involves 4 alternating updates
     } ## stop here for single initilization, when rep = 1
- 
+  
     ## take optimum over multiple initilizations
     if(compareobj>obj[iter*4]){
         P_row_optimum=P_row; P_col_optimum=P_col;
@@ -226,10 +226,12 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
 }
   
   ## Outside the loop. Estimate the intercept
-  res=update_core(X,y,P_row_optimum,P_col_optimum,K_row,K_col,cost=cost,p=p,intercept=TRUE)
+    res=update_core(X,y,P_row_optimum,P_col_optimum,K_row,K_col,cost=cost,p=p,intercept=TRUE)
     alpha=res$alpha
     b0hat=res$intercept
     obj_optimum=c(obj_optimum,-res$value)
+    
+    
    
     slope = function(nX){
         ## pairwise kernel between new X and all training X
