@@ -2,12 +2,12 @@
 library(pracma)
 library(rTensor)
 library(quadprog)
-
 Makepositive = function(mat){
   h = eigen(mat,symmetric = T)
   nmat = (h$vectors)%*%diag(pmax(h$values,10^-4),nrow=nrow(mat))%*%t(h$vectors)
   return(nmat)
 }
+
 
 Karray = function(X,kernel = function(X1,X2) t(X1)%*%X2, type="col"){
   N = length(X);
@@ -72,7 +72,7 @@ linearkernel = function(X1,X2) t(X1)%*%X2
 
 constkernel = function(X1,X2) return(matrix(0,nrow=ncol(X1),ncol=ncol(X1)))
 
-SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_col = c("linear","poly","exp","const"), cost = 10, rep = 1, p = .5){
+SMMK_con2 = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_col = c("linear","poly","exp","const"), cost = 10, rep = 1, p = .5){
   result = list()
   
   # Default is linear kernel.
@@ -99,8 +99,8 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
   }
   
   d1 = nrow(X[[1]]); d2 = ncol(X[[1]]); n = length(X)
-  K_row = Karray(X,kernel_row,type="row")
-  K_col = Karray(X,kernel_col,type="col")
+  K_row = as.tensor(Karray(X,kernel_row,type="row"))
+  K_col = as.tensor(Karray(X,kernel_col,type="col"))
   compareobj = 10^10
   
   
@@ -111,7 +111,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
     P_row = randortho(d1)[,1:r,drop = F]; P_col = randortho(d2)[,1:r,drop = F]  
     
     
-
+    
     while((iter < 20)&(error >10^-3)){
       # update C
       W_row = P_row%*%t(P_row); W_col = P_col%*%t(P_col)
@@ -145,7 +145,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       ## no need to find explicite inverse
       #CCi_row = solve(t(P_row)%*%CC_row%*%P_row)
       #CCi_col = solve(t(P_col)%*%CC_col%*%P_col)
-    
+      
       ## CPh_row is an intermediate step for CC_row. No need to compute twice.
       #for(i in 1:n){
       # cph_row = 0; cph_col = 0;
@@ -202,73 +202,73 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       
       #P_row = svd(t(P_row)%*%CCi_row)$u; P_col = svd(t(P_col)%*%CCi_col)$u
       ## No need to multiply CCi_row. Right multiplying a full-rank matrix will not change the left singular vector
-       
-       P_row=ttm(CPh_row,t(as.matrix(alpha*y)),2)[1,1,,]@data
-       P_col=ttm(CPh_col,t(as.matrix(alpha*y)),2)[1,1,,]@data
-
-       P_row=matrix(P_row,nrow=r)
-       P_col=matrix(P_col,nrow=r)
-       
-       P_row = svd(P_row)$v
-       P_col = svd(P_col)$v
+      
+      P_row=ttm(CPh_row,t(as.matrix(alpha*y)),2)[1,1,,]@data
+      P_col=ttm(CPh_col,t(as.matrix(alpha*y)),2)[1,1,,]@data
+      
+      P_row=matrix(P_row,nrow=r)
+      P_col=matrix(P_col,nrow=r)
+      
+      P_row = svd(P_row)$v
+      P_col = svd(P_col)$v
       
     }
     if(compareobj>obj[iter+1]){
-        P_row_optimum=P_row; P_col_optimum=P_col;
-        obj_optimum=obj;
-        compareobj=obj[iter+1]
-  }
+      P_row_optimum=P_row; P_col_optimum=P_col;
+      obj_optimum=obj;
+      compareobj=obj[iter+1]
+    }
   }
   
   
   ## move outside the loop. Only need to compute once for the optimal replicate.
-      P_row= P_row_optimum; P_col= P_col_optimum;
-      W_row = P_row%*%t(P_row); W_col = P_col%*%t(P_col)
-      #Dmat = matrix(nrow = n,ncol = n)
-      #for(i in 1:n){
-      # for(j in 1:n){
-      #   Dmat[i,j] = sum(W_row*K_row[i,j,,])+sum(W_col*K_col[i,j,,])
-      # }
-      #}
-      Dmat=K=matrix(unfold(K_row,c(1,2),c(3,4))@data%*%c(W_row)+unfold(K_col,c(1,2),c(3,4))@data%*%c(W_col),nrow=n,ncol=n)
-      
-      dvec = rep(1,n)
-      Dmat = Makepositive((y%*%t(y))*Dmat)
-      Amat = cbind(y,diag(1,n),-diag(1,n))
-      bvec = c(rep(0,1+n),ifelse(y==1,-cost*(1-p),-cost*p))
-      res = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
-      alpha=res$solution
-      
-      
-      
-      slope = function(Xnew){
-        
-        newK = rep(0,n)
-        for( i in 1:n){
-          newK[i] = sum(W_row*kernel_row(t(Xnew),t(X[[i]])))+
-            sum(W_col*kernel_col(Xnew,X[[i]]))
-        }
-        
-        return(sum(alpha*y*newK))
-      }
-      
-      # intercept part estimation (update b)
-      #positive = min(unlist(lapply(X,slope))[which(y==1)])
-      #negative = max(unlist(lapply(X,slope))[which(y==-1)])
+  P_row= P_row_optimum; P_col= P_col_optimum;
+  W_row = P_row%*%t(P_row); W_col = P_col%*%t(P_col)
+  #Dmat = matrix(nrow = n,ncol = n)
+  #for(i in 1:n){
+  # for(j in 1:n){
+  #   Dmat[i,j] = sum(W_row*K_row[i,j,,])+sum(W_col*K_col[i,j,,])
+  # }
+  #}
+  Dmat=K=matrix(unfold(K_row,c(1,2),c(3,4))@data%*%c(W_row)+unfold(K_col,c(1,2),c(3,4))@data%*%c(W_col),nrow=n,ncol=n)
+  
+  dvec = rep(1,n)
+  Dmat = Makepositive((y%*%t(y))*Dmat)
+  Amat = cbind(y,diag(1,n),-diag(1,n))
+  bvec = c(rep(0,1+n),ifelse(y==1,-cost*(1-p),-cost*p))
+  res = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
+  alpha=res$solution
+  
+  
+  
+  slope = function(Xnew){
     
-      yfit=K%*%(alpha*y) ## faster than lapply
-      positive=min(yfit[y==1])
-      negative=max(yfit[y==-1])
-      intercept = -(positive+negative)/2
-      
-      compareobj = obj[iter+1]
-      predictor = function(Xnew) sign(fx(Xnew)+intercept)
-      
-      result$alpha = alpha
-      result$slope = slope; result$predict = predictor
-      result$intercept = intercept
-      result$P_row = P_row; result$P_col = P_col
-      result$obj = obj[-1]; result$iter = iter; result$error = error; result$fitted=yfit+intercept ## add fitted value as a criterium to select cost
+    newK = rep(0,n)
+    for( i in 1:n){
+      newK[i] = sum(W_row*kernel_row(t(Xnew),t(X[[i]])))+
+        sum(W_col*kernel_col(Xnew,X[[i]]))
+    }
+    
+    return(sum(alpha*y*newK))
+  }
+  
+  # intercept part estimation (update b)
+  #positive = min(unlist(lapply(X,slope))[which(y==1)])
+  #negative = max(unlist(lapply(X,slope))[which(y==-1)])
+  
+  yfit=K%*%(alpha*y) ## faster than lapply
+  positive=min(yfit[y==1])
+  negative=max(yfit[y==-1])
+  intercept = -(positive+negative)/2
+  
+  compareobj = obj[iter+1]
+  predictor = function(Xnew) sign(slope(Xnew)+intercept)
+  
+  result$alpha = alpha
+  result$slope = slope; result$predict = predictor
+  result$intercept = intercept
+  result$P_row = P_row; result$P_col = P_col
+  result$obj = obj[-1]; result$iter = iter; result$error = error; result$fitted=yfit+intercept ## add fitted value as a criterium to select cost
   return(result)
 }
 
