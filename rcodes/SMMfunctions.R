@@ -3,6 +3,10 @@ library(quadprog)
 
 eps = 10^-5
 
+space_error=function(V,U){
+    error=sqrt(sum(V%*%t(V)-U%*%t(U))^2)
+    return(error)
+}
 
 
 objv = function(B,b0,X,y,cost = 10,prob = F){
@@ -163,6 +167,9 @@ kernelm = function(X,H,y,type = c("u","v")){
 
 ## SMM with multiple initialization and probability
 smm = function(X,y,r,cost = 10,rep = 10, p = .5){
+    
+    ##set.seed(1)
+    
   result = list()
   if (p==.5){
     cost = 2*cost
@@ -223,6 +230,7 @@ smm = function(X,y,r,cost = 10,rep = 10, p = .5){
       predictor = function(x) sign(sum(Bhat*x)+b0hat)
       result$B = Bhat; result$b0 = b0hat; result$obj = obj; result$iter = iter
       result$error = error; result$predict = predictor
+      result$alpha=alpha$solution
     }
 
   }
