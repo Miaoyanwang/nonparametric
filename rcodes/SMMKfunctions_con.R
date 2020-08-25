@@ -119,7 +119,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       #     Dmat[i,j] = sum(W_row*K_row[i,j,,])+sum(W_col*K_col[i,j,,])
       #  }
       #}
-      ## loop is slow. Replace the loop by tensor multiplication
+      ## loop is slow. Replace loop by tensor-matrix multiplication
       
       Dmat=matrix(unfold(K_row,c(1,2),c(3,4))@data%*%c(W_row)+unfold(K_col,c(1,2),c(3,4))@data%*%c(W_col),nrow=n,ncol=n)
       
@@ -140,10 +140,11 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       # }
       #}
       
+      ## no need to find explicite inverse
       #CCi_row = solve(t(P_row)%*%CC_row%*%P_row)
       #CCi_col = solve(t(P_col)%*%CC_col%*%P_col)
     
-      
+      ## CPh_row is an intermediate step for CC_row. No need to compute twice.
       #for(i in 1:n){
       # cph_row = 0; cph_col = 0;
       # for(j in 1:n){
@@ -154,7 +155,8 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       # CPh_col[i,,] = t(P_col)%*%cph_col
       #}
       
-      ## CPh_row is an intermediate step for CC_row. No need to compute twice.
+      
+      
       CPh_row=ttl(K_row,list(t(as.matrix(y*alpha)),t(P_row)),ms=c(1,3))
       CPh_col=ttl(K_col,list(t(as.matrix(y*alpha)),t(P_col)),ms=c(1,3))
       
@@ -175,7 +177,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       #                            sum(CCi_col%*%CPh_col[i,,]*CPh_col[j,,])
       # }
       #}
-      ### Dmat can efficiently computed using Gram matrix
+      ### Using Gram matrix to efficiently compute Dmat
       
       
       
@@ -217,7 +219,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
   }
   
   
-  ## remove outside the loop. No need to compute for each replicate. 
+  ## move outside the loop. Only need to compute once for the optimal replicate.
       P_row= P_row_optimum; P_col= P_col_optimum;
       W_row = P_row%*%t(P_row); W_col = P_col%*%t(P_col)
       #Dmat = matrix(nrow = n,ncol = n)
@@ -261,7 +263,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       result$intercept = intercept
       result$P_row = P_row; result$P_col = P_col
       result$obj = obj[-1]; result$iter = iter; result$error = error
-      ## add fitted value in the output
+      ## please add fitted value in the output
   return(result)
 }
 
