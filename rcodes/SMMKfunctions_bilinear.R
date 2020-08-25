@@ -8,9 +8,10 @@ library(rTensor)
 # Make sure Q matrix is positive definite
 Makepositive = function(mat){
   h = eigen(mat,symmetric = T)
-  nmat = (h$vectors)%*%diag(pmax(h$values,10^-4))%*%t(h$vectors)
+  nmat = (h$vectors)%*%diag(pmax(h$values,10^-4),nrow=nrow(mat))%*%t(h$vectors)
   return(nmat)
 }
+
 
 # save kernel values
 Karray = function(X,kernel = function(X1,X2) t(X1)%*%X2, type="col"){
@@ -99,7 +100,7 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
   P_row = randortho(d_row)[,1:r_row,drop = F]
   P_col = randortho(d_col)[,1:r_col,drop = F]
   
-  while((iter < 20)&(error >10^-3)){
+  while((iter < 20)&(error >10^-4)){
       
       ######################### Step 1. implicitly update core #########################
       res=update_core(X,y,P_row,P_col,K_row,K_col,cost=cost,p=p,intercept=F)
@@ -124,37 +125,10 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
      B=as.matrix(B@data[1,1,,]);
      
      ################ kernel used in dual problem  ###############
-     temp=unfold(ttm(A,sqrtm(B)$Binv,4),1,c(2,3,4))@data
+     temp=unfold(ttm(A,sqrtm(Makepositive(B))$Binv,4),1,c(2,3,4))@data
      K=temp%*%t(temp)
-     
-     #M=array(dim=c(N,N,d_row,d_row))
-     #col_sum = matrix(nrow = N,ncol = N)
-     #for(i in 1:N){
-     #for(j in 1:N){
-     #col_sum[i,j] = sum(W_col*K_col[i,j,,])
-     #M[i,j,,]=sum(W_col)*K_row[i,j,,]+col_sum[i,j]
-     #}
-     #}
-     
-      
-      #A=array(0,dim=c(N,d_row,r_row))
-      #B=matrix(0,nrow=d_row,ncol=d_row)
-      #for(i in 1:N){
-      #  for(j in 1:N){
-      #     A[i,,]=A[i,,]+alpha[j]*y[j]*M[i,j,,]%*%P_row
-      #     B=B+alpha[i]*alpha[j]*y[i]*y[j]*M[i,j,,]
-      #}
-      #}
-      #B=t(P_row)%*%B%*%P_row
-      
       
       ################ kernel used in dual problem  ###############
-      #K =matrix(nrow = N,ncol = N)
-      #for(i in 1:N){
-      #   for(j in 1:N){
-      #       K[i,j] = tr(A[i,,]%*%ginv(B)%*%t(A[j,,]))
-      #   }
-      #}
       
       dvec = rep(1,length(X))
       Dmat = Makepositive((y%*%t(y))*K)
@@ -165,13 +139,7 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       obj = c(obj,-res$value)
      
      ################ update row projection ################
-     #P_rownew=matrix(0,nrow=d_row,ncol=r_row)
-     #for(i in 1:N){
-     #   for(j in 1:N){
-     #       P_rownew=P_rownew+beta[i]*alpha[j]*y[i]*y[j]*M[i,j,,]%*%P_row
-     #   }
-     #}
-     P_rownew=ttl(M,list(t(as.matrix(beta*y)),t(as.matrix(alpha*y)),t(P_row)),ms=c(1,2,4))[1,1,,]@data ## speed up
+ P_rownew=ttl(M,list(t(as.matrix(beta*y)),t(as.matrix(alpha*y)),t(P_row)),ms=c(1,2,4))[1,1,,]@data ## speed up
     
      P_row=svd(P_rownew)$u
      W_row = P_row%*%t(P_row)
@@ -193,36 +161,9 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
      B=as.matrix(B@data[1,1,,]);
      
      ################ kernel used in dual problem  ###############
-     temp=unfold(ttm(A,sqrtm(B)$Binv,4),1,c(2,3,4))@data
+     temp=unfold(ttm(A,sqrtm(Makepositive(B))$Binv,4),1,c(2,3,4))@data
      K=temp%*%t(temp)
-     
-     #M=array(dim=c(N,N,d_col,d_col))
-     #row_sum = matrix(nrow = N,ncol = N)
-     #for(i in 1:N){
-     #  for(j in 1:N){
-     #      row_sum[i,j] = sum(W_row*K_row[i,j,,])
-     #      M[i,j,,]=sum(W_row)*K_col[i,j,,]+row_sum[i,j]
-     #  }
-     #}
-     
-     #A=array(0,dim=c(N,d_col,r_col))
-     #B=matrix(0,nrow=d_col,ncol=d_col)
-     #for(i in 1:N){
-     #  for(j in 1:N){
-     #      B=B+alpha[i]*alpha[j]*y[i]*y[j]*M[i,j,,]
-     #      A[i,,]=A[i,,]+alpha[j]*y[j]*M[i,j,,]%*%P_col
-     #  }
-     #}
-     #B=t(P_col)%*%B%*%P_col
-     
-       ################ kernel used in dual problem  ###############
-     #K = matrix(nrow = N,ncol = N)
-     #for(i in 1:N){
-     #   for(j in 1:N){
-     #       K[i,j] = tr(A[i,,]%*%ginv(B)%*%t(A[j,,]))
-     #   }
-     #}
-     
+
      
      dvec = rep(1,length(X))
      Dmat = Makepositive((y%*%t(y))*K)
@@ -233,12 +174,6 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
      obj = c(obj,-res$value)
     
      ############### update column projection  ###############
-     #P_colnew=matrix(0,nrow=d_col,ncol=r_col)
-     #for(i in 1:N){
-     #  for(j in 1:N){
-     #      P_colnew=P_colnew+gamma[i]*alpha[j]*y[i]*y[j]*M[i,j,,]%*%P_col
-     #   }
-     #}
      P_colnew=ttl(M,list(t(as.matrix(gamma*y)),t(as.matrix(alpha*y)),t(P_col)),ms=c(1,2,4))[1,1,,]@data ## speed up
      
      
@@ -291,18 +226,7 @@ update_core=function(X,y,P_row,P_col,K_row,K_col,cost=10,p=0.5,intercept=TRUE){
     N=length(X)
     W_row = P_row%*%t(P_row)
     W_col = P_col%*%t(P_col)
-    
-    ## kernel
-    #K = matrix(nrow = N,ncol = N)
-    #for(i in 1:N){
-    #   for(j in 1:N){
-    #        K[i,j] = sum(W_col)*sum(W_row*K_row[i,j,,])+sum(W_row)*sum(W_col*K_col[i,j,,])
-    #   }
-    #}
-    
-    
-    # Speedup: change to matrix operation
-   K=matrix(sum(W_col)*unfold(as.tensor(K_row),c(1,2),c(3,4))@data%*%c(W_row)+sum(W_row)*unfold(as.tensor(K_col),c(1,2),c(3,4))@data%*%c(W_col),nrow=N,ncol=N)
+ K=matrix(sum(W_col)*unfold(as.tensor(K_row),c(1,2),c(3,4))@data%*%c(W_row)+sum(W_row)*unfold(as.tensor(K_col),c(1,2),c(3,4))@data%*%c(W_col),nrow=N,ncol=N)
 
  
 
@@ -319,13 +243,6 @@ update_core=function(X,y,P_row,P_col,K_row,K_col,cost=10,p=0.5,intercept=TRUE){
     
     b0=yfit=NULL ## estimate the intercept when needed
     if(intercept==TRUE){
-        #yfit=rep(0,N)
-        #for(i in 1:N){
-        #for(j in 1:N){
-        #yfit[i]=yfit[i]+alpha[j]*y[j]*K[i,j]
-        #}
-        #}
-        ## speed up
     yfit=K%*%(alpha*y)
     negative=min(yfit)
     positive=max(yfit)
