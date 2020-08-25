@@ -3,7 +3,7 @@ bbnet68_spatial_orientation.RData
 Reference: Dunson_AOAS19.pdf.
 Compare your analysis result to two papers, named Dunson_*19.pdf, in the reading folder.
 
-A: an 68 × 68 × 212 binary tensor consisting of structural connectivity patterns among 68 brain regions for 212 individuals from Human Connectome Project (HCP). The tensor entries encode the presence or absence of fiber connections between those 68 brain regions for each of the 212 individuals.
+A: a 68 × 68 × 212 binary tensor consisting of structural connectivity patterns among 68 brain regions for 212 individuals from Human Connectome Project (HCP). The tensor entries encode the presence or absence of fiber connections between those 68 brain regions for each of the 212 individuals.
 
 VSPLOT (Variable Short Penn Line Orientation Test): two line segments are presented on the screen and participants are asked to rotate a movable line so that it is parallel to the fixed line. The sample consists of 106 individuals with high (top 10%) VSPLOT scores and 106 with low (bottom 10%) VSPLOT scores.
 
