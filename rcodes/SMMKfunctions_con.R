@@ -1,6 +1,8 @@
 #SMMK
 library(pracma)
 library(rTensor)
+library(quadprog)
+
 Makepositive = function(mat){
   h = eigen(mat,symmetric = T)
   nmat = (h$vectors)%*%diag(pmax(h$values,10^-4),nrow=nrow(mat))%*%t(h$vectors)
