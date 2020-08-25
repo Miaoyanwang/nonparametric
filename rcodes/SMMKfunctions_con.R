@@ -177,7 +177,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       #                            sum(CCi_col%*%CPh_col[i,,]*CPh_col[j,,])
       # }
       #}
-      ### Using Gram matrix to efficiently compute Dmat
+      ### Use Gram matrix to efficiently compute Dmat
       
       
       
@@ -228,7 +228,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       #   Dmat[i,j] = sum(W_row*K_row[i,j,,])+sum(W_col*K_col[i,j,,])
       # }
       #}
-      Dmat=matrix(unfold(K_row,c(1,2),c(3,4))@data%*%c(W_row)+unfold(K_col,c(1,2),c(3,4))@data%*%c(W_col),nrow=n,ncol=n)
+      Dmat=K=matrix(unfold(K_row,c(1,2),c(3,4))@data%*%c(W_row)+unfold(K_col,c(1,2),c(3,4))@data%*%c(W_col),nrow=n,ncol=n)
       
       dvec = rep(1,n)
       Dmat = Makepositive((y%*%t(y))*Dmat)
@@ -251,9 +251,13 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       }
       
       # intercept part estimation (update b)
-      positiv = min(unlist(lapply(X,slope))[which(y==1)])
-      negativ = max(unlist(lapply(X,slope))[which(y==-1)])
-      intercept = -(positiv+negativ)/2
+      #positive = min(unlist(lapply(X,slope))[which(y==1)])
+      #negative = max(unlist(lapply(X,slope))[which(y==-1)])
+    
+      yfit=K%*%(alpha*y) ## faster than lapply
+      positive=min(yfit[y==1])
+      negative=max(yfit[y==-1])
+      intercept = -(positive+negative)/2
       
       compareobj = obj[iter+1]
       predictor = function(Xnew) sign(fx(Xnew)+intercept)
@@ -262,8 +266,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       result$slope = slope; result$predict = predictor
       result$intercept = intercept
       result$P_row = P_row; result$P_col = P_col
-      result$obj = obj[-1]; result$iter = iter; result$error = error
-      ## please add fitted value in the output
+      result$obj = obj[-1]; result$iter = iter; result$error = error; result$fitted=yfit+intercept ## add fitted value as a criterium to select cost
   return(result)
 }
 
