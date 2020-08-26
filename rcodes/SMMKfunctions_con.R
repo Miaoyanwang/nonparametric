@@ -72,7 +72,7 @@ linearkernel = function(X1,X2) t(X1)%*%X2
 
 constkernel = function(X1,X2) return(matrix(0,nrow=ncol(X1),ncol=ncol(X1)))
 
-SMMK_con2 = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_col = c("linear","poly","exp","const"), cost = 10, rep = 1, p = .5){
+SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_col = c("linear","poly","exp","const"), cost = 10, rep = 1, p = .5){
   result = list()
   
   # Default is linear kernel.
@@ -99,8 +99,8 @@ SMMK_con2 = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_
   }
   
   d1 = nrow(X[[1]]); d2 = ncol(X[[1]]); n = length(X)
-  K_row = as.tensor(Karray(X,kernel_row,type="row"))
-  K_col = as.tensor(Karray(X,kernel_col,type="col"))
+  K_row = Karray(X,kernel_row,type="row")
+  K_col = Karray(X,kernel_col,type="col")
   compareobj = 10^10
   
   
