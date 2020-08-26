@@ -215,7 +215,7 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
     predictor = function(nX) sign(slope(nX)+b0hat)
    
    
-   result$slope = slope; result$predict = predictor; result$error = error; result$obj = obj_optimum; result$iter = iter; result$P_col=P_col_optimum;result$P_row = P_row_optimum;result$alpha=alpha; result$b0 = b0hat; result$fitted=res$fitted
+   result$slope = slope; result$predict = predictor; result$error = error; result$obj = obj_optimum; result$iter = iter; result$P_col=P_col_optimum;result$P_row = P_row_optimum;result$alpha=alpha; result$intercept = b0hat; result$fitted=res$fitted
    
    return(result)
 }
