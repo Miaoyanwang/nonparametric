@@ -32,7 +32,7 @@ Karray = function(X,kernel = function(X1,X2) t(X1)%*%X2, type="col"){
     }
   }
   
-  return(K)
+  return(as.tensor(K))
 }
 
 
@@ -117,8 +117,8 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
      
      
      ## speed up
-     col_sum=matrix(unfold(as.tensor(K_col),c(1,2),c(3,4))@data%*%c(W_col),nrow=N,ncol=N)
-     M=sum(W_col)*as.tensor(K_row)+as.tensor(col_sum%o%(matrix(1,nrow=d_row,ncol=d_row)))
+     col_sum=matrix(unfold(K_col,c(1,2),c(3,4))@data%*%c(W_col),nrow=N,ncol=N)
+     M=sum(W_col)*K_row+col_sum%o%(matrix(1,nrow=d_row,ncol=d_row))
      A=ttl(M,list(t(as.matrix(alpha*y)),t(P_row)),ms=c(2,4))
      B=ttl(A,list(t(as.matrix(alpha*y)),t(P_row)),ms=c(1,3))
      
@@ -152,8 +152,8 @@ smmk_new = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
      ########### Step 4. update column projection ######################
      
      ############### auxiliary quantities. Notation follows from 0821.pdf ##########
-     row_sum=matrix(unfold(as.tensor(K_row),c(1,2),c(3,4))@data%*%c(W_row),nrow=N,ncol=N)
-     M=sum(W_row)*as.tensor(K_col)+as.tensor(row_sum%o%(matrix(1,nrow=d_col,ncol=d_col)))
+     row_sum=matrix(unfold(K_row,c(1,2),c(3,4))@data%*%c(W_row),nrow=N,ncol=N)
+     M=sum(W_row)*K_col+row_sum%o%(matrix(1,nrow=d_col,ncol=d_col))
      A=ttl(M,list(t(as.matrix(alpha*y)),t(P_col)),ms=c(2,4))
      B=ttl(A,list(t(as.matrix(alpha*y)),t(P_col)),ms=c(1,3))
      
@@ -226,7 +226,7 @@ update_core=function(X,y,P_row,P_col,K_row,K_col,cost=10,p=0.5,intercept=TRUE){
     N=length(X)
     W_row = P_row%*%t(P_row)
     W_col = P_col%*%t(P_col)
- K=matrix(sum(W_col)*unfold(as.tensor(K_row),c(1,2),c(3,4))@data%*%c(W_row)+sum(W_row)*unfold(as.tensor(K_col),c(1,2),c(3,4))@data%*%c(W_col),nrow=N,ncol=N)
+ K=matrix(sum(W_col)*unfold(K_row,c(1,2),c(3,4))@data%*%c(W_row)+sum(W_row)*unfold(K_col,c(1,2),c(3,4))@data%*%c(W_col),nrow=N,ncol=N)
 
  
 
