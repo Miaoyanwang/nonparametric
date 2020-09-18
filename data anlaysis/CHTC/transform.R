@@ -1,6 +1,8 @@
 library(pracma)
 library(rTensor)
 library(quadprog)
+
+########################################### For each job, we have BATCH number.##############################################################
 args <- (commandArgs(trailingOnly=TRUE))
 cat(args[1])
 if(length(args) == 1){
@@ -9,7 +11,7 @@ if(length(args) == 1){
     stop()
 }
 
-
+######################## followings are functions I will use, you can also add function file in the directory and use ``source'###############
 Makepositive = function(mat){
   h = eigen(mat,symmetric = T)
   nmat = (h$vectors)%*%diag(pmax(h$values,10^-4),nrow=nrow(mat))%*%t(h$vectors)
@@ -283,7 +285,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
 
 
 
-
+##################################################### Parts I want to run ################################################################
 
 
 
@@ -332,6 +334,8 @@ for (k in 1:5) {
   cindex[[k]] = c(l1[[k]],l2[[k]])
 }
 
+                  
+################################### combination of (rank cost, feature transformation method) #########################################                
 indset = matrix(0,nrow =320 ,ncol = 3)
 s = 0
 for(k in 1:4){
@@ -350,7 +354,7 @@ cvresult = matrix(nrow = 1, ncol = 5)
 colnames(cvresult) = c("zloss","hloss","rank","cost","method")
 fitresult = matrix(nrow = 5,ncol = 212)
 
-
+################################## Getting (rank, cost, method) for each BATCH #########################################################
 r = indset[BATCH,][1]
 cost = indset[BATCH,][2]
 method = indset[BATCH,][3]
@@ -402,4 +406,5 @@ result = list()
 result[[1]] = cvresult
 result[[2]] = fitresult
 
+################################################# saving the result #####################################################
 save(result,file = paste("CV_",r,"_",method,"_",cost,".RData",sep = ""))
