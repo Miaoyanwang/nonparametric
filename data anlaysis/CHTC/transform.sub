@@ -1,0 +1,23 @@
+universe = vanilla
+plusone = $(Process) + 1
+proc = $INT(plusone,%d)
+
+
+log = ./log/EN_$(Cluster).log
+error = ./log/EN_$(Cluster)_$(proc).err
+
+executable = transform.sh
+arguments = $(proc)
+output = ./log/EN_$(Cluster)_$(proc).out
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
+transfer_input_files = http://proxy.chtc.wisc.edu/SQUID/chtc/R361.tar.gz,packages.tar.gz, transform.R, bbnet68_spatial_orientation.RData
+
+request_cpus = 1
+request_memory = 14GB
+request_disk = 2GB
+
+
+queue 320
