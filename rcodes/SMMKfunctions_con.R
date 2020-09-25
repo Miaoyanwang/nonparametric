@@ -260,9 +260,12 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
   positive=min(yfit[y==1])
   negative=max(yfit[y==-1])
   #intercept = -(positive+negative)/2
+  if ((1-positive)<(-1-negative)) {
+      intercept = -(positiv+negativ)/2
+  }else{
   gridb0 = seq(from = -1-negative,to = 1-positive,length = 100)
   intercept = gridb0[which.min(sapply(gridb0,function(b) objective(b,yfit,y,p = p)))]
-  
+  }
   compareobj = obj[iter+1]
   predictor = function(Xnew) sign(slope(Xnew)+intercept)
   
