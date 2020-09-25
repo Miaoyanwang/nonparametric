@@ -259,7 +259,9 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
   yfit=K%*%(alpha*y) ## faster than lapply
   positive=min(yfit[y==1])
   negative=max(yfit[y==-1])
-  intercept = -(positive+negative)/2
+  #intercept = -(positive+negative)/2
+  gridb0 = seq(from = -1-negative,to = 1-positive,length = 100)
+  intercept = gridb0[which.min(sapply(gridb0,function(b) objective(b,yfit,y,p = p)))]
   
   compareobj = obj[iter+1]
   predictor = function(Xnew) sign(slope(Xnew)+intercept)
@@ -272,3 +274,10 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
   return(result)
 }
 
+hinge = function(y) ifelse(1-y>0,1-y,0)
+
+objective=function(b,yfit,y,p){
+    return(sum(hinge(y*(yfit+b))[y==1]*(1-p))+sum(hinge(y*(yfit+b))[y==-1]*p))
+}
+                  
+                  
