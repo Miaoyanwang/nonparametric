@@ -84,9 +84,9 @@ dev.copy(pdf,"hinge_test.pdf")
 ## sepcial case (r,srow,scol)=(1,0,0) reduces to earlier low-rank version
 ## try (r,srow,scol)=(2,60,60)?
 y_grid=NULL
-for(h in 1:10){
-    con=ADMM(X,y,r=2,srow=60,scol=60,rho.ini=1,p=0.1*h) ## much faster but slightly less accurate in extremely sparse cases
-    #con=SMMK_con(X,y,r=2,kernel_row="linear",kernel_col="linear",cost=1, rep = 1, p =0.1*h,sparse=60)
+for(h in 1:9){
+    #con=ADMM(X,y,r=2,srow=60,scol=60,rho.ini=1,p=0.1*h) ## much faster but slightly less accurate in extremely sparse cases
+    con=SMMK_con(X,y,r=2,kernel_row="linear",kernel_col="linear",cost=1, rep = 1, p =0.1*h,sparse=60)
     y_grid=rbind(y_grid,c(sign(con$fitted)))
 }
 image(y_grid)
