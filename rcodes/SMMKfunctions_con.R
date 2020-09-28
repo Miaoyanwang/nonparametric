@@ -301,7 +301,7 @@ SVM_offset=function(X,y,C,p=0.5,cost=1){
         intercept = gridb0[which.min(sapply(gridb0,function(b) objective(b,yfit,y,p = p)))]
     }
     yfit=yfit+intercept
-    return(list("res"=res,"coef"=coef,"fitted"=yfit,"hinge"=objective(intercept,yfit,y,p=p),"intercept"=intercept))
+    return(list("res"=res,"coef"=coef,"fitted"=yfit,"hinge"=objective(0,yfit,y,p=p),"intercept"=intercept))
 }
 
 ### estimate probability from sequence of classifications.
