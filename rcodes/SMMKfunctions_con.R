@@ -302,3 +302,25 @@ SVM_offset=function(X,y,C,p=0.5,cost=1){
     yfit=yfit+intercept
     return(list("res"=res,"coef"=coef,"fitted"=yfit,"hinge"=objective(intercept,yfit,y,p=p),"intercept"=intercept))
 }
+
+### estimate probability from sequence of classifications.
+## Input: cum a H-by-n matrix. each row is the classification result for h = (1,...H)/(H+1)
+prob_est=function(cum,option=1){
+    H=dim(cum)[1]
+    if(option==1){
+        cum_sum=apply(cum,2,cumsum)
+        prob=apply(cum_sum,2,which.max)/(H+1)
+        return(prob) ## use maximum cumulative probability
+    }else if(option==2){
+        d=dim(cum)[2]
+        prob=rep(0,d)
+        for(i in 1:d){
+            vector=cum[,i]
+            vector=c(1,vector,-1)
+            index1=max(which(vector==1))-1
+            index2=max(which(rev(vector)==-1))-1
+            prob[i]=(index1+H-index2)/(2*(H+1)) ## use proposal in Biometrika (2008) Wang, Shen & Liu.
+        }
+        return(prob)
+    }
+}

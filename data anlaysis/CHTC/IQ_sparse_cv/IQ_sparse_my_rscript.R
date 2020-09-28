@@ -80,13 +80,15 @@ fields::image.plot(m, add = F, col = hcl.colors(12, "YlOrRd", rev = TRUE),xlab="
 #contour(m,add=TRUE,levels = pretty(c(0,3), 6), labcex = 1)
 dev.copy(pdf,"hinge_test.pdf")
 
-##### sequence of classifications. Try different combination of (r,srow,scol). How to choose the best one? should we use the one that gives best classification result with p=0.5? Or something else, e.g. K-L divergence based on prob(y_grid) vs. y?
+##### sequence of classifications. Try different combination of (r,srow,scol). How to choose the best one? should we use the one that gives best classification with p=0.5? Or something else, e.g. K-L divergence based on prob(y_grid) vs. y?
 ## sepcial case (r,srow,scol)=(1,0,0) reduces to earlier low-rank version
-## try (r,srow,scol)=(1,50,50)?
+## try (r,srow,scol)=(2,60,60)?
 y_grid=NULL
 for(h in 1:20){
-    con=ADMM(X,y,r=1,srow=50,scol=50,rho.ini=1,p=0.05*h)
+    con=ADMM(X,y,r=2,srow=60,scol=60,rho.ini=1,p=0.05*h)
     y_grid=rbind(y_grid,c(sign(con$fitted)))
 }
 image(y_grid)
 plot(FSIQ,prob_est(y_grid,option=1))
+
+
