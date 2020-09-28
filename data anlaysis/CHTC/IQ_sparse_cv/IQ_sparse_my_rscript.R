@@ -86,7 +86,7 @@ dev.copy(pdf,"hinge_test.pdf")
 y_grid=NULL
 for(h in 1:20){
     con=ADMM(X,y,r=2,srow=60,scol=60,rho.ini=1,p=0.05*h)
-    #con=SMMK_con(X,y,r=2,kernel_row="linear",kernel_col="linear",cost=1, rep = 1, p = .5,sparse=60)
+    #con=SMMK_con(X,y,r=2,kernel_row="linear",kernel_col="linear",cost=1, rep = 1, p = .0.05*5,sparse=60)
     y_grid=rbind(y_grid,c(sign(con$fitted)))
 }
 image(y_grid)
