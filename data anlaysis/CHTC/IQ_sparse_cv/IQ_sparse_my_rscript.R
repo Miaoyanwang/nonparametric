@@ -62,7 +62,7 @@ con=ADMM(train_X,train_y,r=r,srow=sparse-1,scol=sparse-1,rho.ini=1,p=0.5)
 
 save(cvresult,file = paste("IQ_CV_",r,".RData",sep=""))
 
-########  after obtain the results from server #### ####
+########  after obtaining results from CHTC #### ####
 h=NULL
 for(r in 1:68){
    load(paste("IQ_CV_",r,".RData",sep = ""))
