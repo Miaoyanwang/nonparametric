@@ -39,9 +39,9 @@ for(k in 1:5){
   test_index = cindex[[k]]
   train_index = setdiff(1:114,test_index)
   train_X = X[train_index]; train_y =  y[train_index]
-  #con=SMMK_con(train_X,train_y,r,kernel_row="linear",kernel_col="linear",cost=1, rep = 10, p = .5,sparse=sparse-1)
+  #con=SMMK_con(train_X,train_y,r,kernel_row="linear",kernel_col="linear",cost=1, rep = 5, p = .5,sparse=sparse-1)
 
-  con=ADMM(train_X,train_y,r=r,srow=sparse-1,scol=sparse-1,rho.ini=1,p=0.5) ## faster than SMMK_con
+ con=ADMM(train_X,train_y,r=r,srow=sparse-1,scol=sparse-1,rho.ini=1,p=0.5) ## much faster but slightly less accurate than SMMK_con
   
   #0-1 loss
   predict = unlist(lapply(X,con$predict))
@@ -65,8 +65,8 @@ save(cvresult,file = paste("IQ_CV_",r,".RData",sep=""))
 ########  after obtaining results from CHTC #### ####
 h=NULL
 for(r in 1:68){
-   load(paste("IQ_CV_",r,".RData",sep = ""))
-   h=rbind(h,cvresult)
+    load(paste("IQ_CV_",r,".RData",sep = ""))
+    h=rbind(h,cvresult)
 }
 
 m=matrix(0,nrow=68,ncol=68)
@@ -84,9 +84,9 @@ dev.copy(pdf,"hinge_test.pdf")
 ## sepcial case (r,srow,scol)=(1,0,0) reduces to earlier low-rank version
 ## try (r,srow,scol)=(2,60,60)?
 y_grid=NULL
-for(h in 1:20){
-    con_ADMM=ADMM(X,y,r=2,srow=60,scol=60,rho.ini=1,p=0.05*h)
-    #con=SMMK_con(X,y,r=2,kernel_row="linear",kernel_col="linear",cost=1, rep = 1, p =0.05*h,sparse=60)
+for(h in 1:10){
+    con=ADMM(X,y,r=2,srow=60,scol=60,rho.ini=1,p=0.1*h) ## much faster but slightly less accurate in extremely sparse cases
+    #con=SMMK_con(X,y,r=2,kernel_row="linear",kernel_col="linear",cost=1, rep = 1, p =0.1*h,sparse=60)
     y_grid=rbind(y_grid,c(sign(con$fitted)))
 }
 image(y_grid)

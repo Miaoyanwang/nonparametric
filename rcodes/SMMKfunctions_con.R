@@ -142,7 +142,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
           for(i in 1:n){
               B=B+alpha[i]*y[i]*P_row%*%t(P_row)%*%X[[i]]+alpha[i]*y[i]*X[[i]]%*%P_col%*%t(P_col)
           }
-      if(sparse>=1){
+        if(sparse>=1){
         B=sparse_matrix(B,r,sparse,sparse)
         P_row=svd(B)$u[,1:r]
         P_col=svd(B)$v[,1:r]
@@ -159,7 +159,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
   
 
   P_row= P_row_optimum; P_col= P_col_optimum;
-  W_row = P_row%*%t(P_row); W_col = P_col%*%t(P_col)
+  W_row = P_row%*%t(P_row); W_col = P_col%*%t(P_col);
 
   Dmat=K=matrix(unfold(K_row,c(1,2),c(3,4))@data%*%c(W_row)+unfold(K_col,c(1,2),c(3,4))@data%*%c(W_col),nrow=n,ncol=n)
   
@@ -170,10 +170,7 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
   res = solve.QP(Dmat,dvec,Amat,bvec,meq =1)
   alpha=res$solution
   
-  
-  
   slope = function(Xnew){
-    
     newK = rep(0,n)
     for( i in 1:n){
       newK[i] = sum(W_row*kernel_row(t(Xnew),t(X[[i]])))+
@@ -184,8 +181,18 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
   }
   
   # intercept part estimation (update b)
-  
   yfit=K%*%(alpha*y) ## faster than lapply
+  
+  B=0;
+  for(i in 1:n){
+          B=B+alpha[i]*y[i]*P_row%*%t(P_row)%*%X[[i]]+alpha[i]*y[i]*X[[i]]%*%P_col%*%t(P_col)
+  }
+  if(sparse>=1){
+      B=sparse_matrix(B,r,sparse,sparse);
+      slope = function(Xnew) sum(B*Xnew)
+      yfit = unlist(lapply(X,slope))
+  }
+  
   positive=min(yfit[y==1])
   negative=max(yfit[y==-1])
   if ((1-positive)<(-1-negative)) {
