@@ -89,6 +89,6 @@ for(h in 1:20){
     y_grid=rbind(y_grid,c(sign(con$fitted)))
 }
 image(y_grid)
-plot(FSIQ,prob_est(y_grid,option=1))
+plot(FSIQ,prob_est(y_grid,option=2))
 
 

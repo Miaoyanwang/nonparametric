@@ -65,7 +65,7 @@ con=ADMM(train_X,train_y,r=r,srow=sparse-1,scol=sparse-1,rho.ini=1,p=0.5)
 save(cvresult,file = paste("CV_",r,".RData",sep=""))
 
 
-########  after obtain the result from server ########
+########  after obtaining results from CHTC ########
 h=NULL
 for(r in 1:68){
        load(paste("CV_",r,".RData",sep = ""))
@@ -91,3 +91,4 @@ con=ADMM(X,y,r=1,srow=55,scol=55,rho.ini=1,p=0.05*h)
 y_grid=rbind(y_grid,c(sign(con$fitted)))
 }
 image(y_grid)
+prob_est(y_grid,option=2)
