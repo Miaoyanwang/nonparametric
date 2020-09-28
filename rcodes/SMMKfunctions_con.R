@@ -137,11 +137,12 @@ SMMK_con = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_c
       P_col = svd(P_col)$v
       
       #### sparse model
-      if(sparse>=1){
+      
           B=0
           for(i in 1:n){
-              B=B+alpha[i]*y[i]*P_row%*%t(P_row)%*%X[[i]]%*%P_col%*%t(P_col)
+              B=B+alpha[i]*y[i]*P_row%*%t(P_row)%*%X[[i]]+alpha[i]*y[i]*X[[i]]%*%P_col%*%t(P_col)
           }
+      if(sparse>=1){
         B=sparse_matrix(B,r,sparse,sparse)
         P_row=svd(B)$u[,1:r]
         P_col=svd(B)$v[,1:r]
