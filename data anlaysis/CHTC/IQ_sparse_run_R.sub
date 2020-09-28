@@ -1,0 +1,24 @@
+universe = vanilla
+plusone = $(Process) + 1
+proc = $INT(plusone,%d)
+
+
+log = EN_$(Cluster).log
+error = EN_$(Cluster)_$(proc).err
+
+executable = IQ_sparse_run_R.sh
+arguments = $(proc)
+output = EN_$(Cluster)_$(proc).out
+stream_output=True
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
+transfer_input_files = http://proxy.chtc.wisc.edu/SQUID/chtc/R361.tar.gz,packages.tar.gz, IQ_sparse_my_rscript.R,SMMKfunctions_con.R,brain_binary_IQ.RData
+
+request_cpus = 1
+request_memory = 14GB
+request_disk = 2GB
+
+
+queue 69
