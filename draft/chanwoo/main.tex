@@ -126,7 +126,7 @@ Our goal in this paper is to develop a distribution-free prediction method that 
 In this section we present the main learning goals of our interest. Let $\mX\in\mathbb{R}^{d_1\times d_2}$ denote the matrix-valued predictor, $y\in\{-1,1\}$ denote the binary label response, and $\mathbb{P}_{\mX,Y}$ denote the unknown joint probability distribution over the pair $(\mX,y)$. Suppose that we observe a sample of $n$ training data points, $(\mX_1,y_1),\ldots,(\mX_n,y_n)$, identically and independently distributed (i.i.d.) according to $\mathbb{P}_{\mX,y}$. Let $(\mX_{n+1},y_{n+1})$ be a new test point drawn independently from the same distribution. Our goal is to make reliable prediction about $y_{n+1}$ given the new feature value $\mX_{n+1}$, with no strong distributional assumptions other than i.i.d.\ data. When no confusion arises, we often omit the subscript $(n+1)$ and simply write $(\mX,y)$ for the prototypical test point. 
 
  
-The problem of statistical learning is to find a decision function $f\colon \mathbb{R}^{d_1\times d_2}\to \mathbb{R}$ that minimizes certain expected risk $R(f)$ under the unknown distribution $\mathbb{P}_{\mX,y}$. The expected risk $R(f)$ is an functional over a given set of candidate functions $f\in \tF$; the form of risk depends on the specific learning goals which are detailed in the next paragraph. We focus on the challenging setting where the feature matrix dimension $d_1d_2$ may grow sub-exponentially with the sample size $n$, and no assumptions are made about the distributional family of $\mathbb{P}_{\mX,y}$. The only available information is in the training data $\{(\mX_i,y_i)\}_{i=1}^n$. We consider three main supervised learning problems: classification, level set estimation, and regression. 
+The problem of learning is to find a decision function $f\colon \mathbb{R}^{d_1\times d_2}\to \mathbb{R}$ that minimizes certain expected risk $R(f)$ under the unknown distribution $\mathbb{P}_{\mX,y}$. The expected risk $R(f)$ is an functional over a given set of candidate functions $f\in \tF$; the form of risk depends on the specific learning goals which are detailed in the next paragraph. We focus on the challenging setting where the feature matrix dimension $d_1d_2$ may grow sub-exponentially with the sample size $n$, and no assumptions are made about the distributional family of $\mathbb{P}_{\mX,y}$. The only available information is in the training data $\{(\mX_i,y_i)\}_{i=1}^n$. We consider three main supervised learning problems: classification, level set estimation, and regression. 
 
 \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
 \item {\it Classification}: Classification is the problem of predicting to which of the label $y\in \{-1,1\}$ a new observation $\mX$ belongs. We formulate the learning problem as finding a binary-valued function (also called a classifier) from $\mathbb{R}^{d_1\times d_2}$ to $\{-1,1\}$ that minimizes the expected risk. In classification, the expected risk $R(f)$ is defined as the (expected) classification error; i.e., the probability when the true label and the predicted label differs,
@@ -306,6 +306,44 @@ The tensor regression provides a very general framework. By choosing a different
 \subsection{Multi-task learning}
 
 \section{An ADMM algorithm for structural risk minimization}
+\[
+\min_{f\in \tF}n^{-1}\sum_{i=1}^nL(y_if(\mX-i))+\lambda J(f)
+\]
+
+\[
+\min_{\mB\in\tB(r,s), \mc\in\mathbb{R}^p} n^{-1}\sum_{i=1}^nL\left(y_i\left[\mw^T_i\mc+\langle \mX_i,\mB\rangle \right]\right) + \lambda \FnormSize{}{\mB}^2
+\]
+We introduce ADMM argument $\mB=\mP\mQ^T$, where $\mP,\mQ\in\mathbb{R}^{d\times r}$ and penalization $\rho$. 
+Given $\rho$ and $\lambda$, we solve
+\[
+\tL(\mB,\mS, \mc, \mLambda; \rho, \lambda)=n^{-1}\sum_{i=1}^nL\left(y_i\left[\mw^T_i\mc+\langle \mX_i,\mB\rangle \right]\right) + \lambda \FnormSize{}{\mB}^2+\rho\FnormSize{}{\mB-\mS}^2 + \langle \mLambda, \mB-\mS\rangle.
+\]
+\begin{enumerate}
+\item Update $\mB$:
+\[
+\tL(\mB, \mc; \mS, \Lambda, \rho,\lambda) = n^{-1}\sum_{i=1}^nL\left(y_i\left[\mw^T_i\mc+\langle \mX_i,\mB\rangle \right]\right)  + (\lambda+\rho) \Fnorm{\mB-{1\over 2(\lambda+\rho)}\left(2\rho\mS-\mLambda\right)}^2.
+\]
+Equivalently, define $\check\mB=\mB-{1\over 2(\lambda+\rho)}\left(2\rho\mS-\mLambda\right)$, we have
+\[
+\tL(\check \mB, \mc; \mS, \Lambda, \rho,\lambda) = n^{-1}\sum_{i=1}^nL\left(y_i\left[\Big\langle \mX_i, {2\rho\mS-\mLambda\over 2(\lambda+\rho)}\Big\rangle+\mw^T_i\mc+\langle \mX_i,\check\mB\rangle \right]\right)  + (\lambda+\rho)\FnormSize{}{\check \mB}^2.
+\]
+\item Update $\mc$:
+\[
+\tL(\mc;\mB, \mS, \Lambda, \rho,\lambda) = n^{-1}\sum_{i=1}^nL\left(y_i\left[\mw^T_i\mc+\langle \mX_i,\mB\rangle \right]\right)
+\]
+\item Update $\mS$:
+\[
+\tL(\mS; \mc, \mB, \Lambda, \rho,\lambda) = \Fnorm{\mS-{2\rho\mB+\mLambda\over 2\rho}}^2, \quad \text{where}\quad \mS\in\tB(r,s).
+\]
+\item Update $\mLambda$:
+\[
+\mLambda^{(t+1)} = \mLambda^{(t)}+2\rho(\mB-\mS).
+\]
+Ideally, small $\rho$ = $\rho$.
+\end{enumerate}
+
+
+
 \label{sec:alg}
 In this Section, we describe an algorithm to seek the optimizer of Equation  \eqref{eq:large-margin} in the case of hinge loss function $L(z) = (1-z)_+$. We consider nonlinear decision function class $\tF = \{f\colon\mX\mapsto\langle\mC \mP^T,\Phi(\mX)\rangle|\mC = (\mC_1,\mC_2)\in\tH_1^{d_1}\times \tH_2^{d_2} \text{ and }\mP = (\mP_1,\mP_2)\in\mathbb{R}^{d_1\times r} \times \mathbb{R}^{d_2\times r}\}$ given row and columnwise kernels $K_1,K_2$.
 Notice Equation \eqref{eq:opteq} is written as 

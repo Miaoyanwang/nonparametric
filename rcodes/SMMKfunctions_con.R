@@ -220,6 +220,13 @@ hinge = function(y) ifelse(1-y>0,1-y,0)
 objective=function(b,yfit,y,p){
     return(sum(hinge(y*(yfit+b))[y==1]*(1-p))+sum(hinge(y*(yfit+b))[y==-1]*p))
 }
+gradient=function(W,x,yfit,y,p){
+    yfit=W%*%x+yfit;
+    gradient1=matrix(-W[which((yfit<1)&(y==1)),],ncol=length(x))
+    gradient2=matrix(W[which(((-yfit)<1)&(y==-1)),],ncol=length(x))
+    
+    return(apply(gradient1,2,sum)*(1-p)+apply(gradient2,2,sum)*p)
+}
 
 sparse_matrix=function(M,r,srow,scol){
     res=svd(M)
@@ -239,35 +246,46 @@ sparse_matrix=function(M,r,srow,scol){
 
 ### alternative method for simutanously low-rank+sparse model
 
-ADMM=function(X,y,r,srow,scol,rho.ini=1,p){
+ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.01,p=0.5,lambda=0.01){
     result=list();
-    n=length(X)
-    rho=rho.ini ## the larger, the better
+    n=length(X);
+    rho=rho.ini
     
     Lambda=matrix(0,nrow=nrow(X[[1]]),ncol=ncol(X[[1]]))
     obj=residual=NULL
     PQ=0; iter=0; obj = 10^10;error=10;residual=10^10
+    rho_list=NULL
     
     while((iter < 100)|(error > 10^-3)){
-        ### update B
-        res=SVM_offset(X,y,C=PQ-1/rho*Lambda,p=p,cost=1/rho)
+   
+        PQ_prev=PQ
+        ### update B abd c
+        res=SVM_offset(X,y,Covariate,OffsetC=(2*rho*PQ-Lambda)/(2*(lambda+rho)),p=p,cost=1/(2*(rho+lambda)))
         obj=c(obj,res$hinge) ## minimize objective
         B=res$coef
         
         ## Update PQ
-        PQ=sparse_matrix(B+1/rho*Lambda,r,srow,scol)
+        PQ=sparse_matrix(B+1/(2*rho)*Lambda,r,srow,scol)
         
-        residual=c(residual,sum((B-PQ)^2))
+        residual=c(residual,sum((B-PQ)^2)) ## primal residual
         
         ## update Lambda
-        Lambda=Lambda+rho*(B-PQ)
+        Lambda=Lambda+2*rho*(B-PQ)
         rho=rho*1.1;
+        rho_list=c(rho_list,rho)
+
         iter=iter+1;
         error=abs(-residual[iter+1]+residual[iter])
         if(iter>=200) break
     }
     slope = function(Xnew) sum(Xnew*B)
-    predictor = function(Xnew) sign(sum(Xnew*B)+res$intercept)
+    
+    if(length(Covariate[1])>=1){
+        W=cbind(1,matrix(unlist(Covariate),nrow=n,byrow=TRUE))
+    } else {
+        W=as.matrix(rep(1,n))}
+    
+    predictor = function(Xnew) sign(sum(Xnew*B)+W%*%res$intercept)
     
     result$alpha=res$solution;
     result$slope=slope;result$predict=predictor;
@@ -277,13 +295,13 @@ ADMM=function(X,y,r,srow,scol,rho.ini=1,p){
     result$error=error;
     result$fitted=c(res$fitted);
     result$B=B;
-    result$residual=residual[-1];result$PQ=PQ
+    result$residual=residual[-1];result$PQ=PQ;result$rho=rho_list;
     
     return(result)
 }
 
-SVM_offset=function(X,y,C,p=0.5,cost=1){
-    offset=unlist(lapply(X,function(x)sum(x*C)))
+SVM_offset=function(X,y,Covariate,OffsetC,p=0.5,cost=1){
+    offset=unlist(lapply(X,function(x)sum(x*OffsetC)))
     n=length(X)
     Dmat=K=matrix(unlist(X),nrow=n,byrow=TRUE)%*%t(matrix(unlist(X),nrow=n,byrow=TRUE))
     dvec = 1-y*offset
@@ -295,19 +313,27 @@ SVM_offset=function(X,y,C,p=0.5,cost=1){
     
     ## calculate coefficient
     B=matrix((y*res$solution)%*%matrix(unlist(X),nrow=n,byrow=TRUE),nrow=nrow(X[[1]]))
-    coef=B+C
+    coef=B+OffsetC
     
     ### calculate hinge loss
     yfit=K%*%(res$solution*y)+offset
-    positive=min(yfit[y==1])
-    negative=max(yfit[y==-1])
-    if ((1-positive)<(-1-negative)) {
-        intercept = -(positive+negative)/2
-    }else{
-        gridb0 = seq(from = -1-negative,to = 1-positive,length = 100)
-        intercept = gridb0[which.min(sapply(gridb0,function(b) objective(b,yfit,y,p = p)))]
-    }
-    yfit=yfit+intercept
+    #positive=min(yfit[y==1])
+    #negative=max(yfit[y==-1])
+    #if ((1-positive)<(-1-negative)) {
+    #    intercept = -(positive+negative)/2
+    #}else{
+    #        gridb0 = seq(from = -1-negative,to = 1-positive,length = 100)
+    #    intercept = gridb0[which.min(sapply(gridb0,function(b) objective(b,yfit,y,p = p)))]
+    #    }
+        
+    if(length(Covariate[[1]])>=1){
+    W=cbind(1,matrix(unlist(Covariate),nrow=n,byrow=TRUE))
+    } else {
+    W=as.matrix(rep(1,n))}
+    b=rep(0,dim(W)[2])
+    intercept=optim(b,function(x)objective(W%*%x,yfit,y,p=p),function(x) gradient(W,x,yfit,y,p=p),method="BFGS")$par
+    
+    yfit=yfit+W%*%intercept
     return(list("res"=res,"coef"=coef,"fitted"=yfit,"hinge"=objective(0,yfit,y,p=p),"intercept"=intercept))
 }
 
