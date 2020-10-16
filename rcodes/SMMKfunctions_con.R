@@ -229,9 +229,10 @@ gradient=function(W,x,yfit,y,p){
 }
 
 sparse_matrix=function(M,r,srow,scol){
-    res=svd(M)
+    srow_target=srow;scol_target=scol;
+    ## option 1
+    res=svd(M);step=0;
     M_low=res$u[,1:r]%*%diag(res$d[1:r],nrow=r)%*%t(res$v[,1:r])
-    step=0
     while((srow>0)&(scol>0)){
         row_norm=diag(M_low%*%t(M_low))
         M_low[sort(row_norm,index=T)$ix[step+1],]=0
@@ -240,13 +241,29 @@ sparse_matrix=function(M,r,srow,scol){
         M_low[,sort(col_norm,index=T)$ix[step+1]]=0
         scol=scol-1; step=step+1
     }
+    M_low_output=M_low; value1=sum((M-M_low)^2)
     
-    return(M_low)
+    ## option 2
+    M_low=M;srow=srow_target;scol=scol_target;step=0;
+    while((srow>0)&(scol>0)){
+        row_norm=diag(M_low%*%t(M_low))
+        M_low[sort(row_norm,index=T)$ix[step+1],]=0
+        srow=srow-1
+        col_norm=diag(t(M_low)%*%M_low)
+        M_low[,sort(col_norm,index=T)$ix[step+1]]=0
+        scol=scol-1; step=step+1
+    }
+    res=svd(M_low)
+    M_low=res$u[,1:r]%*%diag(res$d[1:r],nrow=r)%*%t(res$v[,1:r])
+    value2=sum((M-M_low)^2)
+    if(value2<=value1) M_low_output=M_low;
+    
+    return(M_low_output)
 }
 
 ### alternative method for simutanously low-rank+sparse model
 
-ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.01,p=0.5,lambda=0.01){
+ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.01,p=0.5,lambda=0.5){
     result=list();
     n=length(X);
     rho=rho.ini
@@ -280,12 +297,18 @@ ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.01,p=0.5,lambda=0.01){
     }
     slope = function(Xnew) sum(Xnew*B)
     
-    if(length(Covariate[1])>=1){
+    if(length(Covariate)>=1){
         W=cbind(1,matrix(unlist(Covariate),nrow=n,byrow=TRUE))
     } else {
         W=as.matrix(rep(1,n))}
     
-    predictor = function(Xnew) sign(sum(Xnew*B)+W%*%res$intercept)
+    predictor = function(Xnew,Covariate=NULL){
+        if(length(Covariate)>=1){
+        W=cbind(1,matrix(unlist(Covariate),nrow=1,byrow=TRUE))
+        sign(sum(Xnew*B)+W%*%res$intercept)
+        }
+        else sign(sum(Xnew*B)+res$intercept)
+    }
     
     result$alpha=res$solution;
     result$slope=slope;result$predict=predictor;
