@@ -228,9 +228,9 @@ gradient=function(W,x,yfit,y,p){
     return(apply(gradient1,2,sum)*(1-p)+apply(gradient2,2,sum)*p)
 }
 
-sparse_matrix=function(M,r,srow,scol){
+sparse_matrix=function(M,r,srow,scol,option="sym"){
     srow_target=srow;scol_target=scol;
-    ## option 1
+    ## scheme 1: first low rank, then sparse
     res=svd(M);step=0;
     M_low=res$u[,1:r]%*%diag(res$d[1:r],nrow=r)%*%t(res$v[,1:r])
     while((srow>0)&(scol>0)){
@@ -238,19 +238,23 @@ sparse_matrix=function(M,r,srow,scol){
         M_low[sort(row_norm,index=T)$ix[step+1],]=0
         srow=srow-1
         col_norm=diag(t(M_low)%*%M_low)
-        M_low[,sort(col_norm,index=T)$ix[step+1]]=0
+        if(option=="sym"){
+        M_low[,sort(row_norm,index=T)$ix[step+1]]=0
+        }else M_low[,sort(col_norm,index=T)$ix[step+1]]=0
         scol=scol-1; step=step+1
     }
     M_low_output=M_low; value1=sum((M-M_low)^2)
     
-    ## option 2
+    ## scheme 2: first sparse, then low rank
     M_low=M;srow=srow_target;scol=scol_target;step=0;
     while((srow>0)&(scol>0)){
         row_norm=diag(M_low%*%t(M_low))
         M_low[sort(row_norm,index=T)$ix[step+1],]=0
         srow=srow-1
         col_norm=diag(t(M_low)%*%M_low)
-        M_low[,sort(col_norm,index=T)$ix[step+1]]=0
+        if(option=="sym"){
+            M_low[,sort(row_norm,index=T)$ix[step+1]]=0
+        }else M_low[,sort(col_norm,index=T)$ix[step+1]]=0
         scol=scol-1; step=step+1
     }
     res=svd(M_low)
@@ -263,7 +267,7 @@ sparse_matrix=function(M,r,srow,scol){
 
 ### alternative method for simutanously low-rank+sparse model
 
-ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.01,p=0.5,lambda=0.5){
+ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.01,p=0.5,lambda=0.5,option="unsymmetric"){
     result=list();
     n=length(X);
     rho=rho.ini
@@ -282,7 +286,7 @@ ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.01,p=0.5,lambda=0.5){
         B=res$coef
         
         ## Update PQ
-        PQ=sparse_matrix(B+1/(2*rho)*Lambda,r,srow,scol)
+        PQ=sparse_matrix(B+1/(2*rho)*Lambda,r,srow,scol,option)
         
         residual=c(residual,sum((B-PQ)^2)) ## primal residual
         

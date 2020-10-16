@@ -86,8 +86,8 @@ dev.copy(pdf,"hinge_test.pdf")
 ##### Choice of (rank, sparsity) = (1, 55). Note that sparsity shoud minuse 1 from the index.
 ##### sequence of classifications
 y_grid=NULL
-for(h in 1:19){
-con=ADMM(X,y,r=1,srow=55,scol=55,rho.ini=1,p=0.05*h)
+for(h in 1:10){
+con=ADMM(X,y,r=1,srow=65,scol=65,p=0.1*h,option="sym")
 y_grid=rbind(y_grid,c(sign(con$fitted)))
 }
 image(y_grid)
