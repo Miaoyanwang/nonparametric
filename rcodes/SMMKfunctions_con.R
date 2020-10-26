@@ -730,7 +730,7 @@ SMMK_sparse = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kerne
   
   
   
-  X_sp = lapply(X,function(x) x[row_o,col_o])
+  X_sp = lapply(X,function(x) x[row_o,col_o,drop = F])
   d1sp = nrow(X_sp[[1]]); d2sp = ncol(X_sp[[1]]); n = length(X_sp)
   if(option == "exact"){
     res = SMM(X_sp,y,r,kernel_row,kernel_col,cost,rep,p)
