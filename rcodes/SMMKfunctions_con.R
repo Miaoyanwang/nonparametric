@@ -497,7 +497,7 @@ SMM = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_col = 
   P= P_optimum;# P_col= P_col_optimum;
   W = P%*%t(P);# W_col = P_col%*%t(P_col);
   
-  Dmat=matrix(unfold(K,c(1,2),c(3,4))@data%*%c(W),nrow=n,ncol=n)
+  Dmat= K = matrix(unfold(K,c(1,2),c(3,4))@data%*%c(W),nrow=n,ncol=n)
   
   dvec = rep(1,n)
   Dmat = Makepositive((y%*%t(y))*Dmat)
@@ -516,7 +516,7 @@ SMM = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kernel_col = 
   }
   
   # intercept part estimation (update b)
-  yfit=Dmat%*%(alpha*y) ## faster than lapply
+  yfit=K%*%(alpha*y) ## faster than lapply
   
   B=0;
   for(i in 1:n){
@@ -758,4 +758,11 @@ SMMK_sparse = function(X,y,r,kernel_row = c("linear","poly","exp","const"),kerne
   return(result)
 }
 
+
+convpb = function(temp,H){ 
+  temp=c(1,temp,-1)
+  index1=max(which(temp==1))-1
+  index2=max(which(rev(temp)==-1))-1
+  return((index1+H-index2)/(2*(H+1)))
+}
 
