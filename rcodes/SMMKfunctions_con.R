@@ -2,6 +2,113 @@
 library(pracma)
 library(rTensor)
 library(quadprog)
+library(clusterSim)
+
+
+#################### Regular Lasso ####################
+Lasso=function(xvec,y,xnew,lambda){
+    fit <- glmnet(xvec,y,alpha = 1, family = "binomial",type.measure = "mse",lambda=0.1)
+    coef = coef(fit)
+    length(which(abs(coef)>0))
+    lassoB = as.vector(coef)[-1]
+    prob = predict(fit,newx = xnew,s = lambda,type = "response")
+    res=list();
+    res$B_est=lassoB; res$prob=prob
+    return(res)
+}
+
+## visualization of the active region
+visualization=function(B_est,percent=0.8){
+d=dim(B_est)[1];H=dim(B_est)[3]
+ave=matrix(0,nrow=d,ncol=d)
+for(h in 1:(H-1)){
+    m=B_est[,,h]
+    m[abs(m)<=quantile(abs(m),percent)]=0
+    ave=ave+m
+}
+ave[abs(ave)<=quantile(abs(ave),percent)]=0 ## display
+return(ave)
+}
+
+#################### Our method ####################
+NonparaMatrix=function(X,y,X_new=NULL,truer,support,H=11,option="unsym"){
+    pred=NULL;d=dim(X[[1]])[1];
+    B_est=array(0,dim=c(d,d,H-1));
+    sparse=d-support;
+    for(h in 1:(H-1)){
+        c = ADMM(X,y,r = truer,srow = sparse,scol =sparse,lambda=0,rho.ini=0.1,p=1/H*h,option=option)
+        if(is.null(X_new)) pred=rbind(pred,sign(c$fitted))
+        else pred=rbind(pred,unlist(lapply(X_new,function(x)sign(c$predict(x)))))
+        B_est[,,h]=c$B
+    }
+    res=list();
+    res$B_est=B_est; res$prob=prob_est(pred);
+    return(res)
+}
+
+#################### CNN ####################
+CNN=function(X,y,X_new,plot.figure=FALSE){
+    n=length(X); n1=length(X_new);d=dim(X[[1]])[1];y_recode=(y+1)/2;
+    model <- keras_model_sequential() %>%
+    layer_conv_2d(filters = 64, kernel_size = c(3,3), activation = "relu",
+    input_shape = c(d,d,1)) %>%
+    layer_max_pooling_2d(pool_size = c(5,5)) %>%
+    
+    layer_flatten() %>%
+    layer_dense(units = 100, activation = "relu") %>%
+    layer_dense(units = 1, activation = "sigmoid")
+    
+    model %>% compile(
+    optimizer = "adam",
+    loss = "binary_crossentropy",
+    metrics = "accuracy"
+    )
+    
+    xvec=xvec_new=NULL
+    for(i in 1:n){
+        xvec=rbind(xvec,c(X[[i]]))
+    }
+    for(i in 1:n1){
+        xvec_new=rbind(xvec_new,c(X_new[[i]]))
+    }
+    mean=apply(xvec,2,mean)
+    sd=apply(xvec,2,sd)
+    sd[sd==0]=1
+    xvec=sweep(xvec, 2, mean, FUN="-")
+    xvec=sweep(xvec,2,sd,FUN="/")
+    xvec_new=sweep(xvec_new, 2, mean, FUN="-")
+    xvec_new=sweep(xvec_new,2,sd,FUN="/")
+    
+    x_array= array(xvec,dim=c(n,d,d,1))
+    x_array_new= array(xvec_new,dim=c(n1,d,d,1))
+ 
+    hold=sample(1:n,round(n/5),replace=F)
+    y_test=y_recode[hold];x_test=array(x_array[hold,,,],dim=c(length(hold),d,d,1))
+    y_train=y_recode[-hold];x_train=array(x_array[-hold,,,],dim=c(n-length(hold),d,d,1))
+    history <- model %>%
+    fit(
+    x = x_train, y =y_train,
+    epochs = 10,
+    validation_data = unname(list(x_test,y_test)),
+    )
+    if(plot.figure==TRUE) plot(history)
+    result=list();
+    result$prob=predict_proba(model,x_array_new);
+    result$class=2*predict_classes(model,x_array_new)-1;
+    result$history=history;
+    result$acc=output=rev(history$metric$val_accuracy)[1]
+    return(result)
+}
+
+link=function(type=c("gap","linear","logistic","sqrt","others"),beta=1){
+    if(type=="gap") return(function(x) 0.8*(x>=0)+0.2*(x<0))
+    if(type=="logistic") return(function(x) sigmoid(x))
+    if(type=="linear") return(function(x) pmin(pmax(0,x/2+1/2),1))
+    if(type=="sqrt") return(function(x)  pmin(pmax(0,sign(x)*x^2/2+1/2),1))
+    else return(function(x) pmin(pmax(0,sign(x)*abs(x)^beta/2+1/2),1))
+}
+
+
 Makepositive = function(mat){
   h = eigen(mat,symmetric = T)
   nmat = (h$vectors)%*%diag(pmax(h$values,10^-4),nrow=nrow(mat))%*%t(h$vectors)
@@ -231,54 +338,60 @@ gradient=function(W,x,yfit,y,p){
 sparse_matrix=function(M,r,srow,scol,option="sym"){
   srow_target=srow;scol_target=scol;
   ## scheme 1: first low rank, then sparse
-  res=svd(M);step=0;
-  M_low=res$u[,1:r]%*%diag(res$d[1:r],nrow=r)%*%t(res$v[,1:r])
-  while((srow>0)&(scol>0)){
-    row_norm=diag(M_low%*%t(M_low))
-    M_low[sort(row_norm,index=T)$ix[step+1],]=0
-    srow=srow-1
-    col_norm=diag(t(M_low)%*%M_low)
-    if(option=="sym"){
-      M_low[,sort(row_norm,index=T)$ix[step+1]]=0
-    }else M_low[,sort(col_norm,index=T)$ix[step+1]]=0
-    scol=scol-1; step=step+1
-  }
-  M_low_output=M_low; value1=sum((M-M_low)^2)
+  #res=svd(M);step=0;
+  #M_low=res$u[,1:r]%*%diag(res$d[1:r],nrow=r)%*%t(res$v[,1:r])
+  #while((srow>0)&(scol>0)){
+      #row_norm=diag(M_low%*%t(M_low))
+    #M_low[sort(row_norm,index=T)$ix[step+1],]=0
+    #srow=srow-1
+    #col_norm=diag(t(M_low)%*%M_low)
+    #M_low[,sort(col_norm,index=T)$ix[step+1]]=0
+    #scol=scol-1; step=step+1
+    #}
+  #M_low_output=M_low; value1=sum((M-M_low)^2)
   
   ## scheme 2: first sparse, then low rank
+  srow_index=scol_index=NULL
   M_low=M;srow=srow_target;scol=scol_target;step=0;
   while((srow>0)&(scol>0)){
     row_norm=diag(M_low%*%t(M_low))
     M_low[sort(row_norm,index=T)$ix[step+1],]=0
+    srow_index=c(srow_index,sort(row_norm,index=T)$ix[step+1])
     srow=srow-1
     col_norm=diag(t(M_low)%*%M_low)
     if(option=="sym"){
       M_low[,sort(row_norm,index=T)$ix[step+1]]=0
     }else M_low[,sort(col_norm,index=T)$ix[step+1]]=0
-    scol=scol-1; step=step+1
+    scol_index=c(scol_index,sort(col_norm,index=T)$ix[step+1])
+    scol=scol-1; step=step+1;
   }
-  res=svd(M_low)
+  res=svd(M_low) ## some zero entries become nonzero due to numerical precision
   M_low=res$u[,1:r]%*%diag(res$d[1:r],nrow=r)%*%t(res$v[,1:r])
+  M_low[srow_index,]=0 ## reset sparse entries to zero
+  M_low[,scol_index]=0 #
+  if(option=="sym") diag(M_low)=0
   value2=sum((M-M_low)^2)
-  if(value2<=value1) M_low_output=M_low;
-  
+  # if(value2<=value1) M_low_output=M_low;
+  M_low_output=M_low;
   return(M_low_output)
 }
 
 ### alternative method for simutanously low-rank+sparse model
 
-ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.01,p=0.5,lambda=0.5,option="unsymmetric"){
+ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.1,p=0.5,lambda=0,option="unsym"){
   result=list();
   n=length(X);
-  rho=rho.ini
+  average_scale=mean(unlist(lapply(X,function(x)norm(x,"F"))))
+  rho=rho.ini/sqrt(n)*average_scale^2;  ## increase with X scale
+  ##rho=rho.ini/sqrt(n)
   
   Lambda=matrix(0,nrow=nrow(X[[1]]),ncol=ncol(X[[1]]))
   obj=residual=NULL
   PQ=0; iter=0; obj = 10^10;error=10;residual=10^10
-  rho_list=NULL
+  rho_list=NULL;
   
-  while((iter < 100)|(error > 10^-3)){
-    
+  while(((iter < 10)|(error > 10^-4))){
+
     PQ_prev=PQ
     ### update B abd c
     res=SVM_offset(X,y,Covariate,OffsetC=(2*rho*PQ-Lambda)/(2*(lambda+rho)),p=p,cost=1/(2*(rho+lambda)))
@@ -288,41 +401,60 @@ ADMM=function(X,y,Covariate=NULL,r,srow,scol,rho.ini=0.01,p=0.5,lambda=0.5,optio
     ## Update PQ
     PQ=sparse_matrix(B+1/(2*rho)*Lambda,r,srow,scol,option)
     
-    residual=c(residual,sum((B-PQ)^2)) ## primal residual
+    residual=c(residual,norm(B-PQ,"F")) ## primal residual
+    #residual_dual=c(residual_dual,rho*norm(PQ-PQ_prev,"F")) ## dual residual
     
     ## update Lambda
     Lambda=Lambda+2*rho*(B-PQ)
-    rho=rho*1.1;
+    
+    ## geometric step size
+    if(iter>=10) rho=rho*1.1
+
     rho_list=c(rho_list,rho)
+    gc();
+    
     
     iter=iter+1;
-    error=abs(-residual[iter+1]+residual[iter])
+
+    ##error=abs(-residual[iter+1]+residual[iter])
+    error=residual[iter+1]/(r*(nrow(X[[1]])+ncol(X[[1]])-srow-scol));
     if(iter>=200) break
   }
-  slope = function(Xnew) sum(Xnew*B)
+  ## take PQ (exact low-rank + sparse) as the output
+  slope = function(Xnew) sum(Xnew*PQ)
   
   if(length(Covariate)>=1){
     W=cbind(1,matrix(unlist(Covariate),nrow=n,byrow=TRUE))
   } else {
     W=as.matrix(rep(1,n))}
   
+   yfit = unlist(lapply(X,function(x) sum(PQ*x)))
+   b=rep(0,dim(W)[2])
+   intercept_opt=optim(b,function(x)objective(W%*%x,yfit,y,p=p),function(x) gradient(W,x,yfit,y,p=p),method="BFGS")
+   intercept=intercept_opt$par
+   yfit=yfit+intercept
+  
+  
   predictor = function(Xnew,Covariate=NULL){
     if(length(Covariate)>=1){
       W=cbind(1,matrix(unlist(Covariate),nrow=1,byrow=TRUE))
-      sign(sum(Xnew*B)+W%*%res$intercept)
+      sign(sum(Xnew*PQ)+intercept)
     }
-    else sign(sum(Xnew*B)+res$intercept)
+    else sign(sum(Xnew*PQ)+intercept)
   }
   
-  result$alpha=res$solution;
   result$slope=slope;result$predict=predictor;
-  result$intercept=res$intercept;
+  
+  result$intercept=intercept;
+  
   result$P_row=svd(PQ)$u[,1:r]; result$P_col=svd(PQ)$v[,1:r];
-  result$obj=obj[-1];result$iter=iter;
+  result$obj=obj[-1];
+  result$obj_exact=intercept_opt$value
+  result$iter=iter;
   result$error=error;
-  result$fitted=c(res$fitted);
-  result$B=B;
-  result$residual=residual[-1];result$PQ=PQ;result$rho=rho_list;
+  result$fitted=yfit;
+  result$B=PQ;
+  result$residual=residual[-1];result$B_appr=res$coef;result$rho=rho_list;
   
   return(result)
 }
@@ -366,25 +498,29 @@ SVM_offset=function(X,y,Covariate,OffsetC,p=0.5,cost=1){
 
 ### estimate probability from sequence of classifications.
 ## Input: cum a H-by-n matrix. each row is the classification result for h = (1,...H)/(H+1)
-prob_est=function(cum,option=1){
-  H=dim(cum)[1]
-  if(option==1){
-    cum_sum=apply(cum,2,cumsum)
-    prob=apply(cum_sum,2,which.max)/(H+1)
-    return(prob) ## use maximum cumulative probability
-  }else if(option==2){
-    d=dim(cum)[2]
-    prob=rep(0,d)
-    for(i in 1:d){
-      vector=cum[,i]
-      vector=c(1,vector,-1)
-      index1=max(which(vector==1))-1
-      index2=max(which(rev(vector)==-1))-1
-      prob[i]=(index1+H-index2)/(2*(H+1)) ## use proposal in Biometrika (2008) Wang, Shen & Liu.
+prob_est=function(cum,option=3){
+    H=dim(cum)[1]
+    if(option==1){
+        cum_sum=apply(cum,2,cumsum)
+        prob=apply(cum_sum,2,which.max)/(H+1)
+        return(prob) ## use maximum cumulative probability
+    }else if(option==2){
+        d=dim(cum)[2]
+        prob=rep(0,d)
+        for(i in 1:d){
+            vector=cum[,i]
+            vector=c(1,vector,-1)
+            index1=max(which(vector==1))-1
+            index2=max(which(rev(vector)==-1))-1
+            prob[i]=(index1+H-index2)/(2*(H+1)) ## use proposal in Biometrika (2008) Wang, Shen & Liu.
+        }
+        return(prob)
+    }else if(option==3){
+        prob=apply(cum,2,sum)/(2*(H+1))+1/2
+        return(prob)
     }
-    return(prob)
-  }
 }
+
 
 
 ################################### Option 1 ###################################
