@@ -1,0 +1,92 @@
+\documentclass[11pt]{article}
+\usepackage[paperheight=3.4in,paperwidth=4.1in,margin=0.00in]{geometry}
+
+\usepackage{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{fancybox}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{comment}
+\usepackage{bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+
+\usepackage{natbib}
+\usepackage{xr}
+\externaldocument{ordinalT}
+%\usepackage{icml2020}
+\usepackage{graphicx}
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+%\input macros.tex
+
+\def\@normalsize{\@setsize\normalsize{11pt}\xpt\@xpt}
+
+\begin{document}
+\normalsize
+%\begin{table}
+%\begin{tabular}{c|ccc}
+%\hline
+%Method &  AUC & \% active nodes & classification\\
+%\hline
+%{\bf \small NonMAR-p} &{\bf 72.6 (3.5)} &89\%  &65.4 \\
+%{\bf \small NonMAR}& {\bf 77.1 (4.5)}  &97\% & 67.3\\
+ %LogisticM&71.5 (2.2)& 100\%&66.1\\
+ % CNN&66.8 (2.6)&-&68.8\\
+ %  Lasso&68.6 (1.3)&27.9\%&62.2\\
+ %  \hline
+%\end{tabular}
+%\end{table}
+
+
+\normalsize
+\begin{table}
+\resizebox{1\textwidth}{!}{
+\begin{tabular}{c|cc}
+\hline
+Method &  AUC  & \% of active nodes\\
+\hline
+{\bf \small NonMAR-p} &{\bf 0.73 (0.03)} &89.1   \\
+{\bf \small NonMAR}& {\bf 0.77 (0.04)}  &97.3 \\
+ LogisticM&0.72 (.02)& 100\\
+    Lasso&0.68 (0.01)&27.9\\
+  CNN&0.67 (0.03)&-\\
+   \hline
+\end{tabular}
+\vspace{-.2cm}
+}
+\caption{Prediction comparison in HCP data analysis.  }
+\end{table}
+
+\vspace{.5cm}
+\begin{table}
+\resizebox{1\textwidth}{!}{
+\begin{tabular}{c|ccc}
+\hline
+Rank &Node &  Node \\  
+\hline
+1&r-lateraloc&r-caudalanterior \\
+2&r-middletemp& r-inferiortemp \\
+3 &l-inferiortemp&r-inferiortemp \\
+ 4 &r-caudalanterior&r-precentral\\
+   \hline
+\end{tabular}
+}
+\vspace{-.2cm}
+\caption{Top brain edges selected by our method. }
+\end{table}
+
+
+
+%\bibliography{tensor_wang}
+\bibliographystyle{icml2020}
+
+
+\end{document}
