@@ -19,14 +19,14 @@ Bartlett, P.~L., M.~I. Jordan, and J.~D. McAuliffe (2006).
 Fan, J., W.~Gong, and Z.~Zhu (2019).
 \newblock Generalized high-dimensional trace regression via nuclear norm
   regularization.
-\newblock {\em Journal of econometrics\/}~{\em 212\/}(1), 177--202.
+\newblock {\em Journal of Econometrics\/}~{\em 212\/}(1), 177--202.
 
 \bibitem[\protect\citeauthoryear{Friedman, Hastie, and Tibshirani}{Friedman
   et~al.}{2010}]{friedman2010regularization}
 Friedman, J., T.~Hastie, and R.~Tibshirani (2010).
 \newblock Regularization paths for generalized linear models via coordinate
   descent.
-\newblock {\em Journal of statistical software\/}~{\em 33\/}(1), 1.
+\newblock {\em Journal of Statistical Software\/}~{\em 33\/}(1), 1.
 
 \bibitem[\protect\citeauthoryear{Hastie, Tibshirani, and Wainwright}{Hastie
   et~al.}{2015}]{hastie2015statistical}
