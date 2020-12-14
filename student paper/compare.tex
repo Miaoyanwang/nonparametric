@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage[paperheight=3.4in,paperwidth=4.1in,margin=0.00in]{geometry}
+\usepackage[paperheight=4.5in,paperwidth=4.5in,margin=0.00in]{geometry}
 
 \usepackage{setspace}
 \usepackage{amsmath,amssymb}
@@ -25,62 +25,50 @@
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
 
-%\input macros.tex
+
 
 \def\@normalsize{\@setsize\normalsize{11pt}\xpt\@xpt}
 
 \begin{document}
 \normalsize
-%\begin{table}
-%\begin{tabular}{c|ccc}
-%\hline
-%Method &  AUC & \% active nodes & classification\\
-%\hline
-%{\bf \small NonMAR-p} &{\bf 72.6 (3.5)} &89\%  &65.4 \\
-%{\bf \small NonMAR}& {\bf 77.1 (4.5)}  &97\% & 67.3\\
- %LogisticM&71.5 (2.2)& 100\%&66.1\\
- % CNN&66.8 (2.6)&-&68.8\\
- %  Lasso&68.6 (1.3)&27.9\%&62.2\\
- %  \hline
-%\end{tabular}
-%\end{table}
-
 
 \normalsize
 \begin{table}
 \resizebox{1\textwidth}{!}{
 \begin{tabular}{c|cc}
 \hline
-Method &  AUC  & \% of active nodes\\
+Method &  AUC  & \% of Active Nodes\\
 \hline
-{\bf \small NonMAR-p} &{\bf 0.73 (0.03)} &89.1   \\
+{\bf \small NonMAR-p} &{\bf 0.73 (0.03)} &88.2   \\
 {\bf \small NonMAR}& {\bf 0.77 (0.04)}  &97.3 \\
- LogisticM&0.72 (.02)& 100\\
-    Lasso&0.68 (0.01)&27.9\\
-  CNN&0.67 (0.03)&-\\
+ LogisticM&0.72 (0.02)& 100.0\\
+    Lasso&0.68 (0.01)&89.7\\
+  CNN&0.67 (0.03)&-$^{}$\\
    \hline
 \end{tabular}
-\vspace{-.2cm}
 }
-\caption{Prediction comparison in HCP data analysis.  }
+\vspace{.5cm}
+{\small Note: CNN dost not report summary statistics for node selection.\\
+Numbers in parentheses are standard errors over 5-fold cross validation. }\\
 \end{table}
 
-\vspace{.5cm}
+\vspace{2cm}
 \begin{table}
 \resizebox{1\textwidth}{!}{
 \begin{tabular}{c|ccc}
 \hline
-Rank &Node &  Node \\  
+Rank &Node &  Node& $p$-value$^*$ \\  
 \hline
-1&r-lateraloc&r-caudalanterior \\
-2&r-middletemp& r-inferiortemp \\
-3 &l-inferiortemp&r-inferiortemp \\
- 4 &r-caudalanterior&r-precentral\\
+1&r-inferiortemp$^{**}$&r-middletemp&$0.01$\\
+2&r-pars&r-supra&3e-5\\
+3&r-posterior&l-precentral&0.01\\
+4& l-caudal& l-isthmus&2e-5\\
    \hline
 \end{tabular}
 }
-\vspace{-.2cm}
-\caption{Top brain edges selected by our method. }
+\vspace{.4cm}
+{\small $^*$ calculated from two sample test based on two label groups. \\
+ $^{**}$ Node names are shown in abbreviations, with ``r'' and ``l'' indicating the right and left hemisphere, respectively.  }
 \end{table}
 
 
