@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: student_paper.aux
+The style file: chicago.bst
+Database file #1: tensor_wang.bib
+You've used 11 entries,
+            2861 wiz_defined-function locations,
+            716 strings with 7310 characters,
+and the built_in function-call counts, 8489 in all, are:
+= -- 693
+> -- 712
+< -- 0
++ -- 216
+- -- 228
+* -- 858
+:= -- 1534
+add.period$ -- 33
+call.type$ -- 11
+change.case$ -- 86
+chr.to.int$ -- 11
+cite$ -- 11
+duplicate$ -- 198
+empty$ -- 474
+format.name$ -- 272
+if$ -- 1579
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 12
+newline$ -- 58
+num.names$ -- 110
+pop$ -- 58
+preamble$ -- 1
+purify$ -- 153
+quote$ -- 0
+skip$ -- 206
+stack$ -- 0
+substring$ -- 457
+swap$ -- 65
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 210
+warning$ -- 0
+while$ -- 97
+width$ -- 0
+write$ -- 145
