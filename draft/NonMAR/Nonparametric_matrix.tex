@@ -371,7 +371,7 @@ The following result bounds the regression excess risk using classification exce
 \begin{thm}[Nonparametric regression via weighted classifications]\label{thm:twobounds} Suppose that the regression function $\mu(\mX)$ is $\alpha$-globally regular with $\alpha\in[0,1]$. Let $\bar \mu(\mX)$ the step function~\eqref{eq:stepfunction} constructed from weighted classifiers. Then, the regression excess risk is bounded by the classification excess risk; i.e.,
 \begin{align}\label{eq:approximation}
 R_{\textup{reg}}(\bar \mu) - R_{\textup{reg}}(\mu)&\leq 4\mathbb{E}_{\mX}\left|  \mu(\mX)-\bar \mu(\mX)\right|\notag\\
-&\leq {2\over H}+ \frac{4}{H}\sum_{\pi\in\Pi}\left\{d_\pi^{\alpha}(\bayesS(\pi),\bar S(\pi))+ {1\over\rho(\pi, \tN)} d_\pi(\bayesS(\pi),\bar S(\pi))\right\},
+&\lesssim {1\over H}+ \frac{1}{H}\sum_{\pi\in\Pi\setminus\tN}\left\{d_\pi^{\alpha}(\bayesS(\pi),\bar S(\pi))+ {1\over\rho(\pi, \tN)} d_\pi(\bayesS(\pi),\bar S(\pi))\right\},
 \end{align}
 for all resolution parameter $H=|\Pi|\in \mathbb{N}_{+}$. 
 
@@ -877,14 +877,14 @@ It follows from the definition of $\bar \mu(\mX)$ that
 \begin{align}
 |\mu(\mX)-\bar \mu(\mX)| &\leq {1\over 2H}\sum_{\pi \in \Pi}\left|I(\mX\in \bar S(\pi)) -I(\mX\in \bayesS(\pi))\right| + \big|\mu(\mX) - {1\over 2}-{1\over 2H}\sum_{\pi \in \Pi}I(\mX\in \bayesS(\pi))\big|\\
 &= {1\over H}\sum_{\pi \in \Pi}\mathds{1}(\mX \in \bar S(\pi) \Delta \bayesS(\pi))+\left| \mu(\mX)-  {1\over 2H}\left(1+2\sum_{\pi \in \Pi}\mathds{1}(\mX \in \bayesS(\pi))\right) \right|\\
-&\leq  {1\over H}\sum_{\pi \in \Pi}\mathds{1}(\mX \in \bar S(\pi) \Delta \bayesS(\pi))+ {1\over 2H}\\&\leq\frac{1}{H}\sum_{\pi\in\Pi\setminus\tN}\mathds{1}(\mX \in \bar S(\pi) \Delta \bayesS(\pi))+ {1+2|\tN|\over 2H}\\&\leq \max_{\pi\in\Pi\setminus\tN}\mathds{1}(\mX \in \bar S(\pi) \Delta \bayesS(\pi))+{1+2C'\over 2H}.
+&\leq  {1\over H}\sum_{\pi \in \Pi}\mathds{1}(\mX \in \bar S(\pi) \Delta \bayesS(\pi))+ {1\over 2H}\\&\leq\frac{1}{H}\sum_{\pi\in\Pi\setminus\tN}\mathds{1}(\mX \in \bar S(\pi) \Delta \bayesS(\pi))+ {1+2c\over 2H},
 \end{align}
-
+where the last inequality follows from the assumption that $|\tN|\leq c$.
 Taking expectation with respect to $\mX$ on both sides gives
 \begin{align}
-\mathbb{E}|\mu(\mX)-\bar \mu(\mX)|&\leq \max_{\pi \in \Pi\setminus\tN}d_\Delta(\bar S(\pi), \bayesS(\pi))+{1+2C'\over 2H}\\&\leq c\max_{\pi \in \Pi\setminus\tN}\left[d_\pi^\alpha(\bar S(\pi), \bayesS(\pi))+Hd_\pi(\bar S(\pi), \bayesS(\pi))\right]+{1+2C'\over 2H},
+\mathbb{E}|\mu(\mX)-\bar \mu(\mX)|&\leq \frac{1}{H}\sum_{\pi\in\Pi\setminus\tN}d_\Delta(\bar S(\pi), \bayesS(\pi))+{1+2c\over 2H}\\&\lesssim \frac{1}{H}\sum_{\pi\in\Pi\setminus\tN}\left[d_\pi^\alpha(\bar S(\pi), \bayesS(\pi))+\frac{1}{\rho(\pi,\tN)}d_\pi(\bar S(\pi), \bayesS(\pi))\right]+{1\over H},
 \end{align}
-where the last line comes from \eqref{eq:identity} and  the inequality $\rho(\pi,\tN)\geq 1/H$ for all $\pi\in\Pi\setminus\tN$. 
+where the last line comes from Proposition~\ref{thm:identifiability}. 
 Furthermore, the definition of regression risk~\eqref{eq:regression} implies
 \begin{align}
 R_\text{reg}(\bar \mu)-R_\text{reg}(p)&=\mathbb{E}_{(\mX,y)}\left(|2\bar \mu(\mX)-y-1|^2-|2\mu(\mX)-y-1|^2\right)\\
@@ -960,9 +960,9 @@ Our proof adopts the techniques of~\citet[Theorem 3]{wang2008probability} to the
 Let $\hat f = I(\hat S_{\text{bayes}}(\pi)),\bayesf = I(\bayesS(\pi))$ be the indicator functions corresponding to the set $\hat S_{\text{bayes}}(\pi),\bayesS(\pi)\subset \mathbb{R}^{d_1\times d_2}$, respectively .
 From Proposition~\ref{prop:equivalance},  $(\pi,\alpha)$-local regularity implies 
 \begin{align}
-\text{Var}[w(y)\ell(yf(\mX))-w(y)\ell(y\bayespif(\mX))]\leq c[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayespif)]^\alpha,
+\text{Var}[w(y)\ell(yf(\mX))-w(y)\ell(y\bayespif(\mX))]\lesssim [R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayespif)]^\alpha.
 \end{align}
-for some constant $c>0$.  Notice $\rho(\pi,\tN)$ is a constant in the proposition because we only consider a given $\pi$.
+Notice $\rho(\pi,\tN)$ is a constant in the proposition because we only consider a given $\pi$.
 Applying the second order condition to Theorem 3 of \cite{wang2008probability} gives that, with the choice $\lambda\leq {t_n\over 4J_n}$, 
 \begin{equation}\label{eq:rate}
 \mathbb{P}\left[R_\ell(\hat f)-R_\ell(\bayesf)\geq \max\left\{a_n, t_n\right\}\right]\leq {7\over 2}\exp\left( -Cn(\lambda J_n)^{2-\alpha}\right), 
@@ -1004,7 +1004,7 @@ where $\lesssim$ denotes the inequality up to multiplicative constants. Furtherm
 
 \begin{proof}[Proof of Lemma~\ref{lem:main}] The $\alpha$-global regularity of $\mu(\mX)$ implies that, for all $\pi \notin \tN$, the conversion inequality holds by Proposition~\ref{prop:equivalance},
 \begin{equation}\label{eq:conversion2}
-d_{\Delta}(\bayesS(\pi),S) \leq
+d_{\Delta}(\bayesS(\pi),S) \lesssim
 \begin{cases}
 d^\alpha_{\pi}(\bayesS(\pi),S), & \text{if }S\in \textup{I},\\
 {1\over \rho(\pi, \tN)}d_{\pi}(\bayesS,S),& \text{otherwise},
@@ -1013,12 +1013,12 @@ d^\alpha_{\pi}(\bayesS(\pi),S), & \text{if }S\in \textup{I},\\
 where region  $\textup{I}=\{S \colon d_{\Delta}(\bayesS(\pi),S)\leq \frac	{C}{1-\alpha}\rho(\pi,\tN)^{\alpha/(1-\alpha)}\}$.
 In addition,  the mean-to-variance inequality also holds by Proposition~\ref{prop:equivalance},
 \begin{equation}
-%\text{Var}\left[w(y)\ell(f(\mX)) - w(y)\ell(\bayesf(\mX))\right]  \leq 
+%\text{Var}\left[w(y)\ell(f(\mX)) - w(y)\ell(\bayesf(\mX))\right]  \leq
 %\begin{cases} 
 %\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right]^{\alpha},& \text{if }\{\mX\colon f(\mX)\geq 0\}\in\textup{I},\\
 % {1\over \rho(\pi, \tN)}\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right],& \text{otherwise}.
 %\end{cases}
-\text{Var}\left[w(y)\ell(f(\mX)) - w(y)\ell(\bayesf(\mX))\right] \leq \left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right]^{\alpha}+ {1\over \rho(\pi, \tN)}\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right].
+\text{Var}\left[w(y)\ell(f(\mX)) - w(y)\ell(\bayesf(\mX))\right] \lesssim \left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right]^{\alpha}+ {1\over \rho(\pi, \tN)}\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right].
 \end{equation}
 Applying Theorem~\ref{thm:main} and Lemma~\ref{lem:metric} to the above mean-to-variance relationship, we obtain the classification risk bound,
 \begin{align}
@@ -1026,7 +1026,7 @@ d_\pi(\bayesS(\pi), \hat S(\pi))\lesssim t_n^{1/(2-\alpha)}+ {1\over \rho(\pi, \
 \end{align}
 Plugging the above bound into~\eqref{eq:conversion2}, we obtain
 \begin{align}
-d_{\Delta}(\bayesS(\pi),\hat S(\pi)) &\leq d^\alpha_{\pi}(\bayesS(\pi),S)+{1\over \rho(\pi, \tN)}d_{\pi}(\bayesS(\pi),S)\\
+d_{\Delta}(\bayesS(\pi),\hat S(\pi)) &\lesssim d^\alpha_{\pi}(\bayesS(\pi),S)+{1\over \rho(\pi, \tN)}d_{\pi}(\bayesS(\pi),S)\\
 &\lesssim t_n^{\alpha/(2-\alpha)}+{1\over \rho^{\alpha}(\pi, \tN)}t_n^{\alpha}+{1\over \rho(\pi, \tN)}t_n^{1/(2-\alpha)}+{1\over \rho^2(\pi, \tN)}t_n\\
 %&\leq {t_n\over \rho^2(\pi, \tN)}\left( \rho^2{\pi, \tN}          \right)
 %&\leq t^{\alpha/(2-\alpha)}_n\left(1+{1\over \rho(\pi, \tN)}t_n^{(1-\alpha)/(2-\alpha)}\right)^\alpha+{t^{1/(2-\alpha)}_n\over \rho(\pi, \tN)}\left(1+{1\over \rho(\pi, \tN)}t_n^{(1-\alpha)/(2-\alpha)}\right)\\
@@ -1040,13 +1040,13 @@ To prove the second conclusion~\eqref{eq:total}, we write
 {1\over H}\sum_{\pi \in \Pi} d_{\Delta}(\bayesS(\pi),\hat S(\pi))={1\over H}\sum_{\pi \in \Pi\cap \tN_H} d_{\Delta}(\bayesS(\pi),\hat S(\pi))+{1\over H}\sum_{\pi \in \Pi\cap \tN_H^c} d_{\Delta}(\bayesS(\pi),\hat S(\pi)),
 \end{align}
 where $\tN_H \stackrel{\text{def}}{=}\bigcup_{\pi'\in\tN}\left(\pi'-\frac{1}{H},\pi'+\frac{1}{H}\right)$.
-The first term involves only finite number of summands and thus can be bounded by $C'/H$ where $C'>0$ is a constant.  We bound the second term using the explicit forms of $\rho(\pi, \tN)$ in the sequence $\pi \in\Pi\cap \tN_H^c$,
+The first term involves only finite number of summands and thus can be bounded by $2c/H$ where $c>0$ is a constant such that $|\tN|\leq c$.  We bound the second term using the explicit forms of $\rho(\pi, \tN)$ in the sequence $\pi \in\Pi\cap \tN_H^c$,
 \begin{align}
 {1\over H}\sum_{\pi \in \Pi\cap \tN_H^c} d_{\Delta,}(\bayesS(\pi),\hat S(\pi)) &\lesssim  {1\over H}\sum_{\pi\in \Pi\cap \tN_H^c} t_n^{\alpha/(2-\alpha)}+{t_n\over H}\sum_{\pi \in \Pi\cap \tN_H^c}{1\over \rho^2(\pi, \tN)}\\
 &\leq t_n^{\alpha/(2-\alpha)}+{t_n\over H} \sum_{\pi \in \Pi\cap \tN_H^c} \sum_{\pi' \in \tN}{1\over |\pi-\pi'|^2}\\
 &\leq  t_n^{\alpha/(2-\alpha)}+{t_n\over H} \sum_{\pi'\in \tN} \sum_{\pi \in \Pi\cap \tN_H^c}{1\over |\pi-\pi'|^2}\\
 &\leq t_n^{\alpha/(2-\alpha)}+ {t_n\over H} \sum_{\pi'\in \tN} 2H^2\\
-&\leq t_n^{\alpha/(2-\alpha)}+ 2C'Ht_n,
+&\leq t_n^{\alpha/(2-\alpha)}+ 2cHt_n,
 \end{align}
 where the last inequality follows from the Lemma~\ref{lem:H}.  Combining the bounds we obtained for the last two terms in \eqref{eq:twobounds} completes the second conclusion.  As seen from the calculation, the distance $\rho^2(\pi, \tN)$ grows quadratically as the level $\pi$ moves away from the mass points in $\tN$. This leads to a fast linear rate in terms of $H$, provided that there are finitly many mass points in $\tN$.
 \end{proof}
