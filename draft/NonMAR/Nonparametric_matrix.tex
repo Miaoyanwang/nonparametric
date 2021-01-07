@@ -184,7 +184,7 @@ We consider the problem of binary regression between a matrix-valued predictor $
 \subsection{Our contributions}
 This paper develops a nonparametric method that efficiently exploits the matrix-valued feature space for interpretable prediction. Our contributions are summarized below. 
 
-First, we develop a new nonparametric regression paradigm -- learning reduction~\citep{vapnik2013nature} -- that solves regression through a series of classifications. Figure~\ref{fig:diagram}a illustrates our learning reduction approaches. We convert a hard \emph{what} problem \emph{``what is the value of $\mu(\mX)$?''} to an easier \emph{where} problem \emph{``where does $\mu(\mX)$ fall below a given value?''}. The latter is related to classification which is statistically easier to address. Most existing nonparametric regression such as nearest neighbors, local polynomials, regularing kernels, etc, extract information from data by exploiting the neighborhood structure in the domain space~\citep{wasserman2006all}. In contrast, our reduction method focuses on the neighborhood structure in the range space, and uses a series of classifications to bridge the range space and the domain space. It is worth noting that the former is a 1-dimensional bounded random variable whereas the latter is a $d_1d_2$-dimensional random variable. The shifted focus to the simpler range space brings both statistical and computational benefits; see Sections~\ref{sec:idea} and~\ref{sec:estimation} for details. 
+First, we develop a new nonparametric regression paradigm -- learning reduction~\citep{vapnik2013nature} -- that solves regression through a series of classifications. Figure~\ref{fig:diagram}a illustrates our learning reduction approaches. We convert a hard problem \emph{``what is the value of $\mu(\mX)$?''} to an easier \emph{where} problem \emph{``where does $\mu(\mX)$ fall below a given value?''}. The latter is related to classification which is statistically easier to address. Most existing nonparametric regression such as nearest neighbors, local polynomials, regularing kernels, etc, extract information from data by exploiting the neighborhood structure in the domain space~\citep{wasserman2006all}. In contrast, our reduction method focuses on the neighborhood structure in the range space, and uses a series of classifications to bridge the range space and the domain space. It is worth noting that the former is a 1-dimensional bounded random variable whereas the latter is a $d_1d_2$-dimensional random variable. The shifted focus to the simpler range space brings both statistical and computational benefits; see Sections~\ref{sec:idea} and~\ref{sec:estimation} for details. 
 
 Second, we develop a low-rank two-way sparse halfspace learning method to efficiently mitigate the curse of dimensionality in nonparametric prediction. Despite the popularity of nonparametric learning, the problem has unique challenges when predictors are matrices. In the brain network analysis, for example, the matrix-valued predictors represent connectivity networks with global structure (e.g.\ clusters, community hubs) and local structure (e.g.\ node degrees, edge connections)\citep{relion2019network}. Simultaneous prediction and structure learning are of practical importance for matrix-valued predictors. We show that our low-rank two-way sparse structure learning enables variable selection in high-dimensional matrices, thereby achieving high interpretability in prediction. 
 
@@ -231,7 +231,7 @@ Second, most nonparametric methods rely on some notion of smoothness in the loca
 
 \subsubsection{Nonparametric methods with manifolds} 
 Several attempts have been developed to address nonparametric regression with manifold-valued predictors. The manifolds here refer to general nonconventional predictors, such as matrices, tensors, networks, images, and so on. \cite{chen2019nonparametric} extends deep neural network to regression on low-dimensional manifold. \cite{hao2019sparse} develops a sparse additive model with tensor covariates by extending usual spline basis. \cite{zhou2020broadcasted} also considers tensor covariates but instead proposes a broadcasting operation to impose nonlinearity to individual tensor entries. In computer vision, convolution neural network (CNN) has been widely adopted as a nonparametric tool for image data~\citep{goodfellow2016deep}. 
-These methods in some sense address the first and (part of the second) challenge mentioned in the earlier paragraph; they use the conventional wisdom of exploiting low-dimensional structure in the input data in order to achieve accurate prediction. 
+These methods in some sense address the first and part of the second challenges mentioned in the earlier paragraph; they use the conventional wisdom of exploiting low-dimensional structure in the input data in order to achieve accurate prediction. 
 
 Our method share the same ground as theirs, but we provide a completely different paradigm for extracting information from massive high-dimensional data. We develop a low-rank, sparse halfspace learning in the matrix space, and allow the informative features in the matrix-valued predictor to vary from one level to another. Unlike the aforementioned methods, our method relies little on the local neighborhood of predictors but rather on the local neighborhood of responses. More importantly, we do not only tailor a specific nonparametric tool for matrix-valued predictors; we provide a learning paradigm that potentially enables state-of-art classification tools, such as neural network, decision trees, and boosting, to address the more challenge regressing problem. The ability to import and adapt existing classification methods is one advantage of the proposed learning reduction framework.
 We also numerically compare our approach with CNN in Section~\ref{sec:simulation}.
@@ -306,14 +306,14 @@ The three problems of our interest represent a range of learning tasks with incr
 
 \begin{figure}
 \centering
-\includegraphics[width=15cm]{demo_method.pdf}
+\includegraphics[width=15cm]{demo_method2.pdf}
 \caption{Level-set approaches to matrix binary nonparametric regression. We use weighted classification to find the level-set in the matrix space, and then estimate the target regression function via aggregation. }\label{fig:method}
 \end{figure}
 
 \section{From classification to regression: a new deal}\label{sec:idea}
 We develop a ``learning reduction'' approach (Figure~\ref{fig:diagram}a) by relating the regression to classification. The latter problem is more fundamental and statistically easier to address. In general, regression requires more assumptions than classification. Our learning reduction approach bridges these two tasks using level set estimation, a problem lies somewhere in between. The connection allows us to disentangle complexity and leverage existing algorithms. 
 
-In this section we describe the oracle procedure of estimating regression function $\mu(\mX)$ when the true distribution $\mathbb{P}_{\mX,y}$ is known. This simplified situation leads to a cleaner characterization with deterministic risk functions in~\eqref{eq:classloss}, \eqref{eq:risklevel}, and \eqref{eq:regression}. The finite sample estimation will be presented in Section~\ref{sec:estimation}, in which we address the general case with unknown distribution $\mathbb{P}_{\mX,y}$, and the only information is through empirical (stochastic) risk estimated from the training set $(\mX_i,y_i)_{i=1}^n$. 
+In this section we describe the oracle procedure of estimating regression function $\mu(\mX)$ when the true distribution $\mathbb{P}_{\mX,y}$ is known. This simplified situation leads to a cleaner characterization with deterministic risk functions in~\eqref{eq:classloss}, \eqref{eq:risklevel}, and \eqref{eq:regression}. The finite sample estimation will be presented in Section~\ref{sec:estimation}, in which we address the general case with unknown distribution $\mathbb{P}_{\mX,y}$, and all the information is based on empirical (stochastic) risk estimated from the training set $(\mX_i,y_i)_{i=1}^n$. 
 
 
 \subsection{Level set approaches to nonparametric binary regression}\label{sec:bridge}
@@ -329,7 +329,7 @@ where, for every $\pi\in\Pi$, the set $\bar S(\pi)\subset \tX$ is the classifier
 \end{equation}
 subject to the constraint $S\in\tS$, with $\tS$ being a given candidate set of classifiers in $\tX$. When the set $\tS$ is rich enough, e.g., $\tS$ consists of all Borel subsets of $\tX$, then $\bar S(\pi)$ has the same risk as $\bayesS(\pi)$. We leave the $\tS$ in general here; the specific choice of $\tS$ will be described in Section~\ref{subsec:linear class}. 
 
-In order to address the accuracy between $\bar \mu(\mX)$ and $\mu(\mX)$, we establish the recovery guarantee of level sets $S(\pi)$ from optimization~\eqref{eq:constrained}. The Bayes classifier $\bayesS(\pi)$ minimizes the weighted classification risk $R_\pi(S)$; the inverse, however, may not be true because of possible multiple global minimizers of $R_\pi(S)$. The uniqueness and stability around $\bayesS(\pi)$ turns out to play a key role in the accurate estimation of $\mu(\mX)$. 
+In order to address the accuracy of $\bar \mu(\mX)$ from $\mu(\mX)$, we establish the recovery guarantee of level sets $S(\pi)$ from optimization~\eqref{eq:constrained}. The Bayes classifier $\bayesS(\pi)$ minimizes the weighted classification risk $R_\pi(S)$; the inverse, however, may not be true because of possible multiple global minimizers of $R_\pi(S)$. The uniqueness and stability around $\bayesS(\pi)$ turns out to play a key role in the accurate estimation of $\mu(\mX)$. 
 
 We introduce the following notion to characterize the behavior of the regression function near the level set boundaries $\partial S_{\text{bayes}}(\pi) = \{ \mu(\mX)= \pi\}$. The condition essentially quantifies the uniqueness of level sets recovery from weighted classification.
 
@@ -353,7 +353,7 @@ and the excess classification risk
 d_\pi(S_1,S_2)\stackrel{\text{def}}{=} R_{\pi}(S_1)-R_{\pi}(S_2).
 \end{align}
 
-\begin{prop}[Identifiability]~\label{thm:identifiability} Suppose the regression function $\mu(\mX)$ is $\alpha$-globally regular with $\alpha\in[0,1]$. Then, there exists a constant $c>0$ such that
+\begin{prop}[Identifiability]~\label{thm:identifiability} Suppose the regression function $\mu(\mX)$ is $\alpha$-globally regular with $\alpha\in[0,1]$. Then, 
 \begin{align}\label{eq:identity}
 d_{\Delta}(S,\bayesS(\pi)) \lesssim d_\pi^\alpha(S,\bayesS(\pi))+{1\over\rho(\pi, \tN)} d_\pi(S,\bayesS(\pi)),
 \end{align}
@@ -368,7 +368,7 @@ Our identifiability characterization generalizes the earlier results for single 
 Now we reach the main result of this section by putting together the proposal~\eqref{eq:stepfunction},~\eqref{eq:constrained} and Proposition~\ref{thm:identifiability}. Define the regression excess risk by $R_{\textup{reg}}(\bar \mu) - R_{\textup{reg}}(\mu)$.
 The following result bounds the regression excess risk using classification excess risk.
 
-\begin{thm}[Nonparametric regression via weighted classifications]\label{thm:twobounds} Suppose that the regression function $\mu(\mX)$ is $\alpha$-globally regular with $\alpha\in[0,1]$. Let $\bar \mu(\mX)$ the step function~\eqref{eq:stepfunction} constructed from weighted classifiers. Then, the regression excess risk is bouned by the classification excess risk; i.e.,
+\begin{thm}[Nonparametric regression via weighted classifications]\label{thm:twobounds} Suppose that the regression function $\mu(\mX)$ is $\alpha$-globally regular with $\alpha\in[0,1]$. Let $\bar \mu(\mX)$ the step function~\eqref{eq:stepfunction} constructed from weighted classifiers. Then, the regression excess risk is bounded by the classification excess risk; i.e.,
 \begin{align}\label{eq:approximation}
 R_{\textup{reg}}(\bar \mu) - R_{\textup{reg}}(\mu)&\leq 4\mathbb{E}_{\mX}\left|  \mu(\mX)-\bar \mu(\mX)\right|\notag\\
 &\leq {2\over H}+ \frac{4}{H}\sum_{\pi\in\Pi}\left\{d_\pi^{\alpha}(\bayesS(\pi),\bar S(\pi))+ {1\over\rho(\pi, \tN)} d_\pi(\bayesS(\pi),\bar S(\pi))\right\},
@@ -393,7 +393,7 @@ where the function family $\tF(r,s_1,s_2)$ consists of linear classifiers with l
 \tF(r,s_1,s_2)=\{f\colon \mX\mapsto \langle \mX, \mB \rangle +b \ \big|\ \text{rank}(\mB)\leq r, \ \text{supp}(\mB)\leq (s_1,s_2), \ \mB\in\mathbb{R}^{d_1\times d_2},\ b\in\mathbb{R}\}.
 \end{align}
 Here $\text{rank}(\mB)$ denotes the rank of the coefficient matrix, and $\text{supp}(\mB)$ denotes the two-way sparsity parameter with $s_1=\newnormSize{}{\mB}_{1,0}$ and $s_2=\newnormSize{}{\mB^T}_{1,0}$ being the numbers of non-zero rows and columns of $\mB$, respectively. For the theory, we assume that $(r,s_1,s_2)$ are known; the adaptation to unknown $(r, s_1, s_2)$ in practice is described in Section~\ref{sec:simulation}.  
-Combining formulations~\eqref{eq:stepfunction},~\eqref{eq:optimization} and~\eqref{eq:class} yields our (oracle procedure of ) ``learning deduction'' approach to nonparametric matrix regression.
+Combining formulations~\eqref{eq:stepfunction},~\eqref{eq:optimization} and~\eqref{eq:class} yields our (oracle procedure of ) ``learning reduction'' approach to nonparametric matrix regression.
 
 
 The low-rank two-way sparse classifier~\eqref{eq:class} enables efficient variable selection in high-dimensional matrices, thereby achieving high interpretability in prediction. In the brain network analysis, scientists are interested in identifying important nodes attached to at least one active edges with non-zero effects. Classical entrywise sparsity essentially treats $\mX$ as ``a bag of non-ordered edges'', and loses the two-way paring information among entries. In contrast, our two-way sparsity efficiently identifies the underlying active nodes by making use of matrix structure in the predictors. 
@@ -421,7 +421,7 @@ More generally, we have established the characterization by extending two classe
 %\begin{prop}[Low-rank and sparse boundaries]\label{prop:px} Let $\mu(\mX)$ be a regression function continuous in $\mX\in\mathbb{R}^{d_1\times d_2}$. Suppose that there exists a low-rank two-way sparse matrix $\mB_\pi$ and a real value $b_\pi\in\mathbb{R}$, such that the boundary set $\partial S(\pi)=\{\mX\colon \mu(\mX)=\pi\}$ is included in the set $\{\mX\colon \langle \mX, \mB_\pi \rangle = b_\pi\}$. Then $\sign (\mu(\mX)-\pi)=\sign (f_\pi(\mX))$ for some $f_\pi(\mX)\in \tF(r,s_1,s_2)$. Note that $(\mB_\pi, b_\pi)$ is allowed to vary depending on $\pi$. 
 %\end{prop}
 
-In principle, more complicated classifiers, such as neural network, decision trees, and boosting, can also be brought to bear on the level set construction~\eqref{eq:optimization}. The ability to import and adapt existing classification methods is one advantage of the proposed learning reduction framework. We find that, in our motivating brain network analysis, the low-rank two-way sparse classifiers~\eqref{eq:class} provide the benefit of interpretable predictions (see Section~\ref{sec:real}). 
+In principle, more complicated classifiers, such as neural network, decision trees, and boosting, can also be brought to bear on the level set construction~\eqref{eq:optimization}. The ability to import and adapt existing classification methods is one advantage of the proposed learning reduction framework. We find that, in our motivating brain network analysis, the low-rank two-way sparse classifiers~\eqref{eq:class} are able to provide the benefit of interpretable predictions with high accuracy (see Section~\ref{sec:real}). 
 
 \section{Estimation}\label{sec:estimation}
 In previous sections we have established the oracle procedure from classification to regression (Figure~\ref{fig:method}). In this section we address the empirical learning problems when the true distribution $\mathbb{P}_{\mX,y}$ is unknown. The objective function in the earlier optimization now becomes empirical (stochastic) risks calculated from high dimensional training data $(\mX_i,y_i)_{i=1}^n$. 
@@ -476,7 +476,7 @@ $\mB \leftarrow \argmin_{\mB} L(\mB|\mS,\mLambda,\rho)$, where $L(\mB|\mS,\mLamb
  \hspace*{.2cm}{\bf Update} $\rho\leftarrow1.1\rho$.\\[.1cm]
 \end{algorithm}
 
-We develop the nonparametric matrix regression in a similar way with little modification. The nonparametric regression~\eqref{eq:stepfunctionsample} estimates $\pi$-classifiers at a series of weights $\pi \in \{{1\over H},\ldots, {H-1\over H}\}$. In principal, one can optimize all classifiers jointly subject to nestedness constraints among sequential level sets. However, this strategy would lead to increased computational burden, and the gain in accuracy is often little with moderate sample size. We choose to use parallel processing to obtain $\pi$-classifiers separately to speed up the computation. The procedure is summarized in Algorithm \ref{alg:regest}. The software for both matrix classification and regression will be available at CRAN.
+We develop the nonparametric matrix regression in a similar way with little modification. The nonparametric regression~\eqref{eq:stepfunctionsample} estimates $\pi$-classifiers at a series of weights $\pi \in \{{1\over H},\ldots, {H-1\over H}\}$. In principal, one can optimize all classifiers jointly subject to nested constraints among sequential level sets. However, this strategy would lead to increased computational burden, and the gain in accuracy is often little with moderate sample size. We choose to use parallel processing to obtain $\pi$-classifiers separately to speed up the computation. The procedure is summarized in Algorithm \ref{alg:regest}. The software for both matrix classification and regression will be available at CRAN.
 
  \begin{algorithm}[ht]
      \caption{{\bf Nonparamatrix matrix regression} } \label{alg:regest}
@@ -521,7 +521,7 @@ Based on the identifiability Proposition~\ref{thm:identifiability}, our estimate
 \begin{corollary}[Accuracy for level set estimation]\label{thm:level}
 Assume the same setup in Theorem~\ref{thm:main}. Denote $t_n={ r(s_1+s_2)\log d  \over n}$ for $n\in\mathbb{N}_{+}$. Then, with high probability over training set, the probabilistic set different between $\hat S(\pi)$ and $\bayesS(\pi)$ is bounded by 
 \begin{equation}\label{eq:set}
-d_{\Delta}(\bayesS(\pi),\hat S(\pi))\lesssim t_n^{\alpha/(2-\alpha)}+ {1\over \rho^2(\pi,\tN)}t_n+a^\alpha_n, \quad \text{for all levels }\pi \notin \tN, 
+d_{\Delta}(\bayesS(\pi),\hat S(\pi))\lesssim t_n^{\alpha/(2-\alpha)}+ {1\over \rho(\pi,\tN)}t_n+a^\alpha_n, \quad \text{for all levels }\pi \notin \tN, 
 \end{equation}
 where the probability measure involved in $d_\Delta(\cdot,\cdot)$ is taken respect to a prototypical test point $\mX$ i.i.d.\ from the training set $(\mX_i)_{i=1}^n.$ For a fixed $\pi$, the first two terms in the right hand side of~\eqref{eq:set} can be combined as $C(\pi)t^{\alpha/(2-\alpha)}_n$. 
 \end{corollary}
@@ -548,7 +548,7 @@ Theorem~\ref{thm:regression} demonstrates the high dimensional convergence of ou
 \end{corollary}
 We apply the convergence rate in Theorem~\ref{thm:regression} to two specific examples.
 
-\begin{example}[Piece-wise constant model] Consider piece-wise constant probability function $\mu(\mX)=\sum_{t=1}^T c_t\mathds{1}(\langle \mX, \mB_t \rangle=0)$ with nonequal $c_1< c_2<\cdots < c_T$. In particular, $T=1, \mB_1=\bm{0}$ reduces the constant model $\mu(\mX)\equiv c$. We have $\alpha=1$ in both cases. Theorem~\ref{thm:regression} gives an convergence rate $\tO(n^{-1/2})$ by setting $H\asymp n^{-1/2}$. This rate achieves minimax optimality as in parametric models. 
+\begin{example}[Piece-wise constant model] Consider piece-wise constant probability function $\mu(\mX)=\sum_{t=1}^T c_t\mathds{1}(\langle \mX, \mB_t \rangle=0)$ with nonequal $c_1< c_2<\cdots < c_T$. In particular, the constant model $\mu(\mX)\equiv c$ is a special case when $T=1, \mB_1 = 0$.  We have $\alpha=1$ in both cases. Theorem~\ref{thm:regression} gives an convergence rate $\tO(n^{-1/2})$ by setting $H\asymp n^{-1/2}$. This rate achieves minimax optimality as in parametric models. 
 \end{example}
 
 \begin{example}[Monotonic single index model]
@@ -569,7 +569,7 @@ We examine the prediction accuracy of our method using four experiments. The dat
 \vspace{.3cm}
 \centerline{\includegraphics[width=.7\textwidth]{math.pdf}}
 
-We set $\Phi_i = $ empirical CDF of $z_i$ for $i=1,2$; $\Phi = $ CDF of standard normal; $g(z)=(1+\exp(z))^{-1}$; matrix dimension $d=20,30,\ldots,60$; and training sample size $n=100, 150, \ldots, 400$. The construction of $p$ amounts to a high nonlinearity from $\mX$ to $\mu(\mX)$. Unlike parametric methods, the functional form of $p$ is set unknown to the algorithm. 
+We set $\Phi_i = $ empirical CDF of $z_i$ for $i=1,2$; $\Phi = $ CDF of standard normal; $g(z)=(1+\exp(z))^{-1}$; matrix dimension $d=20,30,\ldots,60$; and training sample size $n=100, 150, \ldots, 400$. The construction of $\mu$ amounts to a high nonlinearity from $\mX$ to $\mu(\mX)$. Unlike parametric methods, the functional form of $\mu$ is set unknown to the algorithm. 
 
 The first experiment assesses the impact of sample size to classification. We fix the matrix dimension $d=30$ and let the sample size $n$ increase. Figure~\ref{fig:logistic}a plots the resulting density of $\mu(\mX)$ induced from the nonlinear function $\mu(\cdot)$ and distribution of $\mX$. The classification error is measured by the excess risk $R(\hat S_{\text{bayes}})-R(\bayesS)$ evaluated on test data. As seen from Figure~\ref{fig:logistic}b, the classification error decays polynomially in sample size, which is consistent with our theoretical results. We find that a higher rank or a higher number of active nodes leads to a higher classification error, as reflected by the upward shift of the curve as $(r,s)$ increases. Indeed, a higher $(r,s)$ implies a higher complexity in the model space, thus increasing the generalization error of classification. 
 
@@ -582,7 +582,7 @@ The second experiment evaluates the impact of matrix dimension to classification
     \caption{Finite sample accuracy of matrix classification and regression. (a) simulation setup. (b) classification error with sample size when $d=30$. (c) classification error with matrix dimension when $n=200$. (d) regression error with sample size. The dashed line in panels (b)-(d) represent theoretical rates $\tO(n^{-2/3})$, $\tO(\log d)$, and $\tO(n^{-1/2})$, respectively. The reported statistics are averaged across 30 simulation replicates, with standard error given in the error bar.}\label{fig:logistic}
 \end{figure}
 
-The third experiment investigates similar aspects as before but to the task of matrix regression. We set the regularing parameter $H=20$ and aggregated the multiple level-sets as in our proposal~\eqref{eq:stepfunctionsample}. Figure~\ref{fig:logistic}d shows the regression error measured by $L$-1 risk, $\mathbb{E}|\hat \mu (\mX)- \mu(\mX)|$, evaluated on test data. Again, we see that the regression error decays polynomially in sample size. Note that our matrix-valued feature has ambient dimension $30\times 30=900$ whereas the sample size is on the order of hundreds. This scenario of high feature dimension low sample size is prevalent in brain network analysis. Nevertheless, our nonparametric method consistently learns the function $p$ from limited data without the need to specify a priori functional form.
+The third experiment investigates similar aspects as before but to the task of matrix regression. We set the resolution parameter $H=20$ and aggregated the multiple level-sets as in our proposal~\eqref{eq:stepfunctionsample}. Figure~\ref{fig:logistic}d shows the regression error measured by $L$-1 risk, $\mathbb{E}|\hat \mu (\mX)- \mu(\mX)|$, evaluated on test data. Again, we see that the regression error decays polynomially in sample size. Note that our matrix-valued feature has ambient dimension $30\times 30=900$ whereas the sample size is on the order of hundreds. This scenario of high feature dimension low sample size is prevalent in brain network analysis. Nevertheless, our nonparametric method consistently learns the function $\mu$ from limited data without the need to specify a priori functional form.
 
 \begin{figure}[ht]
     \centering
@@ -641,7 +641,7 @@ We also report the accuracy on classification which is an intermediate step of r
 \end{figure}
 
 
-We provide illustrate examples to show the outputs returned by {\bf \small NonMAR}. Figures~\ref{fig:compare2}a and c plot the top edges selected by \NonparaM based on the moving averages of feature weights $(\hat \mB_\pi)_{\pi\in[0,1]}$ with a window size $\Delta \pi = 0.2$. The selected region agrees well with the ground truth (Figures~\ref{fig:compare}a and c). We also investigate the relationship between edge connectivity for individual $i$ and the estimated response probability $\hat \pi_i$ (Figures~\ref{fig:compare2}b and d). The trajectory of the edge connectivity accurately resembles the ground truth function in each subregion. The results demonstrate that our method is able to recover the right ``sorting'' of individuals with respect to the response probability on a continuous spectrum. 
+We provide illustrate examples to show the outputs returned by {\bf \small NonMAR}. Figures~\ref{fig:compare2}a and c plot the top edges selected by \NonparaM based on the moving averages of feature weights $(\hat \mB_\pi)_{\pi\in\Pi}$ with  $\Pi = \{0.2,\ldots,0.8\}$. The selected region agrees well with the ground truth (Figures~\ref{fig:compare}a and c). We also investigate the relationship between edge connectivity for individual $i$ and the estimated response probability $\hat \pi_i$ (Figures~\ref{fig:compare2}b and d). The trajectory of the edge connectivity accurately resembles the ground truth function in each subregion. The results demonstrate that our method is able to recover the right ``sorting'' of individuals with respect to the response probability on a continuous spectrum. 
 The successful recovery of complicated unknown functions makes our method {\bf \small NonMAR} appealing in applications. 
 
 \subsection{human brain connectome data}\label{sec:real}
@@ -750,10 +750,10 @@ Now, suppose the observation takes the form of pair $(\mX_\pi,y_\pi)$ with $y_\p
 \pi \stackrel{\text{i.i.d.}}{\sim} \text{Uniform}[0,1] \stackrel{\text{conditional on $\pi$}}{\longrightarrow}
 \begin{cases}
 y\sim \text{Ber}(\pi),\ y\perp \mX|\pi, \\
-\mX=\mB_0+\entry{\mX_{pq}}, \ \text{where\ } \mX_{pq}\stackrel{\text{indep.}}{\sim}\tN(g_{s}(\pi), \sigma^2),
+\mX=\mB_0+\entry{\mX_{pq}},
 \end{cases}
 \]
-where $s=s(p,q)$ is the index such that the position $(p,q)$ falls in the support of $\mB_s$. Recall that $\mu(\mX)=\mathbb{E}(y|\mX)$. In the noiseless case $\sigma = 0$, there exists a sequence of functions $(f_\pi)_{\pi\in(0,1)}$ with $f_\pi \in\tF(r,s_1,s_2)$, such that $\sign (\mu(\mX)-\pi) = \sign f_\pi(\mX)$ for all $\pi \in (0,1)$.
+where $ \mX_{pq}\stackrel{\text{indep.}}{\sim}\tN(g_{s}(\pi), \sigma^2)$ if  the position $(p,q)$ falls in the support of $\mB_s$ and $ \mX_{pq}\stackrel{\text{indep.}}{\sim}\tN(0,\sigma^2)$  otherwise.  Recall that $\mu(\mX)=\mathbb{E}(y|\mX)$. In the noiseless case $\sigma = 0$, there exists a sequence of functions $(f_\pi)_{\pi\in(0,1)}$ with $f_\pi \in\tF(r,s_1,s_2)$, such that $\sign (\mu(\mX)-\pi) = \sign f_\pi(\mX)$ for all $\pi \in (0,1)$.
 
 The above example shows the connection of our method to joint decomposition of matrices $(\mX_\pi)_{\pi\in[0,1]}$. We should point out, despite of the seeming similarity, a fundamental challenge arises in our setting when the latent index $\pi$ is unobserved. Our level-set approach essentially learns the right ``sorting'' of $\mX_\pi$ against the index $\pi\in[0,1]$ (see Figure~\ref{fig:method}), thereby facilitating the joint estimation of matrix basis $\mB_s$ and relationship $\pi=\pi(\mX)$. 
 \end{example}
@@ -822,7 +822,6 @@ d(S,\bayesS) &\stackrel{\text{def}}{=} R(S)-R(\bayesS)\\
 &=2\int_{\mX\in S\Delta S_{\text{bayes}}}|\mu(\mX)-\pi|d \mathbb{P}_{\mX}.
 \end{align}
 
-Without loss of generality, suppose $ \rho(\pi,\tN)\leq C_2$. If $\rho(\pi,\tN)>C_2$, we can replace $\rho(\pi,\tN)$ by $C_2$ in \eqref{eq:identity}. With a modification of the constant $c$, \eqref{eq:identity} still holds.
 We divide the proof into two cases: $\alpha \in (0,1)$ and $\alpha=1$. 
 \begin{enumerate}[label={2.\arabic*},wide, labelwidth=!, labelindent=0pt]
 \item[Case 1:] $\alpha \in (0,1)$.
@@ -831,33 +830,33 @@ Consider an arbitrary set $S\subset\mathbb{R}^{d_1\times d_2}$. Let $t$ be an ar
 \begin{align}
 \int_{\mX\in S\Delta S_{\text{bayes}}}|\mu(\mX)-\pi|d \mathbb{P}_{\mX} &\geq t \left[\mathbb{P}_{\mX}(\left(S\Delta S_{\text{bayes}}) \cap A\right)\right] \\
 &\geq t\left( \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right) - \mathbb{P}_{\mX}(A^c)\right)\\
-&\geq t\left( \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right) - C_1t^{\alpha\over 1-\alpha}\right),\quad \text{for all }t\in (0,\rho(\pi,\tN)).
+&\geq t\left( \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right) - Ct^{\alpha\over 1-\alpha}\right),\quad \text{for all }t\in (0,\rho(\pi,\tN)).
 \end{align}
 Combining the above inequality with the identity~\eqref{eq:excess} yields
 \begin{equation}\label{eq:tail2}
-d(S,\bayesS)\geq 2t\left( \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right) - C_1t^{\alpha\over 1-\alpha}\right),\quad \text{for all }t\in(0,\rho(\pi,\tN)]).
+d(S,\bayesS)\geq 2t\left( \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right) - Ct^{\alpha\over 1-\alpha}\right),\quad \text{for all }t\in(0,\rho(\pi,\tN)]).
 \end{equation}
 We maximize the lower bound of~\eqref{eq:tail2} with respect to $t$ and obtain the optimal $t_{\text{opt}}\in(0,\rho(\pi,\tN)])$,
 \[
 t_{\text{opt}}=\begin{cases}
-\rho(\pi,\tN), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)\geq {C_1\over 1-\alpha}\rho(\pi,\tN)^{{\alpha\over1-\alpha}} ,\\
-\left[{1-\alpha \over C_1}\mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)\right]^{1-\alpha \over \alpha}, & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)< {C_1\over 1-\alpha} \rho(\pi,\tN)^{{\alpha\over1-\alpha}}.
+\rho(\pi,\tN), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)\geq {C\over 1-\alpha}\rho(\pi,\tN)^{{\alpha\over1-\alpha}} ,\\
+\left[{1-\alpha \over C}\mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)\right]^{1-\alpha \over \alpha}, & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)< {C\over 1-\alpha} \rho(\pi,\tN)^{{\alpha\over1-\alpha}}.
 \end{cases}
 \]
 The corresponding lower bound of the inequality~\eqref{eq:tail2} becomes
 \begin{align}
   d(S,\bayesS)\geq\begin{cases}
-\frac{2\alpha}{\rho(\pi,\tN)}\mathbb{P}(S\Delta \bayesS), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)\geq {C_1\over 1-\alpha}\rho(\pi,\tN)^{{\alpha\over1-\alpha}} ,\\
-2\alpha{\left(1-\alpha\over C_1\right)}^{1-\alpha \over \alpha} \mathbb{P}^{1\over \alpha}_{\mX}\left(S\Delta S_{\text{bayes}}\right), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)< {C_1\over 1-\alpha} \rho(\pi,\tN)^{{\alpha\over1-\alpha}}.
+2\alpha\rho(\pi,\tN)\mathbb{P}(S\Delta \bayesS), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)\geq {C\over 1-\alpha}\rho(\pi,\tN)^{{\alpha\over1-\alpha}} ,\\
+2\alpha{\left(1-\alpha\over C\right)}^{1-\alpha \over \alpha} \mathbb{P}^{1\over \alpha}_{\mX}\left(S\Delta S_{\text{bayes}}\right), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)< {C\over 1-\alpha} \rho(\pi,\tN)^{{\alpha\over1-\alpha}}.
 \end{cases}
 \end{align}
 
 Combining both cases gives
-\begin{align}
+\begin{align}\label{eq:cmultiidentity}
     d_\Delta(S,\bayesS) \stackrel{\text{def}}{=}\mathbb{P}(S\Delta\bayesS)\leq c\left(d^\alpha(S,\bayesS)+\frac{1}{\rho(\pi,\tN)}d(S,\bayesS)\right),
 \end{align}
 
-where we take $c= \max\left(\frac{1}{2\alpha},\left(C_1\over 1-\alpha\right)^{1-\alpha}\left(1\over 2\alpha\right)^\alpha\right)$. 
+where we take $c= \max\left(\frac{1}{2\alpha},\left(C\over 1-\alpha\right)^{1-\alpha}\left(1\over 2\alpha\right)^\alpha\right)$. 
 
 \item [Case 2:] $\alpha = 1$.
 
@@ -865,8 +864,9 @@ The inequality~\eqref{eq:tail2} now becomes
 \[
 d(S,\bayesS)\geq 2t\mathbb{P}_{\mX}(S\Delta \bayesS) = 2td_\Delta(S,\bayesS), \quad \text{for all }t\in[0,\rho(\pi,\tN)], \pi \notin\tN.
 \]
-Therefore the inequality holds with $c={1\over 2}$ plugging $t=1/\rho(\pi,\tN)$ into the inequality.
+The inequality \eqref{eq:cmultiidentity} holds with $c={1\over 2}$ plugging $t=1/\rho(\pi,\tN)$ into the above inequality.
 \end{enumerate}
+Therefore,  Proposition~\ref{thm:identifiability} holds.
 \end{proof}
 
 
@@ -884,7 +884,7 @@ Taking expectation with respect to $\mX$ on both sides gives
 \begin{align}
 \mathbb{E}|\mu(\mX)-\bar \mu(\mX)|&\leq \max_{\pi \in \Pi\setminus\tN}d_\Delta(\bar S(\pi), \bayesS(\pi))+{1+2C'\over 2H}\\&\leq c\max_{\pi \in \Pi\setminus\tN}\left[d_\pi^\alpha(\bar S(\pi), \bayesS(\pi))+Hd_\pi(\bar S(\pi), \bayesS(\pi))\right]+{1+2C'\over 2H},
 \end{align}
-where the last line comes from condition~\eqref{eq:identity}. 
+where the last line comes from \eqref{eq:identity} and  the inequality $\rho(\pi,\tN)\geq 1/H$ for all $\pi\in\Pi\setminus\tN$. 
 Furthermore, the definition of regression risk~\eqref{eq:regression} implies
 \begin{align}
 R_\text{reg}(\bar \mu)-R_\text{reg}(p)&=\mathbb{E}_{(\mX,y)}\left(|2\bar \mu(\mX)-y-1|^2-|2\mu(\mX)-y-1|^2\right)\\
@@ -896,9 +896,9 @@ R_\text{reg}(\bar \mu)-R_\text{reg}(p)&=\mathbb{E}_{(\mX,y)}\left(|2\bar \mu(\mX
 
 \subsubsection{Proof of Proposition~\ref{prop:polynomial}}\label{sec:population}
 \begin{prop}[Polynomial continuity of inverse links]\label{prop:polynomial}
-Consider the parametric model $p=g\circ f$ as in Example 1, where we assume random predictors $\mX$ with i.i.d.\ Uniform$[0,1]$ entries. Suppose the inverse link function has a constant $c_1,c_2>0$ and $\alpha\in[0,1]$ such that  $g^{-1}(\pi+t)-g^{-1}(\pi-t) \leq c_1 t^{\alpha\over 1-\alpha}$ for all $t\in(0,c_2)$. Then,
+Consider the parametric model $p=g\circ f$ as in Example 1, where we assume random predictors $\mX$ with i.i.d.\ Uniform$[0,1]$ entries. Suppose the inverse link function has a constant $c_1,c_2>0$ and $\alpha\in[0,1]$ such that  $g^{-1}(\pi+t)-g^{-1}(\pi-t) \leq c_1 t^{\alpha\over 1-\alpha}$ for all $t\in[0,c_2)$. Then,
 \begin{equation}\label{eq:concentration}
-\mathbb{P}(|\mu(\mX)-\pi|\leq t)\leq c_3t^{\alpha\over 1-\alpha}, \quad \text{for all  }t\in(0,c_2),
+\mathbb{P}(|\mu(\mX)-\pi|\leq t)\leq c_3t^{\alpha\over 1-\alpha}, \quad \text{for all  }t\in[0,c_2),
 \end{equation}
 where $c_3>0$ is a constant depending on $\pi\in(0,1)$. In particular, when the function $g$ is the identity or logistic link, we have $\alpha=1/2$.
 \end{prop}
@@ -921,7 +921,7 @@ First we prove that
     \item Consider the case when $d = k+1$ where $\mx = (x_1,\ldots,x_{k+1})\in[0,1]^{k+1}$ and $\mb = (b_1,\ldots,b_{k+1})\in\mathbb{R}^{k+1}$.
    
     \begin{align}
-        \int_{\{\mx:l(t)\leq \langle \mb,\mx\rangle \leq u(t)\}} d\mx  &= \int_{\{\mx:l(t)-b_{k+1}x_{k+1}\leq b_1x_1+\ldots b_kx_k\leq u(t)-b_{k+1}x_{k+1}\}} d\mx_{1:k}dx_{k+1} \\&= \int_{0}^{1}\int_{l(t)-b_{k+1}x_{k+1}\leq b_1x_1+\ldots b_kx_k\leq u(t)-b_{k+1}x_{k+1}}\,d\mx_{1:k}dx_{k+1}\\&\leq \int_{0}^1 c_kt^{\alpha\over 1-\alpha}\,dx_{k+1} \\&\leq c_{k+1}t^{\alpha\over 1-\alpha}.
+        \int_{\{\mx:l(t)\leq \langle \mb,\mx\rangle \leq u(t)\}} d\mx  &= \int_{\{\mx:l(t)-b_{k+1}x_{k+1}\leq b_1x_1+\ldots b_kx_k\leq u(t)-b_{k+1}x_{k+1}\}} d\mx_{1:k}dx_{k+1} \\&\leq \int_{0}^{1}\int_{l(t)-b_{k+1}x_{k+1}\leq b_1x_1+\ldots b_kx_k\leq u(t)-b_{k+1}x_{k+1}}\,d\mx_{1:k}dx_{k+1}\\&\leq \int_{0}^1 c_kt^{\alpha\over 1-\alpha}\,dx_{k+1} \\&\leq c_{k+1}t^{\alpha\over 1-\alpha}.
     \end{align}
     \item By mathematical induction, \eqref{eq:mainineq} holds for arbitrary $d.$
  \end{enumerate}
@@ -929,19 +929,18 @@ First we prove that
  \begin{align}
      \mathbb{P}(|\mu(\mX)-\pi|\leq t) &= \mathbb{P}(\pi-t \leq \mu(\mX)\leq \pi+t)\\&= \mathbb{P}(\pi-t\leq g(\langle \mB,\mX\rangle )\leq \pi+t)\\&=\mathbb{P}(g^{-1}(\pi-t)\leq \langle\mB,\mX\rangle\leq g^{-1}(\pi+t)).
  \end{align}
-Combining  the assumption that $g^{-1}(\pi+t)-g^{-1}(\pi-t) \leq c_1t^{\alpha\over 1-\alpha}$ for all $t\in(0,c_2)$ and \eqref{eq:mainineq} gives
+Combining  the assumption that $g^{-1}(\pi+t)-g^{-1}(\pi-t) \leq c_1t^{\alpha\over 1-\alpha}$ for all $t\in[0,c_2)$ and \eqref{eq:mainineq} gives
  \begin{align}
-     \mathbb{P}(|\mu(\mX)-\pi|\leq t/H)\leq c_3 t^{\alpha\over 1-\alpha}.
+     \mathbb{P}(|\mu(\mX)-\pi|\leq t/H)\leq c_3 t^{\alpha\over 1-\alpha},  \text{ for all } t\in[0,c_2).
  \end{align}
  
- In particular, when link function is the identity or logistic link we have $\alpha = 1/2$.
+ In particular, when the link function is the identity or logistic link we have $\alpha = 1/2$.
  
  
  When $g(z) = z$, we have 
  \begin{align}
-     g^{-1}(\pi+t)-g^{-1}(\pi-t) = 2t,
+     g^{-1}(\pi+t)-g^{-1}(\pi-t) = 2t.
  \end{align}
- where the constant is independent on $\pi\in(0,1)$. Therefore, we have $\alpha = 1/2$ and $\beta = 1$.
 
 
  When $g(z) = \frac{e^z}{1+e^z}$, we have 
@@ -950,6 +949,7 @@ Combining  the assumption that $g^{-1}(\pi+t)-g^{-1}(\pi-t) \leq c_1t^{\alpha\ov
  \end{align}
  for some $\pi^*\in[\pi-t,\pi+t]$ by mean value theorem.
  
+ Therefore, we have $\alpha = 1/2$ when the link function is the identity or logistic link.
  \end{proof}
 
 
@@ -958,12 +958,11 @@ Combining  the assumption that $g^{-1}(\pi+t)-g^{-1}(\pi-t) \leq c_1t^{\alpha\ov
 Our proof adopts the techniques of~\citet[Theorem 3]{wang2008probability} to the contexts of classifier functions $\tF(r,s_1,s_2)$. We summarize only the key difference here but refer to~\cite{wang2008probability} for complete proof. 
 
 Let $\hat f = I(\hat S_{\text{bayes}}(\pi)),\bayesf = I(\bayesS(\pi))$ be the indicator functions corresponding to the set $\hat S_{\text{bayes}}(\pi),\bayesS(\pi)\subset \mathbb{R}^{d_1\times d_2}$, respectively .
-From Proposition~\ref{prop:equivalance}, Assumption~\ref{ass:main}(ii) implies 
+From Proposition~\ref{prop:equivalance},  $(\pi,\alpha)$-local regularity implies 
 \begin{align}
-\text{Var}[w(y)\ell(yf(\mX))-w(y)\ell(y\bayespif(\mX))]\leq c'[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayespif)]^\alpha.
+\text{Var}[w(y)\ell(yf(\mX))-w(y)\ell(y\bayespif(\mX))]\leq c[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayespif)]^\alpha,
 \end{align}
-
-
+for some constant $c>0$.  Notice $\rho(\pi,\tN)$ is a constant in the proposition because we only consider a given $\pi$.
 Applying the second order condition to Theorem 3 of \cite{wang2008probability} gives that, with the choice $\lambda\leq {t_n\over 4J_n}$, 
 \begin{equation}\label{eq:rate}
 \mathbb{P}\left[R_\ell(\hat f)-R_\ell(\bayesf)\geq \max\left\{a_n, t_n\right\}\right]\leq {7\over 2}\exp\left( -Cn(\lambda J_n)^{2-\alpha}\right), 
@@ -992,7 +991,7 @@ where $C_1, C_2, C_3>0$ are constants.
 
 
 \subsubsection{Proofs of Theorem~\ref{thm:regression}}
-
+We first suggest lemmas and proposition that will be used to prove Theorem~\ref{thm:regression}.
 \begin{lem}[Multiple level-sets estimation]~\label{lem:main}Suppose $\mu(\mX)$ is $\alpha$-globally regular with $\alpha\in[0,1]$. Denote $t_n={ r(s_1+s_2)\log d  \over n}$ for $n\in\mathbb{N}_{+}$. Then, under the same condition and high probability specified in Theorem~\ref{thm:main}, we have
 \[
 d_{\Delta}(\bayesS(\pi),\hat S(\pi))\lesssim t_n^{\alpha/(2-\alpha)}+ {1\over \rho^2(\pi,\tN)}t_n,\quad \text{for all levels }\pi \notin \tN, 
@@ -1003,7 +1002,7 @@ where $\lesssim$ denotes the inequality up to multiplicative constants. Furtherm
 \end{equation}
 \end{lem}
 
-\begin{proof}[Proof of Lemma~\ref{lem:main}] The global regularity of $\mu(\mX)$ implies that, for all $\pi \notin \tN$, the conversion inequality holds,
+\begin{proof}[Proof of Lemma~\ref{lem:main}] The $\alpha$-global regularity of $\mu(\mX)$ implies that, for all $\pi \notin \tN$, the conversion inequality holds by Proposition~\ref{prop:equivalance},
 \begin{equation}\label{eq:conversion2}
 d_{\Delta}(\bayesS(\pi),S) \leq
 \begin{cases}
@@ -1011,8 +1010,8 @@ d^\alpha_{\pi}(\bayesS(\pi),S), & \text{if }S\in \textup{I},\\
 {1\over \rho(\pi, \tN)}d_{\pi}(\bayesS,S),& \text{otherwise},
 \end{cases}
 \end{equation}
-where region $\textup{I}=\{S \colon d_{\Delta}(\bayesS(\pi),S)\leq H^{-\alpha/(1-\alpha)}\}$.
-By proposition~\ref{prop:equivalance}, the mean-to-variance inequality also holds,
+where region  $\textup{I}=\{S \colon d_{\Delta}(\bayesS(\pi),S)\leq \frac	{C}{1-\alpha}\rho(\pi,\tN)^{\alpha/(1-\alpha)}\}$.
+In addition,  the mean-to-variance inequality also holds by Proposition~\ref{prop:equivalance},
 \begin{equation}
 %\text{Var}\left[w(y)\ell(f(\mX)) - w(y)\ell(\bayesf(\mX))\right]  \leq 
 %\begin{cases} 
@@ -1027,21 +1026,21 @@ d_\pi(\bayesS(\pi), \hat S(\pi))\lesssim t_n^{1/(2-\alpha)}+ {1\over \rho(\pi, \
 \end{align}
 Plugging the above bound into~\eqref{eq:conversion2}, we obtain
 \begin{align}
-d_{\Delta}(\bayesS(\pi),\hat S(\pi)) &\leq d^\alpha_{\pi}(\bayesS(\pi),S)+{1\over \rho(\pi, \tN)}d_{\pi}(\bayesS,S)\\
+d_{\Delta}(\bayesS(\pi),\hat S(\pi)) &\leq d^\alpha_{\pi}(\bayesS(\pi),S)+{1\over \rho(\pi, \tN)}d_{\pi}(\bayesS(\pi),S)\\
 &\lesssim t_n^{\alpha/(2-\alpha)}+{1\over \rho^{\alpha}(\pi, \tN)}t_n^{\alpha}+{1\over \rho(\pi, \tN)}t_n^{1/(2-\alpha)}+{1\over \rho^2(\pi, \tN)}t_n\\
 %&\leq {t_n\over \rho^2(\pi, \tN)}\left( \rho^2{\pi, \tN}          \right)
 %&\leq t^{\alpha/(2-\alpha)}_n\left(1+{1\over \rho(\pi, \tN)}t_n^{(1-\alpha)/(2-\alpha)}\right)^\alpha+{t^{1/(2-\alpha)}_n\over \rho(\pi, \tN)}\left(1+{1\over \rho(\pi, \tN)}t_n^{(1-\alpha)/(2-\alpha)}\right)\\
 &\leq 4t_n^{\alpha/(2-\alpha)}+{4\over \rho^2(\pi, \tN)}t_n.
 \end{align}
-where the last line follows from the fact that $a(b^2+b^{2-\alpha}+b+1) \leq 4 a (b^2+1)$ with $a:={t_n \over \rho^2(\pi, \tN)}$ and $b:=\rho(\pi, \tN) t_n^{(\alpha-1)/(2-\alpha)}$.
+where the last line follows from the fact that $a(b^2+b^{2-\alpha}+b+1) \leq 4 a (b^2+1)$ with $a:={t_n \over \rho^2(\pi, \tN)}$ and $b:=\rho(\pi, \tN) t_n^{(\alpha-1)/(2-\alpha)}$.  Therefore,  we obtain the first conclusion.
 
 
 To prove the second conclusion~\eqref{eq:total}, we write 
-\[
+\begin{align}\label{eq:twobounds}
 {1\over H}\sum_{\pi \in \Pi} d_{\Delta}(\bayesS(\pi),\hat S(\pi))={1\over H}\sum_{\pi \in \Pi\cap \tN_H} d_{\Delta}(\bayesS(\pi),\hat S(\pi))+{1\over H}\sum_{\pi \in \Pi\cap \tN_H^c} d_{\Delta}(\bayesS(\pi),\hat S(\pi)),
-\]
+\end{align}
 where $\tN_H \stackrel{\text{def}}{=}\bigcup_{\pi'\in\tN}\left(\pi'-\frac{1}{H},\pi'+\frac{1}{H}\right)$.
-The first term involves only finite number of summands and thus can be absorbed in to $C'/H$. We bound the second term using the explicit forms of $\rho(\pi, \tN)$ in the sequence $\pi \in\Pi\cap \tN_H^c$,
+The first term involves only finite number of summands and thus can be bounded by $C'/H$ where $C'>0$ is a constant.  We bound the second term using the explicit forms of $\rho(\pi, \tN)$ in the sequence $\pi \in\Pi\cap \tN_H^c$,
 \begin{align}
 {1\over H}\sum_{\pi \in \Pi\cap \tN_H^c} d_{\Delta,}(\bayesS(\pi),\hat S(\pi)) &\lesssim  {1\over H}\sum_{\pi\in \Pi\cap \tN_H^c} t_n^{\alpha/(2-\alpha)}+{t_n\over H}\sum_{\pi \in \Pi\cap \tN_H^c}{1\over \rho^2(\pi, \tN)}\\
 &\leq t_n^{\alpha/(2-\alpha)}+{t_n\over H} \sum_{\pi \in \Pi\cap \tN_H^c} \sum_{\pi' \in \tN}{1\over |\pi-\pi'|^2}\\
@@ -1049,7 +1048,7 @@ The first term involves only finite number of summands and thus can be absorbed 
 &\leq t_n^{\alpha/(2-\alpha)}+ {t_n\over H} \sum_{\pi'\in \tN} 2H^2\\
 &\leq t_n^{\alpha/(2-\alpha)}+ 2C'Ht_n,
 \end{align}
-where the last inequality follows from the Lemma~\ref{lem:H}. As seen from the calculation, the distance $\rho^2(\pi, \tN)$ grows quadratically as the level $\pi$ moves away from the mass points in $\tN$. This leads to a fast linear rate in terms of $H$, provided that there are finitly many mass points in $\tN$.
+where the last inequality follows from the Lemma~\ref{lem:H}.  Combining the bounds we obtained for the last two terms in \eqref{eq:twobounds} completes the second conclusion.  As seen from the calculation, the distance $\rho^2(\pi, \tN)$ grows quadratically as the level $\pi$ moves away from the mass points in $\tN$. This leads to a fast linear rate in terms of $H$, provided that there are finitly many mass points in $\tN$.
 \end{proof}
 
 \begin{lem}\label{lem:H}
@@ -1073,9 +1072,9 @@ $|\pi-\pi'|>{1\over H}$ for all $\pi'\in\tN$.
 
 \begin{prop}\label{prop:equivalance}
 Let $\pi\in(0,1)$ denote a given level value, and $R_{\ell,\pi}(f)=\mathbb{E}[w(y)\ell(yf(\mX))]$ denote the weighted hinge risk  or $\psi$ risk for the decision function $f$. Suppose Definition~\ref{ass:decboundary}
-holds with $\alpha\in(0,1]$. Then, the following two properties hold for bounded functions $f\in\tF(r,s_1,s_2)$. 
+holds with $\alpha\in(0,1]$ and $C>0$. Then, the following two properties hold for bounded functions $f\in\tF(r,s_1,s_2)$. 
 \begin{enumerate}
-\item Conversion inequality under hinge loss:  
+\item Conversion inequality:  
 \begin{equation}\label{eq:conversion}
 d_{\Delta}(\bayesS(\pi),S) \lesssim
 \begin{cases}
@@ -1083,26 +1082,53 @@ d^\alpha_{\pi}(\bayesS(\pi),S), & \text{if }S\in \textup{I},\\
 {1\over \rho(\pi, \tN)}d_{\pi}(\bayesS(\pi),S),& \text{otherwise},
 \end{cases}
 \end{equation}
-where the region $\textup{I}=\{S \colon d_{\Delta}(\bayesS(\pi),S)\leq H^{-\alpha/(1-\alpha)}\}$.
-\item Mean-variance relationship 
+where the region $\textup{I}=\{S \colon d_{\Delta}(\bayesS(\pi),S)\leq \frac	{C}{1-\alpha}\rho(\pi,\tN)^{\alpha/(1-\alpha)}\}$.
+\item Mean-variance relationship:
 \begin{equation}
 \text{Var}\left[w(y)\ell(f(\mX)) - w(y)\ell(\bayesf(\mX))\right]  \lesssim 
-\begin{cases} 
-\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right]^{\alpha},& \text{if }\{\mX\colon f(\mX)\geq 0\}\in\textup{I},\\
- {1\over \rho(\pi, \tN)}\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right],& \text{otherwise}.
-\end{cases}
+\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right]^{\alpha}+
+ {1\over \rho(\pi, \tN)}\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right].
 \end{equation}
 \end{enumerate}
 \end{prop}
 
 \begin{proof}
-Property 1 follows directly from the excess risk bound~\eqref{eq:riskbound}. Property 2 follows from Lemma~\ref{lem:hingeL1} and the boundedness of $f$. Specifically, we bound the variance using the $L$-1 distance between $f$ and $\bayespif$, 
+Property 1 follows directly from the proof in Proposition~\ref{thm:identifiability}.
+For Property 2, we devide the proof into two cases: when $\ell(\cdot)$ is hinge loss and  $\psi$ loss. 
+
+\begin{enumerate}[label={2.\arabic*},wide, labelwidth=!, labelindent=0pt]
+\item[Case 1:] When $\ell(z) = (1-z)_+$.
+
+Property 2 follows from Lemma~\ref{lem:hingeL1} and the boundedness of $f$. Specifically, we bound the variance using the $L$-1 distance between $f$ and $\bayespif$, 
 \begin{align}
 \text{Var}[w(y)\ell(yf(\mX))-w(y)\ell(y\bayespif(\mX))]&\leq  L\mathbb{E}|\ell(yf(\mX))-\ell(y\bayespif(\mX))|\\
-&\leq L\mathbb{E}|f(\mX)-\bayespif(\mX)|\\
-&\leq LCH^{\alpha}\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right]^\alpha
+&\leq L\mathbb{E}|f(\mX)-\bayespif(\mX)|
 \end{align}
-where $L>0$ is a constant that bounds the magnitude of $f$ in the local neighborhood of $R_{\ell,\pi}(\bayespif)$ (c.f. Assumption~\ref{ass:main}), the second line comes form the Lipschitz continuity of the hinge loss, and the last line comes from Lemma~\ref{lem:hingeL1}. 
+where $L>0$ is a constant that bounds the magnitude of $f$ in the local neighborhood of $R_{\ell,\pi}(\bayespif)$ (c.f. Assumption~\ref{ass:main}), the second line comes form the Lipschitz continuity of the hinge loss.  Applying  Lemma~\ref{lem:hingeL1} on the last inequality complete the proof.
+
+\item[Case 2:] When $\ell(z) = 2\min(1,(1-z)_+)$.
+Notice that 
+\begin{align}
+\text{Var}\left[w(y)\ell(yf(\mX))-w(y)\ell(y\bayesf(\mX))\right]
+\leq & \mathbb{E}|w(y)\ell(yf(\mX))-w(y)\ell(y\bayespif(\mX))|^2\\
+\leq& \ L\mathbb{E}|w(y)\ell(yf(\mX))-w(y)\ell(y\bayespif(\mX))|\\
+\leq &\ L\KeepStyleUnderBrace{\mathbb{E}\left| w(y)\left(1-\sign(yf(\mX))\right)- w(y)\ell(y\bayespif(\mX))\right
+|}_{=:\text{(i)}}\\&+L\KeepStyleUnderBrace{\mathbb{E}\left| w(y)\ell(yf(\mX))- w(y)\left(1-\sign(yf(\mX))\right) \right|}_{=:\text{(ii)}},
+\end{align}
+(i) is bounded as follows
+\begin{align}
+\text{(i)}=\mathbb{E}\left[w(y)\left|\sign (yf(\mX))-\sign (y\bayesf(\mX))\right|\right]&\leq 2d_\Delta(\bayesS(\pi),S)\\&\lesssim  d^\alpha_{\pi}(\bayesS(\pi),S)+{1\over \rho(\pi, \tN)}d_{\pi}(\bayesS(\pi),S),
+\end{align}
+where the last inequality is from Property 1.
+(ii) bounded as follows
+\begin{align}
+    \text{(ii)}
+    &=\mathbb{E}\left [w(y)\ell(yf(\mX))- w(y)\left(1-\sign(yf(\mX))\right) \right]\\
+    &= \mathbb{E}\left[w(y)\ell(yf(\mX))-w(y)\ell(y\bayespif(\mX))\right]+ \mathbb{E}\left[w(y)(\sign(f(\mX))-\sign(\bayespif(\mX))\right]\\&\leq [R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)]+2d_\Delta(\bayesS(\pi),S)\\&\lesssim  [R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)]+ d^\alpha_{\pi}(\bayesS(\pi),S)+{1\over \rho(\pi, \tN)}d_{\pi}(\bayesS(\pi),S),
+\end{align}
+where the last inequality is form Property 1.
+Combining \eqref{eq:excess-hinge} and two bounds (i),(ii) completes the proof.
+\end{enumerate}
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:regression}]
@@ -1121,97 +1147,111 @@ where the constants have been suppressed in the asymptotical order relationship 
 \begin{lem}[Hinge excess loss and $L$-1 distance]\label{lem:hingeL1} Consider the same set-up as in Theorem~\ref{thm:regression}. Then, the $L$-1 distance between $f$ and $\bayesf$ is bounded by their hinge excess risk; i.e,
 \begin{equation}
 \mathbb{E}|f(\mX)-\bayespif(\mX)|
-\leq
-\begin{cases} 
-\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right]^{\alpha},& \text{if }\{\mX\colon f(\mX)\geq 0\}\in\textup{I},\\
- {1\over \rho(\pi, \tN)}\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right],& \text{otherwise},
-\end{cases}
+\lesssim
+\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right]^{\alpha}+
+ {1\over \rho(\pi, \tN)}\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right].
 \end{equation}
-where the region $\textup{I}=\{S\colon d(S,\bayesS)\leq H^{-\alpha/(1-\alpha)}\}$.
 \end{lem}
 
-\begin{proof} For ease of notation, we drop the subscript $\pi$ and simply write $\bayesf$ and $R_\ell(\bayesf)$ in place of $\bayespif$ and $R_{\ell,\pi}(\bayespif)$. We also drop the random variable $\mX$ in the function expression, and simply use $f, \bayesf$, $p$, to represent the decision function, Bayes rule, and the probability function, respectively. The meaning should be clear given the contexts. 
+\begin{proof} For ease of notation, we drop the subscript $\pi$ and simply write $\bayesf$ and $R_\ell(\bayesf)$ in place of $\bayespif$ and $R_{\ell,\pi}(\bayespif)$. We also drop the random variable $\mX$ in the function expression, and simply use $f, \bayesf$, $\mu$, to represent the decision function, Bayes rule, and the probability function, respectively. The meaning should be clear given the contexts. 
 
 We expand the hinge excess risk using the definition of hinge loss,
 \begin{align}\label{eq:function}
 R_{\ell}(f)-R_{\ell}(\bayesf)&= \mathbb{E}[w(y)(1-yf)_{+}]-\mathbb{E}[w(y)(1-y\bayesf)_{+}] \notag\\
-&= \int_{\mX}w(1)p(1-f)_{+}d\mathbb{P}_{\mX}+\int_{\mX}w(-1)(1-p)(1+f)_{+}d\mathbb{P}_{\mX}\notag \\
-&\quad -\int_{\mX}w(1)p(1-\bayesf)_{+}d\mathbb{P}_{\mX}-\int_{\mX}w(-1)(1-p)(1+\bayesf)_{+}d\mathbb{P}_{\mX},
+&= \int_{\mX}w(1)\mu(1-f)_{+}d\mathbb{P}_{\mX}+\int_{\mX}w(-1)(1-\mu)(1+f)_{+}d\mathbb{P}_{\mX}\notag \\
+&\quad -\int_{\mX}w(1)\mu(1-\bayesf)_{+}d\mathbb{P}_{\mX}-\int_{\mX}w(-1)(1-\mu)(1+\bayesf)_{+}d\mathbb{P}_{\mX},
 \end{align}
 where $w(1)=1-\pi$ and $w(-1)=\pi$. 
 
 In order to evaluate the integral, we divide the domain $\mX$ into four exclusive regions:
 \begin{itemize}
-\item Region I $= \{\mX\colon p<\pi \text{ and }f\geq -1\}$. In this region, $\bayesf=-1$, and the integrant in~\eqref{eq:function} reduces to
+\item Region I $= \{\mX\colon \mu<\pi \text{ and }f\geq -1\}$. In this region, $\bayesf=-1$, and the integrant in~\eqref{eq:function} reduces to
 \begin{align}
-\Phi_{\textup{I}}&:=(1-\pi)p(1-f)_{+}+\pi(1-p)(1+f)_{+}-2(1-\pi)p\\
-&\geq (1-\pi)p(1-f)+\pi(1-p)(1+f)-2(1-\pi)p\\
-&=(f+1)(\pi-p)=|f-\bayesf||\pi-p|.
+\Phi_{\textup{I}}&:=(1-\pi)\mu(1-f)_{+}+\pi(1-\mu)(1+f)_{+}-2(1-\pi)\mu\\
+&\geq (1-\pi)\mu(1-f)+\pi(1-\mu)(1+f)-2(1-\pi)\mu\\
+&=(f+1)(\pi-\mu)=|f-\bayesf||\pi-\mu|.
 \end{align}
-\item Region II $= \{\mX\colon p< \pi \text{ and }f<-1\}$. In this region, $\bayesf=-1$, and the integrant in~\eqref{eq:function} reduces to
+\item Region II $= \{\mX\colon \mu< \pi \text{ and }f<-1\}$. In this region, $\bayesf=-1$, and the integrant in~\eqref{eq:function} reduces to
 \[
-\Phi_{\textup{II}}:=(1-\pi)p(1-f)-2(1-\pi)p=(-1-f)(p-p \pi )=|f-\bayesf|(1-\pi)p.
+\Phi_{\textup{II}}:=(1-\pi)\mu(1-f)-2(1-\pi)\mu=(-1-f)(\mu-\mu\pi )=|f-\bayesf|(1-\pi)\mu.
 \]
-\item Region III $=\{ \mX\colon p\geq \pi \text{ and }f\leq 1\}$. In this region, $\bayesf=1$, and the integrant in~\eqref{eq:function} reduces to
+\item Region III $=\{ \mX\colon \mu\geq \pi \text{ and }f\leq 1\}$. In this region, $\bayesf=1$, and the integrant in~\eqref{eq:function} reduces to
 \begin{align}
-\Phi_{\textup{III}}&:=(1-\pi)p(1-f)_{+}+\pi(1-p)(1+f)_{+}-2\pi(1-p)\\
-&\geq (1-\pi)p(1-f)+\pi(1-p)(1+f)-2\pi(1-p)\\
-&=(1-f)(p-\pi)=|f-\bayesf||\pi-p|
+\Phi_{\textup{III}}&:=(1-\pi)\mu(1-f)_{+}+\pi(1-\mu)(1+f)_{+}-2\pi(1-\mu)\\
+&\geq (1-\pi)\mu(1-f)+\pi(1-\mu)(1+f)-2\pi(1-\mu)\\
+&=(1-f)(\mu-\pi)=|f-\bayesf||\pi-\mu|
 \end{align}
-\item Region IV $=\{\mX\colon p\geq \pi \text{ and }f> 1\}$. In this region, $\bayesf=1$, and the integrant in~\eqref{eq:function} reduces to
+\item Region IV $=\{\mX\colon \mu\geq \pi \text{ and }f> 1\}$. In this region, $\bayesf=1$, and the integrant in~\eqref{eq:function} reduces to
 \[
-\Phi_{\textup{IV}}:=\pi(1-p)(1+f)-2\pi(1-p)=(f-1)(\pi-p\pi)=|f-\bayesf|(1-p)\pi
+\Phi_{\textup{IV}}:=\pi(1-\mu)(1+f)-2\pi(1-\mu)=(f-1)(\pi-\mu\pi)=|f-\bayesf|(1-\mu)\pi
 \]
 \end{itemize}
 Therefore, the integral is evaluated as
 \begin{align}\label{eq:integral}
 R_{\ell}(f)-R_{\ell}(\bayesf) &= \int_{\textup{I}}\Phi_{\textup{I}} d\mathbb{P}_{\mX}+\int_{\textup{II}}\Phi_{\textup{II}} d\mathbb{P}_{\mX}+\int_{\textup{III}}\Phi_{\textup{III}} d\mathbb{P}_{\mX}+\int_{\textup{IV}}\Phi_{\textup{IV}} d\mathbb{P}_{\mX}\\
-&\geq \mathbb{E}|f-\bayesf||\pi-p|\mathds{1}(|f|\leq 1)+ \mathbb{E}|f-\bayesf|(\pi-p\pi)\mathds{1}(f>1)\\
-& \quad +\mathbb{E}|f-\bayesf| (p-p\pi)\mathds{1}(f<-1).
+&\geq \mathbb{E}|f-\bayesf||\pi-\mu|\mathds{1}(|f|\leq 1)+ \mathbb{E}|f-\bayesf|(\pi-\mu\pi)\mathds{1}(f>1)\\
+& \quad +\mathbb{E}|f-\bayesf| (\mu-\mu\pi)\mathds{1}(f<-1).
 \end{align}
 
-Note that the functions $|\pi-p|, (\pi-p\pi), (p-p\pi)$ are non-negative, $[0,1]$-valued, and satisfy~\eqref{eq:prob2} by Assumption~\ref{ass:decboundary}. Applying Lemma~\ref{lem:product} to the above integral gives
+Note that the functions $|\pi-\mu|, (\pi-\mu\pi), (\mu-\mu\pi)$ are non-negative, $[0,1]$-valued, and satisfy~\eqref{eq:prob2} by $\alpha$-global regularity (local regularity follows the same argument).  Now we use Lemma~\ref{lem:product} to bound the three terms in the last equation.  To make sure that each term has the same order in Lemma~\ref{lem:product},  we rescale the functions $|f-\bayesf|\mathds{1}(|f|\leq1),|f-\bayesf|\mathds{1}(f>1),|f-\bayesf|\mathds{1}(f<-1)$ to have expectation 1 and set upper bound of the functions as \[L = \max\left(\mnormSize{}{|f-\bayesf|\mathds{1}(|f|\leq1)},\mnormSize{}{|f-\bayesf|\mathds{1}(f>1)},\mnormSize{}{|f-\bayesf|\mathds{1}(f<-1)}\right).\]
+Then,  the last inequality is bounded either Case 1 or Case 2 from Lemma~\ref{lem:product}:
+\begin{enumerate}[label={2.\arabic*},wide, labelwidth=!, labelindent=0pt]
+\item[Case 1:]
 \begin{align}
-R_\ell(f)-R_\ell(\bayesf)  &\geq CH^{-1} [\mathbb{E} |f-\bayesf|\mathds{1}(|f|\leq 1)]^{1/\alpha}+C [\mathbb{E}|f-\bayesf|\mathds{1}(f>1)]^{1/\alpha}\\
-& \quad +C[ \mathbb{E}|f-\bayesf|\mathds{1}(f<-1)]^{1/\alpha}\\
-&\geq CH^{-1} [\mathbb{E}|f-\bayespif|]^{1/\alpha},
+R_\ell(f)-R_\ell(\bayesf)  &\gtrsim [\mathbb{E} |f-\bayesf|\mathds{1}(|f|\leq 1)]^{1/\alpha}+ [\mathbb{E}|f-\bayesf|\mathds{1}(f>1)]^{1/\alpha}
++[ \mathbb{E}|f-\bayesf|\mathds{1}(f<-1)]^{1/\alpha}\\
+&\geq  [\mathbb{E}|f-\bayespif|]^{1/\alpha},
 \end{align}
+
 where the last inequality uses the property that $x^{1/\alpha}+y^{1/\alpha}\geq (x+y)^{1/\alpha}$ for $x,y\geq 0$ and $\alpha\in(0,1]$.
-Therefore, we conclude that
-\[
-\mathbb{E}|f-\bayesf|\leq C'H^{\alpha}[R_\ell(f)-R_\ell(\bayesf)]^\alpha,
-\]
-where $C'>0$ is a constant.
+\item[Case 2:]
+\begin{align}
+R_\ell(f)-R_\ell(\bayesf)  &\gtrsim \rho(\pi,\tN)\left[\mathbb{E} \left(|f-\bayesf|\mathds{1}(|f|\leq 1)+|f-\bayesf|\mathds{1}(f>1)+|f-\bayesf|\mathds{1}(f<-1)\right)\right]\\
+&= \rho(\pi,\tN) \mathbb{E}|f-\bayespif|.
+\end{align}
+\end{enumerate}
+Therefore, combining two cases gives
+\begin{equation}
+\mathbb{E}|f(\mX)-\bayespif(\mX)|
+\lesssim
+\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right]^{\alpha}+
+ {1\over \rho(\pi, \tN)}\left[R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)\right].
+\end{equation}
 \end{proof}
 
 \begin{lem}[Expectation of function products]\label{lem:product}Let $\mX\in \tX$ be a random variable. Let $g\colon \tX\to [0,1]$ be a function taking values on $[0,1]$ and satisfying
 \begin{align}\label{eq:prob2}
-\mathbb{P}[g(\mX)\leq t] \leq C(Ht)^{\alpha/1-\alpha}, \quad \text{for all }t\in(0,\delta],
+\mathbb{P}[g(\mX)\leq t] \leq Ct^{\alpha/1-\alpha}, \quad \text{for all }t\in(0,\rho],
 \end{align} 
-for some constants $\alpha\in(0,1]$ and $t_*\in(0,1], C>0$. (When $\alpha=1$, the right hand side of~\eqref{eq:prob2} is interpreted as being zero.) Then, for all nonnegative, bounded functions $f\colon \tX\to\mathbb{R}_{\geq 0}$ with $\mnormSize{}{f}\leq L$, the expected $f(\mX)$ is upper bounded by the $\alpha$-th power of the expected $f(\mX)g(\mX)$; i.e., 
+for some constants $\alpha\in(0,1]$ and $ C>0$. (When $\alpha=1$, the right hand side of~\eqref{eq:prob2} is interpreted as being zero.) Then, for all nonnegative, bounded functions $f\colon \tX\to\mathbb{R}_{\geq 0}$ with $\mnormSize{}{f}\leq L$,  the following holds true,
 \[
-\mathbb{E}f(\mX) \leq CH^{\alpha} [\mathbb{E}f(\mX)g(\mX)]^\alpha,
+\mathbb{E}[f(\mX)g(\mX)]
+\gtrsim \begin{cases}
+\rho\mathbb{E}f(\mX), &\text{if}\quad{ \mathbb{E}f(\mX)\over L}\geq {C \over 1-\alpha} \rho^{\alpha/ 1-\alpha},\\
+\\
+ [\mathbb{E}f(\mX)]^{1/\alpha}, &\text{if}\quad{ \mathbb{E}f(\mX)\over L}< {C\over 1-\alpha} \rho^{\alpha /1-\alpha}.
+\end{cases}
 \]
-where $C'>0$ is a constant.
+
 \end{lem}
 \begin{rmk} Roughly speaking, Lemma~\ref{lem:product} bounds the function $f$ by the function product $fg$ in expectation, provided that the multiplier $g$ has controlled probability mass around zero. Note that we always have the lower bound $\mathbb{E}f(\mX)g(\mX)\leq \mathbb{E}f(\mX)$ because of the boundedness of $g$. 
 \end{rmk}
 
-\begin{proof} Let $t>0$ be an arbitrary number in the interval $(0,t_*]$. We bound the expectation of the product $fg$ using the integral over the region $\{\mX\colon g(\mX)> t/H\}$, 
+\begin{proof} Let $t>0$ be an arbitrary number in the interval $(0,\rho]$. We bound the expectation of the product $fg$ using the integral over the region $\{\mX\colon g(\mX)> t\}$, 
 \begin{align}\label{eq:lowerbound}
-\mathbb{E}[f(\mX)g(\mX)]& \geq  \mathbb{E}[f(\mX)\mathds{1}(g(\mX)>t/H)]\notag \\
-& = {t\over H}\mathbb{E}[f(\mX)-f(\mX)\mathds{1}(g(\mX)\leq t/H)]
+\mathbb{E}[f(\mX)g(\mX)]& \geq  \mathbb{E}[f(\mX)\mathds{1}(g(\mX)>t)]\notag \\
+& = t\mathbb{E}[f(\mX)-f(\mX)\mathds{1}(g(\mX)\leq t)]
 \\
-&\geq {t\over H}\left(\mathbb{E}
-f(\mX)-L\mathbb{P}[g(\mX)\leq t/H]\right)\notag \\
-&\geq {1\over H}\left(t\mathbb{E}f(\mX)-CLt^{1/1-\alpha}\right), \quad \text{for all }t\in(0,t_*],
+&\geq t\left(\mathbb{E}
+f(\mX)-L\mathbb{P}[g(\mX)\leq t]\right)\notag \\
+&\geq t\mathbb{E}f(\mX)-CLt^{1/1-\alpha}, \quad \text{for all }t\in(0,\rho],
 \end{align}
 %\fixme{Miaoyan}{the following proof needs to be updated to reflex the additional $H$..}
-where the third line uses the fact that $f(\mX)\in[0,L]$, and the last line follows from~\eqref{eq:prob2}. We maximize the lower bound~\eqref{eq:lowerbound} with respect to $t\in(0,t_*]$ and obtain the optimal $t_{\text{opt}}\in(0,t_*]$,
+where the third line uses the fact that $f(\mX)\in[0,L]$, and the last line follows from~\eqref{eq:prob2}. We maximize the lower bound~\eqref{eq:lowerbound} with respect to $t\in(0,\rho]$ and obtain the optimal $t_{\text{opt}}\in(0,\rho]$,
 \[
 t_{\text{opt}}=\begin{cases}
-t_*, & \text{if}\quad \mathbb{E}f(\mX)\geq {CL\over 1-\alpha} t_*^{\alpha/ 1-\alpha},\\
-\left[{1-\alpha \over CL}\mathbb{E}f(\mX)\right]^{(1-\alpha)/ \alpha}, & \text{if}\quad \mathbb{E}f(\mX) < {CL\over 1-\alpha} t_*^{\alpha
+\rho, & \text{if}\quad \mathbb{E}f(\mX)\geq {CL\over 1-\alpha} \rho^{\alpha/ 1-\alpha},\\
+\left[{1-\alpha \over CL}\mathbb{E}f(\mX)\right]^{(1-\alpha)/ \alpha}, & \text{if}\quad \mathbb{E}f(\mX) < {CL\over 1-\alpha} \rho^{\alpha
 / 1-\alpha}.
 \end{cases}
 \]
@@ -1219,20 +1259,21 @@ The corresponding lower bound of the inequality~\eqref{eq:lowerbound} becomes
 \[
 \mathbb{E}[f(\mX)g(\mX)]
 \geq \begin{cases}
-\frac{\alpha t_*}{H} \mathbb{E}f(\mX), &\text{if}\quad \mathbb{E}f(\mX)\geq {CL \over 1-\alpha} t_*^{\alpha/ 1-\alpha},\\
+\alpha\rho\mathbb{E}f(\mX), &\text{if}\quad \mathbb{E}f(\mX)\geq {CL \over 1-\alpha} \rho^{\alpha/ 1-\alpha},\\
 \\
-\frac{\alpha}{H}{\left(1-\alpha\over CL\right)}^{(1-\alpha) / \alpha} [\mathbb{E}f(\mX)]^{1/\alpha}, &\text{if}\quad \mathbb{E}f(\mX)< {CL\over 1-\alpha} t_*^{\alpha /1-\alpha}.
+\alpha{\left(1-\alpha\over CL\right)}^{(1-\alpha) / \alpha} [\mathbb{E}f(\mX)]^{1/\alpha}, &\text{if}\quad \mathbb{E}f(\mX)< {CL\over 1-\alpha} \rho^{\alpha /1-\alpha}.
 \end{cases}
 \]
-Hence, we conclude
-\[
-\mathbb{E}[f(\mX)g(\mX)]\geq \frac{C_2}{H}\min\left\{ \mathbb{E}f(\mX),\ [\mathbb{E}f(\mX)]^{1/\alpha}\right\},
-\]
-where $C_2>0$ is a constant independent of $f$. When $\mathbb{E}f(\mX)\leq 1$, the right hand side of the above inequality takes value $C_2[\mathbb{E}(f(\mX)]^{1/\alpha}/H$. When $\mathbb{E}f(\mX)>1$, we rescale $f$ by $f/L$ and obtain
-\[
-\mathbb{E}[f(\mX)g(\mX)]\geq \frac{C_2}{H}L^{-(\alpha-1)/\alpha}[\mathbb{E}f(\mX)]^{1/\alpha}.
-\]
-Combining both cases gives the desired results. 
+Since, $\alpha, C$, and $L$ are given constant, we have the desired results.
+
+%\[
+%\mathbb{E}[f(\mX)g(\mX)]\geq \frac{C_2}{H}\min\left\{ \mathbb{E}f(\mX),\ [\mathbb{E}f(\mX)]^{1/\alpha}\right\},
+%\]
+%where $C_2>0$ is a constant independent of $f$. When $\mathbb{E}f(\mX)\leq 1$, the right hand side of the above inequality takes value $C_2[\mathbb{E}(f(\mX)]^{1/\alpha}/H$. When $\mathbb{E}f(\mX)>1$, we rescale $f$ by $f/L$ and obtain
+%\[
+%\mathbb{E}[f(\mX)g(\mX)]\geq \frac{C_2}{H}L^{-(\alpha-1)/\alpha}[\mathbb{E}f(\mX)]^{1/\alpha}.
+%\]
+%Combining both cases gives the desired results. 
 \end{proof}
 
 \begin{defn}[Bracketing number]\label{pro:inftynorm}
