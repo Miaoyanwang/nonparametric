@@ -7,8 +7,9 @@ A: a 68 × 68 × 212 binary tensor consisting of structural connectivity pattern
 
 VSPLOT (Variable Short Penn Line Orientation Test): two line segments are presented on the screen and participants are asked to rotate a movable line so that it is parallel to the fixed line. The sample consists of 106 individuals with high (top 10%) VSPLOT scores and 106 with low (bottom 10%) VSPLOT scores.
 
-Node file: ROI_68_lobe_node_renamed.txt
+Node file for VSPLOT: ROI_68_lobe_node_renamed.txt
 
+Node file for IQ data: node file ``Desikan-Killiany68.node''
 
 
 ###########################
@@ -19,7 +20,7 @@ Instructions (The detailed instruction is brainNet_Manual.pdf):
 2. Load files:
 Surface file: BrainMesh_ICBM152.nv
 
-Data file (node): ROI_68_lobe_node_renamed.txt
+Data file (node): depending on the input file. 
 
 Data file (edge): A user-specified input. This is a matrix file representing the brain connection. The edge can be raw connection strength, estimated strength, truncated strength, or any measures you want to plot over the brain edges.
 
