@@ -135,7 +135,7 @@
 
 \if1\blind
 {   \date{}
-  \title{\bf Nonparametric learning with matrix-valued predictors in high dimensions}
+  \title{\bf Nonparametric trace regression in high dimensions}
 \author{ Chanwoo Lee$^{1}$, Lexin Li$^2$, Hao Helen Zhang$^3$, and Miaoyan Wang$^1$\footnote{
 \hspace*{-.6cm}$^1$Department of Statistics, University of Wisconsin-Madison\\
 $^2$Department of Biostatistics and Epidemiology, University of California at Berkeley\\
@@ -148,7 +148,7 @@ $^3$Department of Mathematics, University of Arizona}
 \if0\blind
 {
  \date{}
-  \title{\bf Nonparametric learning with matrix-valued \\predictors in high dimensions}
+  \title{\bf Nonparametric trace regression in high dimensions}
 \author{}
 \maketitle
 } \fi
@@ -161,6 +161,29 @@ We consider the problem of learning the relationship between a binary label resp
 {\it Keywords:}  Nonparametric learning, high-dimensional matrices, sparse and low-rank models, classification, regression, feature selection
 
 \section{Introduction}
+
+
+{\color{red}We consider the problem of estimating
+\[
+Y=\langle \mX, \mB \rangle+ \varepsilon,\ \text{with }\text{rank}(\mB)\leq r,
+\]
+for $i=1,\ldots,n$. We call the function $\mX\mapsto \langle \mX,\mB\rangle=\text{tr}(\mX\mB^T)$ the trace function. Extension of trace regression to exponential family has been proposed, 
+\[
+\mathbb{E}(Y_i|\mX_i)=g(\langle \mX_i, \mB \rangle), \ \text{with a known $g\colon \mathbb{R}\to\mathbb{R}$ and low-rank $\mB$.}
+\]
+Now we propose a nonparametric trace regression. 
+\begin{align}
+Y_i&=f(\mX_i)+\varepsilon_i,\quad \text{for }i=1,\ldots,n\\
+\text{where }&f(\cdot)\colon \mathbb{R}^{d\times d}\to \mathbb{R} \text{ is an unknown low-rank sign-representable function.}
+\end{align} 
+
+\begin{defn}[Low-rank sign-representable function] The function $f(\cdot)\colon \mathbb{R}^{d\times d}\to \mathbb{R}$ is called low-rank sign-representable function at $\pi\in[-1,1]$, if the function has the same sign as a rank-$r$ trace function; i.e.,
+\[
+\sign(f(\mX)-\pi)=\sign(\langle \mX, \mB \rangle), \quad \text{for all }\mX\in \tX,
+\]
+where $\mB=\mB(\pi) \in\mathbb{R}^{d\times d}$ is a rank-$r$ matrix. If the function $f$ is rank-$r$ sign-representable at all $\pi$ except for a finite number of points, then we call the function $f$ the $r$-globally sign-representable. 
+\end{defn}
+}
 
 Matrix-valued predictors ubiquitously arise in modern applications. In brain connectivity studies, for example, individuals are represented by their brain networks, and the networks quantify the connectivity patterns over a set of nodes (brain regions of interest). Human connectom project~\citep{van2013wu} has constructed brain networks for over 1,200 individuals using Desikan atlas with 68 brain nodes. Structural connectivity is measured for every pair of nodes, resulting in an adjacency matrix of size 68 $\times$ 68 for each individual. This connectivity matrix provides important information for disease prediction. Other examples include electroencephalography studies of alcoholism~\citep{zhou2014regularized}. Researchers measure the voltage values from 64 channels of electrodes on 256 subjects for 256 time points. The study yields a $256 \times 64$ matrix-valued feature, along with a binary indicator of subject being alcoholic or not. Identifying the relationship between EEG signals and alcoholism is helpful for disease diagnostics. 
 
@@ -231,7 +254,7 @@ Second, most nonparametric methods rely on some notion of smoothness in the loca
 
 \subsubsection{Nonparametric methods with manifolds} 
 Several attempts have been developed to address nonparametric regression with manifold-valued predictors. The manifolds here refer to general nonconventional predictors, such as matrices, tensors, networks, images, and so on. \cite{chen2019nonparametric} extends deep neural network to regression on low-dimensional manifold. \cite{hao2019sparse} develops a sparse additive model with tensor covariates by extending usual spline basis. \cite{zhou2020broadcasted} also considers tensor covariates but instead proposes a broadcasting operation to impose nonlinearity to individual tensor entries. In computer vision, convolution neural network (CNN) has been widely adopted as a nonparametric tool for image data~\citep{goodfellow2016deep}. 
-These methods in some sense address the first and part of the second challenges mentioned in the earlier paragraph; they use the conventional wisdom of exploiting low-dimensional structure in the input data in order to achieve accurate prediction. 
+These methods in some sense address the first and part of the second challenge mentioned in the earlier paragraph; they use the conventional wisdom of exploiting low-dimensional structure in the input data in order to achieve accurate prediction. 
 
 Our method share the same ground as theirs, but we provide a completely different paradigm for extracting information from massive high-dimensional data. We develop a low-rank, sparse halfspace learning in the matrix space, and allow the informative features in the matrix-valued predictor to vary from one level to another. Unlike the aforementioned methods, our method relies little on the local neighborhood of predictors but rather on the local neighborhood of responses. More importantly, we do not only tailor a specific nonparametric tool for matrix-valued predictors; we provide a learning paradigm that potentially enables state-of-art classification tools, such as neural network, decision trees, and boosting, to address the more challenge regressing problem. The ability to import and adapt existing classification methods is one advantage of the proposed learning reduction framework.
 We also numerically compare our approach with CNN in Section~\ref{sec:simulation}.
@@ -249,7 +272,7 @@ Earlier work on level set estimation considers only a single level~\citep{tsybak
  
  
 \subsection{Notation and organization} 
-Let $\tX\subset \mathbb{R}^{d_1\times d_2}$ be the feature space. Given a function $f\colon \tX \to \mathbb{R}$, we use $\sign f$ to denote its sign function, such that $\sign f(\mX)=1$ if $f(\mX)>0$ and $\sign f(\mX)=-1$ otherwise. The notion of sign function also applies to sets in $\tX$. We use $\sign (\mX\in A)$ to denote the sign function induced by the set $A\subset\tX$, i.e.,\ a function taking value $1$ on the event $\{\mX\in A\}$ and -1 otherwise. We use shorthand $[n]:=\{1,\ldots,n\}$ to denote the $n$-set for $n\in\mathbb{N}_{+}$ and use $|\cdot|$ to denote the cardinality of sets. Let $\newnormSize{}{\cdot}_p$ denote the vector $p$-norm for $p\geq 0$, and $\FnormSize{}{\cdot}$ be the matrix Frobenious norm. Given a $d_1$-by-$d_2$ matrix $\mB$, we use $\mB_i$ to denote the $i$-th row of $\mB$. The $(p,q)$-norm of a matrix $\mB$ is defined as $\newnormSize{}{\mB}_{p,q}=\newnormSize{}{\mb}_q$, where $\mb=(\newnormSize{}{\mB_1}_p,\ldots,\newnormSize{}{\mB_{d_1}}_p)^T\in\mathbb{R}^{d_1}$ consists of the $p$-norms for each of the rows in $\mB$. In particular, $\newnormSize{}{\mB}_{1,0}=|\{i\in [d_1]\colon \mB_i\neq 0\}|$ denotes the number of non-zero rows in $\mB$. An event $E$ is said to occur ``with high probability'' if $\mathbb{P}(E)$ tends to 1 as the matrix dimension $d_{\min}=\min(d_1,d_2)\to\infty$. We denote $a_n\asymp b_n$ if $\lim_n b_n/a_n\rightarrow c$ for some constant $c>$ and denote $a_n\lesssim b_n$ if $\lim_n b_n/a_n\rightarrow 0.$ We use $\mathds{1}(\cdot)$ to denote the indicator function. 
+Let $\tX\subset \mathbb{R}^{d_1\times d_2}$ be the feature space. Given a function $f\colon \tX \to \mathbb{R}$, we use $\sign f$ to denote its sign function, such that $\sign f(\mX)=1$ if $f(\mX)>0$ and $\sign f(\mX)=-1$ otherwise. The notion of sign function also applies to sets in $\tX$. We use $\sign (\mX\in A)$ to denote the sign function induced by the set $A\subset\tX$, i.e.,\ a function taking value $1$ on the event $\{\mX\in A\}$ and -1 otherwise. We use shorthand $[n]:=\{1,\ldots,n\}$ to denote the $n$-set for $n\in\mathbb{N}_{+}$ and use $|\cdot|$ to denote the cardinality of sets. Let $\newnormSize{}{\cdot}_p$ denote the vector $p$-norm for $p\geq 0$, and $\FnormSize{}{\cdot}$ be the matrix Frobenious norm. Given a $d_1$-by-$d_2$ matrix $\mB$, we use $\mB_i$ to denote the $i$-th row of $\mB$. The $(p,q)$-norm of a matrix $\mB$ is defined as $\newnormSize{}{\mB}_{p,q}=\newnormSize{}{\mb}_q$, where $\mb=(\newnormSize{}{\mB_1}_p,\ldots,\newnormSize{}{\mB_{d_1}}_p)^T\in\mathbb{R}^{d_1}$ consists of the $p$-norms for each of the rows in $\mB$. In particular, $\newnormSize{}{\mB}_{1,0}=|\{i\in [d_1]\colon \mB_i\neq 0\}|$ denotes the number of non-zero rows in $\mB$. An event $E$ is said to occur ``with high probability'' if $\mathbb{P}(E)$ tends to 1 as the matrix dimension $d_{\min}=\min(d_1,d_2)\to\infty$. We denote $a_n\asymp b_n$ if $\lim_n b_n/a_n= c$ for some constant $c>$ and denote $a_n\lesssim b_n$ if $\lim_n b_n/a_n=0.$ We use $\mathds{1}(\cdot)$ to denote the indicator function. 
 
 The rest of the paper is organized as follows. Section~\ref{sec:problem} presents a range of learning tasks, from classification to regression, for matrix-valued predictors. In Section~\ref{sec:idea}, we develop a learning reduction approach by relating the regression to classification, and establish the oracle procedures of nonparamatric matrix regression. In Section~\ref{sec:estimation}, we present the empirical estimation and the associated optimization algorithm. Statistical accuracy, high-dimensional consistency, and excess risk bounds are presented in Section~\ref{sec:theory}. We present the simulations in Section~\ref{sec:simulation} and human connectome Project data analyses in Section~\ref{sec:real}. All technical proofs are deferred to Appendix. 
 
@@ -263,7 +286,7 @@ Suppose that we observe a sample of $n$ training data points, $(\mX_1,y_1),\ldot
 We consider three learning problems: classification, level set estimation, and regression. 
 
 \begin{enumerate}[label={2.\arabic*},wide, labelwidth=!, labelindent=0pt]
-\item {\it Matrix classification}: Classification is the problem of predicting the label $y\in \{-1,1\}$ to which the new matrix $\mX$ belongs. A prediction rule (also called a classifier) decides that $y=1$ if $\mX\in S$ and $y=0$ if $\mX \not\in S$, where $S$ is a Borel subset of $\tX$. We formulate the classification problem as choosing a classifier $S\in \tS$, from a given set of candidate classifiers $\tS$, that minimizes the expected classification error 
+\item {\it Matrix classification}: Classification is the problem of predicting the label $y\in \{-1,1\}$ to which the new matrix $\mX$ belongs. A prediction rule (also called a classifier) decides that $y=1$ if $\mX\in S$ and $y=-1$ if $\mX \not\in S$, where $S$ is a Borel subset of $\tX$. We formulate the classification problem as choosing a classifier $S\in \tS$, from a given set of candidate classifiers $\tS$, that minimizes the expected classification error 
 \begin{equation}\label{eq:classloss}
 R(S)=\mathbb{P}_{\mX,y}\left[y\neq \sign(\mX\in S)\right].
 \end{equation}
@@ -294,7 +317,7 @@ We consider the following question:
 \item {\it Nonparametric binary regression}: The problem of nonparametric regression is to estimate the conditional mean $\mathbb{E}(y|\mX)$ as a multivariable function in the predictor space. In our contexts, the nonparametric regression is equivalent to estimating the conditional probability $\mu(\mX)=\mathbb{P}(y=1|\mX)=\frac{1}{2}(\mathbb{E}(y|\mX)+1)$. Throughout the paper we will focus on $\mu(\mX)$ and refer to it as the regression function. 
 The function $\mu(\mX)$, is the global minimizer, among all measurable functions $f\colon \tX\to[0,1]$, of the expected squared error,
 \begin{equation}\label{eq:regression}
-R_{\text{reg}}(f)=\mathbb{E}\left[y+1-2f(\mX)\right]^2,
+R_{\text{reg}}(f)=\mathbb{E}\left[{1\over 2}(y+1)-f(\mX)\right]^2,
 \end{equation}
 where $R_{\text{reg}}(f)$ is also known as regression risk. Our final goal is the function estimation:
 
@@ -329,7 +352,7 @@ where, for every $\pi\in\Pi$, the set $\bar S(\pi)\subset \tX$ is the classifier
 \end{equation}
 subject to the constraint $S\in\tS$, with $\tS$ being a given candidate set of classifiers in $\tX$. When the set $\tS$ is rich enough, e.g., $\tS$ consists of all Borel subsets of $\tX$, then $\bar S(\pi)$ has the same risk as $\bayesS(\pi)$. We leave the $\tS$ in general here; the specific choice of $\tS$ will be described in Section~\ref{subsec:linear class}. 
 
-In order to address the accuracy of $\bar \mu(\mX)$ from $\mu(\mX)$, we establish the recovery guarantee of level sets $S(\pi)$ from optimization~\eqref{eq:constrained}. The Bayes classifier $\bayesS(\pi)$ minimizes the weighted classification risk $R_\pi(S)$; the inverse, however, may not be true because of possible multiple global minimizers of $R_\pi(S)$. The uniqueness and stability around $\bayesS(\pi)$ turns out to play a key role in the accurate estimation of $\mu(\mX)$. 
+In order to address the accuracy between $\bar \mu(\mX)$ and $\mu(\mX)$, we establish the recovery guarantee of level sets $S(\pi)$ from optimization~\eqref{eq:constrained}. The Bayes classifier $\bayesS(\pi)$ minimizes the weighted classification risk $R_\pi(S)$; the inverse, however, may not be true because of possible multiple global minimizers of $R_\pi(S)$. The uniqueness and stability around $\bayesS(\pi)$ turns out to play a key role in the accurate estimation of $\mu(\mX)$. 
 
 We introduce the following notion to characterize the behavior of the regression function near the level set boundaries $\partial S_{\text{bayes}}(\pi) = \{ \mu(\mX)= \pi\}$. The condition essentially quantifies the uniqueness of level sets recovery from weighted classification.
 
@@ -552,7 +575,7 @@ We apply the convergence rate in Theorem~\ref{thm:regression} to two specific ex
 \end{example}
 
 \begin{example}[Monotonic single index model]
-Consider the parametric model $\mu(\mX)=g(\langle \mX,\mB \rangle)$ as in Example~\ref{example:1}. For common link functions $g$ (such as $g(z)=z, (1+\exp(-z))^{-1}, {1\over \pi}\arctan(z)+{1\over 2}$, etc) that have non-degenerate first-order Taylor expansion, we have $\alpha=1/2$ (see Proposition~\ref{prop:polynomial} in Appendix). Choosing $H\asymp n^{1/3}$ yields the convergence rate $\tO(n^{-1/3})$, which is consistent to the most recent results~\citep{balabdaoui2019least}. 
+Consider the parametric model $\mu(\mX)=g(\langle \mX,\mB \rangle)$ as in Example~\ref{example:1}. For common link functions $g$ (such as $g(z)=z, (1+\exp(-z))^{-1}, {1\over \pi}\arctan(z)+{1\over 2}$, etc) that have non-degenerate first-order Taylor expansion, we have $\alpha=1/2$ (see Proposition~\ref{prop:polynomial} in Appendix). Choosing $H\asymp n^{1/2}$ yields the convergence rate $\tO(n^{-1/3})$, which is consistent to the most recent results~\citep{balabdaoui2019least}. 
 %Note that the rate for linear model is slightly worse than the parametric rate $\tO(n^{-1/2})$. The reason is that our estimate remains accurate for piecewise linear/logistic models with multiple coefficients $(\mB_\pi)_{\pi \in [0,1]}$. In contrast, parametric linear/logistic model allows only a single $\mB$ in the entire domain. The target function family to which our bound corresponds is much relaxed than that by parametric models. 
 \end{example}
 
@@ -641,7 +664,7 @@ We also report the accuracy on classification which is an intermediate step of r
 \end{figure}
 
 
-We provide illustrate examples to show the outputs returned by {\bf \small NonMAR}. Figures~\ref{fig:compare2}a and c plot the top edges selected by \NonparaM based on the moving averages of feature weights $(\hat \mB_\pi)_{\pi\in\Pi}$ with  $\Pi = \{0.2,\ldots,0.8\}$. The selected region agrees well with the ground truth (Figures~\ref{fig:compare}a and c). We also investigate the relationship between edge connectivity for individual $i$ and the estimated response probability $\hat \pi_i$ (Figures~\ref{fig:compare2}b and d). The trajectory of the edge connectivity accurately resembles the ground truth function in each subregion. The results demonstrate that our method is able to recover the right ``sorting'' of individuals with respect to the response probability on a continuous spectrum. 
+We provide illustrate examples to show the outputs returned by {\bf \small NonMAR}. Figures~\ref{fig:compare2}a and c plot the top edges selected by \NonparaM based on the moving averages of feature weights $(\hat \mB_\pi)_{\pi\in\Pi}$ with $\Pi = \{0.2,\ldots,0.8\}$. The selected region agrees well with the ground truth (Figures~\ref{fig:compare}a and c). We also investigate the relationship between edge connectivity for individual $i$ and the estimated response probability $\hat \pi_i$ (Figures~\ref{fig:compare2}b and d). The trajectory of the edge connectivity accurately resembles the ground truth function in each subregion. The results demonstrate that our method is able to recover the right ``sorting'' of individuals with respect to the response probability on a continuous spectrum. 
 The successful recovery of complicated unknown functions makes our method {\bf \small NonMAR} appealing in applications. 
 
 \subsection{human brain connectome data}\label{sec:real}
@@ -830,13 +853,13 @@ Consider an arbitrary set $S\subset\mathbb{R}^{d_1\times d_2}$. Let $t$ be an ar
 \begin{align}
 \int_{\mX\in S\Delta S_{\text{bayes}}}|\mu(\mX)-\pi|d \mathbb{P}_{\mX} &\geq t \left[\mathbb{P}_{\mX}(\left(S\Delta S_{\text{bayes}}) \cap A\right)\right] \\
 &\geq t\left( \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right) - \mathbb{P}_{\mX}(A^c)\right)\\
-&\geq t\left( \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right) - Ct^{\alpha\over 1-\alpha}\right),\quad \text{for all }t\in (0,\rho(\pi,\tN)).
+&\geq t\left( \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right) - Ct^{\alpha\over 1-\alpha}\right),\quad \text{for all }0\leq t < \rho(\pi,\tN).
 \end{align}
 Combining the above inequality with the identity~\eqref{eq:excess} yields
 \begin{equation}\label{eq:tail2}
 d(S,\bayesS)\geq 2t\left( \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right) - Ct^{\alpha\over 1-\alpha}\right),\quad \text{for all }t\in(0,\rho(\pi,\tN)]).
 \end{equation}
-We maximize the lower bound of~\eqref{eq:tail2} with respect to $t$ and obtain the optimal $t_{\text{opt}}\in(0,\rho(\pi,\tN)])$,
+We maximize the lower bound of~\eqref{eq:tail2} with respect to $t$ and obtain the optimal $0\leq t_{\text{opt}}<\rho(\pi,\tN)$,
 \[
 t_{\text{opt}}=\begin{cases}
 \rho(\pi,\tN), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)\geq {C\over 1-\alpha}\rho(\pi,\tN)^{{\alpha\over1-\alpha}} ,\\
@@ -846,7 +869,7 @@ t_{\text{opt}}=\begin{cases}
 The corresponding lower bound of the inequality~\eqref{eq:tail2} becomes
 \begin{align}
   d(S,\bayesS)\geq\begin{cases}
-2\alpha\rho(\pi,\tN)\mathbb{P}(S\Delta \bayesS), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)\geq {C\over 1-\alpha}\rho(\pi,\tN)^{{\alpha\over1-\alpha}} ,\\
+2\alpha\rho(\pi,\tN)\mathbb{P}_{\mX}(S\Delta \bayesS), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)\geq {C\over 1-\alpha}\rho(\pi,\tN)^{{\alpha\over1-\alpha}} ,\\
 2\alpha{\left(1-\alpha\over C\right)}^{1-\alpha \over \alpha} \mathbb{P}^{1\over \alpha}_{\mX}\left(S\Delta S_{\text{bayes}}\right), & \text{if}\quad \mathbb{P}_{\mX}\left(S\Delta S_{\text{bayes}}\right)< {C\over 1-\alpha} \rho(\pi,\tN)^{{\alpha\over1-\alpha}}.
 \end{cases}
 \end{align}
@@ -862,9 +885,9 @@ where we take $c= \max\left(\frac{1}{2\alpha},\left(C\over 1-\alpha\right)^{1-\a
 
 The inequality~\eqref{eq:tail2} now becomes
 \[
-d(S,\bayesS)\geq 2t\mathbb{P}_{\mX}(S\Delta \bayesS) = 2td_\Delta(S,\bayesS), \quad \text{for all }t\in[0,\rho(\pi,\tN)], \pi \notin\tN.
+d(S,\bayesS)\geq 2t\mathbb{P}_{\mX}(S\Delta \bayesS) = 2td_\Delta(S,\bayesS), \quad \text{for all }0\leq t < \rho(\pi,\tN).
 \]
-The inequality \eqref{eq:cmultiidentity} holds with $c={1\over 2}$ plugging $t=1/\rho(\pi,\tN)$ into the above inequality.
+The conclusion \eqref{eq:cmultiidentity} follows by taking $t=1/\rho(\pi,\tN)$ into the above inequality.
 \end{enumerate}
 Therefore,  Proposition~\ref{thm:identifiability} holds.
 \end{proof}
