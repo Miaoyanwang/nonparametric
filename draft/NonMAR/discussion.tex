@@ -1,0 +1,178 @@
+\documentclass[11pt]{article}
+\newcommand{\blind}{1}
+
+\usepackage[nodisplayskipstretch]{setspace}
+\setstretch{1}
+
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+
+\usepackage{amsmath,amssymb}
+\usepackage{natbib}
+
+
+\usepackage{amssymb,amsbsy,amsfonts,amsmath,xspace,amsthm}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\allowdisplaybreaks
+
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{comment}
+%\doublespacing
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem} 
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage[colorlinks,citecolor=blue]{hyperref}
+
+\usepackage[labelfont=bf]{caption}
+\usepackage{url}
+\usepackage[toc,page]{appendix}
+\usepackage{float}
+\usepackage{natbib}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{verbatim}
+\usepackage{authblk}
+\usepackage[normalem]{ulem}
+
+
+\def\ack{\section*{Acknowledgements}%
+  \addtocontents{toc}{\protect\vspace{6pt}}%
+  \addcontentsline{toc}{section}{Acknowledgements}%
+}
+
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=blue
+}
+ 
+ 
+
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+\mathop{%
+\mathchoice
+{\underbrace{\displaystyle#1}}%
+{\underbrace{\textstyle#1}}%
+{\underbrace{\scriptstyle#1}}%
+{\underbrace{\scriptscriptstyle#1}}%
+}\limits
+}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\usepackage{amsmath,amssymb,amsthm,bm,hyperref}
+\usepackage{dsfont,listings}
+
+ \renewcommand\footnotemark{}
+
+\usepackage[ruled,vlined]{algorithm2e}
+\SetAlFnt{\small}
+\SetAlCapFnt{\small}
+\SetAlCapNameFnt{\small}
+
+\newtheorem*{theorem*}{Theorem}
+\usepackage{enumitem}
+\theoremstyle{plain} 
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{assumption}{Assumption}
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{rmk}{Remark}
+
+
+\usepackage{xcolor}
+\allowdisplaybreaks
+\input macros.tex
+
+\setcounter{secnumdepth}{3}
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
+\def\fixme#1#2{\textbf{\color{red}[FIXME (#1): #2]}}
+\def\mycomment#1{\textbf{\color{blue}#1}}
+\def\ccomment#1{\textbf{\color{ForestGreen}#1}}
+\usepackage{hyperref}
+\usepackage[parfill]{parskip}
+\usepackage{bm}
+
+
+\newcommand{\Hnorm}[1]{\left\lVert#1\right\rVert_{\tH_\alpha}}
+\newcommand{\nullnorm}[1]{\left\lVert#1\right\rVert}
+\def\trueB{\mB^{\text{true}}}
+\def\newX{\mX_{\textup{new}}}
+\def\newy{y_{\textup{new}}}
+\def\sign{\textup{sign}}
+\def\bayesf{f_{\textup{bayes}}}
+\def\bayesS{S_{\textup{bayes}}}
+\def\bayespif{f_{\textup{bayes},\pi}}
+\def\CNN{\text{\bf \small CNN }}
+\def\Lasso{\text{\bf \small Lasso }}
+\def\NonparaM{\text{\bf \small NonMAR }}
+\def\LogisticM{\text{\bf \small LogisticM }}
+ 
+ 
+
+\usepackage{setspace}
+\onehalfspacing
+ 
+\begin{document}
+
+	
+\section{Discussion}
+We have developed the learning framework for the relationship between a binary label response and a high-dimensional matrix-valued predictor. 
+Our method respects the matrix structure of the predictors and provide interpretable prediction via a nonparametric approach. 
+The theoretical and numerical results demonstrate the competitive performance of our method.
+
+In this section,  we discuss some extensions of our current framework and possible applications.   While our focus is  on matrix-valued predictors and binary responses,  the developed results can be generalized to  tensor-valued predictors and continuous responses.  This extension will be helpful  in a broader variety of applications.   In addition,  we show that matrix completion problem  seemingly unrelevant  to our method can be viewed as a special case in our framework.  We believe that further exploration of the benefits of learning reduction approach in many tasks would be necessary.
+
+{\bf Extension from matrix-valued predictors to tensor-valued one: }
+Although we have presented the work in the context of matrix-valued predictors, we may consider extensions to other nonconventional predictors, such as images, graphs, tensors, and functional time-series.  Here we provide one way to extend matrix-valued predictors to tensor valued one.  In the  case when $\tX\in\mathbb{R}^{d_1\times d_2\times \cdots d_K}$, we generalize the function family $\tF(r,s_1,s_2)$ to 
+\begin{align*}
+\tF(\mr,\ms) = \{f\colon \tX\mapsto \langle \tX,\tB\rangle + b|\text{rank}(\tB)\leq \mr, \text{supp}(\tB)\leq \ms, \tB\in\mathbb{R}^{d_1\times d_2\times \cdots \times d_K},b\in\mathbb{R}\},
+\end{align*}
+where the rank of tensor $\mr = (r_1,\ldots,r_K)$ is defined by Tucker decomposition and $\text{supp}(\tB) = (s_1,\ldots,s_K)$ denotes the $K$-way sparsity parameter with $s_k$ meaning the number of non-zero columns in $k$-th mode.  The Tucker low-rankness is popularly imposed in tensor analysis.  Unlike matrices, there are various notions of tensor low-rankness, such as CP rank~\citep{hitchcock1927expression} and train rank~\citep{oseledets2011tensor}.  We utilize Tucker decomposition here but one can choose the low-rank structure on tensors depending on applications.  With this extension, we expect to handle regression problems with tensor-valued predictors such as image recognition,  context-based recommendation systems, and so on.
+
+%Recent research has shown fruitful results in classification tasks with nonconventional predictors~\citep{wang2016classification,arroyo2020simultaneous}. Our proposed reduction approach provides a potential building block for more challenging regression tasks. It is also worthy noting that each of the aforementioned predictors may processes its own special structure depending on the applications. Exploiting the benefits and properties of nonparametric regression in the specialized tasks warrants future research. 
+
+{\bf Extension from binary valued responses to continuous valued one: } We may also ask whether the results here, provided in the setting of binary regression with $y\in\{-1,1\}$, may be extended to a continuous response $y\in\mathbb{R}$. The answer is affirmative if we assume the response $y$ is bounded, e.g.\ $y\in[-L,L]$, for $L>0$. One possible solution is to use response-dependent weight in place of response-dependent weight in the classification. Specifically, for a fixed target level $\pi\in [-L,L]$, define a new binary response $\tilde y = \sign (y-\pi)$, a response-dependent weight $\tilde  w_\pi(y)=|y-\pi|$, and a general weighted classification risk
+\begin{equation}\label{eq:continuousrisk}
+\tilde R_\pi(S)\stackrel{\text{def}}{=}\mathbb{E}\left[\tilde  w_\pi(y)\mathds{1}(\tilde y \neq \sign (\mX\in S))\right].
+\end{equation}
+The risk~\eqref{eq:continuousrisk} extends the $\pi$-weighted classification risk~\eqref{eq:risklevel} for a continuous response, where the weight $\tilde  w_\pi(y)=|y-\pi|$ is the distance from the response $y$ to the target level $\pi$. Importantly, the level set $S(\pi)=\{\mX\in \tX \colon \mu(\mX)\geq \pi\}$ is the global minimum of~\eqref{eq:continuousrisk} under conditional model of the type $y|\mX=\mu(\mX)+\varepsilon$, where the noise $\varepsilon$ is a mean-zero random variable whose distribution is allowed to depend on $\mX$~\citep{willett2007minimax,scott2007regression}. With this statistical characterization, our main result on excess regression risk bound in Section~\ref{sec:idea} still holds. Therefore, our learning reduction approach equally applies to a continuous response by using $\tilde w_\pi(y)$ and $\tilde y$ in place of $w_\pi(y)$ and $y$, respectively. For an unbounded response, it is unclear whether the level set approach still achieves accuracy guarantees. We leave these questions for future work. 
+
+{\bf Application to nonparametric matrix completion problem: } Our nonparametric regression can be utilized to solve matrix completion problem.  Consider the specific problem to predict the unobserved entries of a binary matrix $\mY\in\{0,1\}^{d_1\times d_2}$,  where observed entries are labeled as $\Omega\subset [d_1]\times[d_2]$.  We can re-express  the matrix completion problem as classification problem with the training set $\{\mE_{ij},\mY_{ij}\}_{(i,j)\in\Omega}$ where $\mE_{ij}$ is an indicator matrix whose $(i,j)$-th entry is 1 and the other entries are 0. This representation makes the matrix completion problem  a special case of the regression problem with indicator matrices as predictors .  We can 
+successfully  estimate the missing entries by predicting the binary responses of unobserved indicator matrices. In addition,  we can successfully handle not only completion problem of binary valued matrices but also continuous valued matrices or tensors based on above mentioned extensions.
+This promising application  brings the nonparametric advantages of flexibility and robustness to the completion problem.
+
+
+
+%Our regression approach also provides flexibility to local function estimation. In geographical applications, for example, people are interested in detecting the minima and maxima of a nonparametric function. In these applications, the entire region is less interested, but a restricted range, $[L_1, L_2]$, may be more relevant. Then our method is be used to learn this function in a given range only. Furthermore, the adaptive resolution parameter adaptive to the changing behavior of functional is of future interest. Application to adaptive level set estimation and functional minima and maxima detection warrants future research.
+
+%Lastly, from computational perspective, the two-way sparse and low rank ..., and we find in practice it provides better accuracy in real applications. Convex surrogate is also possible, for example, by nuclear norm and group lasso. Recent development has shown the empirical superior of nonconvex approach, while at the cost of harder theoretical analysis. The balance between practical feasibility and analytical guarantees warrants future research.
+\bibliographystyle{chicago}
+
+\bibliography{tensor_wang}
+
+
+
+
+\end{document}
+
+
+
