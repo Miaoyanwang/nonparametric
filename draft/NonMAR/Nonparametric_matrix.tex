@@ -171,6 +171,18 @@ for $i=1,\ldots,n$. We call the function $\mX\mapsto \langle \mX,\mB\rangle=\tex
 \[
 \mathbb{E}(Y_i|\mX_i)=g(\langle \mX_i, \mB \rangle), \ \text{with a known $g\colon \mathbb{R}\to\mathbb{R}$ and low-rank $\mB$.}
 \]
+We assume the prediction problem is high-dimensional when $n\lesssim d_r\time d_c$. 
+
+Over the last decade, this problem has been studied for several families of distributions Π that span a range of applications. It is constructive to look at the following four special cases of the problem:
+\begin{itemize}
+\item {Matrix-completion:} Compressed sensing via Gaussian ensembles.
+If we view the matrix as a high-dimensional vector of size $d_rd_c$, then the estimation problem can be viewed as an example of the compressed sensing problem, given certain structural assumptions on $\mB$. In this literature it is known that Gaussian ensembles, when each $\mX_i$ is a random matrix with entries filled with i.i.d. samples from $N(0, 1)$, are a suitable family of measurement matrices [3].
+\item {Multi-task learning}: When support of $\Pi$ is only matrices that have a single non-zero row, then the problem reduces to the multi-task learning problem. Specifically, when we have n observations of $d_r$ different supervised learning tasks, represented by $d_r$ linear regression models with unknown $d_c$-dimensional parameters $B_1,\ldots,B_{d_r}$, respectively, that form rows of $\mB$. Equivalently, when the $i_r$-th dr
+row of $\mX_i$ is non-zero, we can assume $Y_i$ is a noisy observation for the $i_r$-th task, with feature vector equal to the $i_r$-th row of $X_i$. In multi-task learning the goal is to learn the parameters (matrix $\mB$), leveraging structural properties (similarities) of the tasks [7].
+\item {\bf Matrix-completion}: Let $\Pi$ be uniform distribution on canonical basis matrices for $Rd_r d_c$ , the set of all matrices that have only a single non-zero entry which is equal to 1. In this case we recover the well-known matrix completion problem, that is estimating B⋆ when n noisy observations of (uniformly randomly) selected entries are available. A more general version of this problem is when Π a non-uniform probability distribution over the basis matrices.
+
+\end{itemize}
+
 Now we propose a nonparametric trace regression. 
 \begin{align}
 Y_i&=f(\mX_i)+\varepsilon_i,\quad \text{for }i=1,\ldots,n\\
@@ -276,7 +288,7 @@ Let $\tX\subset \mathbb{R}^{d_1\times d_2}$ be the feature space. Given a functi
 
 The rest of the paper is organized as follows. Section~\ref{sec:problem} presents a range of learning tasks, from classification to regression, for matrix-valued predictors. In Section~\ref{sec:idea}, we develop a learning reduction approach by relating the regression to classification, and establish the oracle procedures of nonparamatric matrix regression. In Section~\ref{sec:estimation}, we present the empirical estimation and the associated optimization algorithm. Statistical accuracy, high-dimensional consistency, and excess risk bounds are presented in Section~\ref{sec:theory}. We present the simulations in Section~\ref{sec:simulation} and human connectome Project data analyses in Section~\ref{sec:real}. All technical proofs are deferred to Appendix. 
 
-\section{Three learning problems}\label{sec:problem}
+\section{Review: Three learning problems}\label{sec:problem}
 
 We present the main learning goals of our interest. Let $\mX\in \mathbb{R}^{d_1\times d_2}$ denote the matrix-valued predictor, $y\in\{-1,1\}$ denote the binary label response, and $\mathbb{P}_{\mX,y}$ denote the unknown joint probability distribution over the pair $(\mX,y)$. In the context of binary response, $y$ is a Bernoulli random variable with conditional probability $\mu(\mX)\stackrel{\text{def}}{=}\mathbb{P}(y=1|\mX)$; we generally make no parametric assumptions on the marginal distribution $\mathbb{P}_{\mX}$ or form of $\mu(\mX)$. 
 
@@ -286,7 +298,7 @@ Suppose that we observe a sample of $n$ training data points, $(\mX_1,y_1),\ldot
 We consider three learning problems: classification, level set estimation, and regression. 
 
 \begin{enumerate}[label={2.\arabic*},wide, labelwidth=!, labelindent=0pt]
-\item {\it Matrix classification}: Classification is the problem of predicting the label $y\in \{-1,1\}$ to which the new matrix $\mX$ belongs. A prediction rule (also called a classifier) decides that $y=1$ if $\mX\in S$ and $y=-1$ if $\mX \not\in S$, where $S$ is a Borel subset of $\tX$. We formulate the classification problem as choosing a classifier $S\in \tS$, from a given set of candidate classifiers $\tS$, that minimizes the expected classification error 
+\item {\it Classification}: Classification is the problem of predicting the label $y\in \{-1,1\}$ to which the new matrix $\mX$ belongs. A prediction rule (also called a classifier) decides that $y=1$ if $\mX\in S$ and $y=-1$ if $\mX \not\in S$, where $S$ is a Borel subset of $\tX$. We formulate the classification problem as choosing a classifier $S\in \tS$, from a given set of candidate classifiers $\tS$, that minimizes the expected classification error 
 \begin{equation}\label{eq:classloss}
 R(S)=\mathbb{P}_{\mX,y}\left[y\neq \sign(\mX\in S)\right].
 \end{equation}
@@ -988,7 +1000,7 @@ From Proposition~\ref{prop:equivalance},  $(\pi,\alpha)$-local regularity implie
 Notice $\rho(\pi,\tN)$ is a constant in the proposition because we only consider a given $\pi$.
 Applying the second order condition to Theorem 3 of \cite{wang2008probability} gives that, with the choice $\lambda\leq {t_n\over 4J_n}$, 
 \begin{equation}\label{eq:rate}
-\mathbb{P}\left[R_\ell(\hat f)-R_\ell(\bayesf)\geq \max\left\{a_n, t_n\right\}\right]\leq {7\over 2}\exp\left( -Cn(\lambda J_n)^{2-\alpha}\right), 
+\mathbb{P}\left[R_{\ell,\pi}(\hat f)-R_{\ell,\pi}(\bayesf)\geq \max\left\{a_n, t_n\right\}\right]\leq {7\over 2}\exp\left( -Cn(\lambda J_n)^{2-\alpha}\right), 
 \end{equation}
 where $C>0$. Here $\{a_n\}$ is the vanishing sequence specified in~Assumption~\ref{ass:main}. Combining \eqref{eq:excess-hinge} and \eqref{eq:rate} gives
 \begin{equation}
@@ -1019,7 +1031,7 @@ We first suggest lemmas and proposition that will be used to prove Theorem~\ref{
 \[
 d_{\Delta}(\bayesS(\pi),\hat S(\pi))\lesssim t_n^{\alpha/(2-\alpha)}+ {1\over \rho^2(\pi,\tN)}t_n,\quad \text{for all levels }\pi \notin \tN, 
 \]
-where $\lesssim$ denotes the inequality up to multiplicative constants. Furthermore, 
+ Furthermore, 
 \begin{equation}\label{eq:total}
 {1\over H}\sum_{\pi \in \Pi} d_{\Delta}(\bayesS(\pi),\hat S(\pi))\lesssim   {1\over H}+t_n^{\alpha/(2-\alpha)}+ H t_n .
 \end{equation}
@@ -1071,7 +1083,7 @@ The first term involves only finite number of summands and thus can be bounded b
 &\leq t_n^{\alpha/(2-\alpha)}+ {t_n\over H} \sum_{\pi'\in \tN} 2H^2\\
 &\leq t_n^{\alpha/(2-\alpha)}+ 2cHt_n,
 \end{align}
-where the last inequality follows from the Lemma~\ref{lem:H}.  Combining the bounds we obtained for the last two terms in \eqref{eq:twobounds} completes the second conclusion.  As seen from the calculation, the distance $\rho^2(\pi, \tN)$ grows quadratically as the level $\pi$ moves away from the mass points in $\tN$. This leads to a fast linear rate in terms of $H$, provided that there are finitly many mass points in $\tN$.
+where the last inequality follows from the Lemma~\ref{lem:H}.  Combining the bounds for the last two terms in \eqref{eq:twobounds} completes the second conclusion.  As seen from the calculation, the distance $\rho^2(\pi, \tN)$ grows quadratically as the level $\pi$ moves away from the mass points in $\tN$. This leads to a fast linear rate in terms of $H$, provided that there are finitely many mass points in $\tN$.
 \end{proof}
 
 \begin{lem}\label{lem:H}
