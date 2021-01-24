@@ -171,15 +171,15 @@ for $i=1,\ldots,n$. We call the function $\mX\mapsto \langle \mX,\mB\rangle=\tex
 \[
 \mathbb{E}(Y_i|\mX_i)=g(\langle \mX_i, \mB \rangle), \ \text{with a known $g\colon \mathbb{R}\to\mathbb{R}$ and low-rank $\mB$.}
 \]
-We assume the prediction problem is high-dimensional when $n\lesssim d_r\time d_c$. 
+We assume the prediction problem is high-dimensional when $n\lesssim d_r\times d_c$. 
 
-Over the last decade, this problem has been studied for several families of distributions Π that span a range of applications. It is constructive to look at the following four special cases of the problem:
+Over the last decade, this problem has been studied for several families of distributions $\Pi$ that span a range of applications. It is constructive to look at the following four special cases of the problem:
 \begin{itemize}
 \item {Matrix-completion:} Compressed sensing via Gaussian ensembles.
 If we view the matrix as a high-dimensional vector of size $d_rd_c$, then the estimation problem can be viewed as an example of the compressed sensing problem, given certain structural assumptions on $\mB$. In this literature it is known that Gaussian ensembles, when each $\mX_i$ is a random matrix with entries filled with i.i.d. samples from $N(0, 1)$, are a suitable family of measurement matrices [3].
 \item {Multi-task learning}: When support of $\Pi$ is only matrices that have a single non-zero row, then the problem reduces to the multi-task learning problem. Specifically, when we have n observations of $d_r$ different supervised learning tasks, represented by $d_r$ linear regression models with unknown $d_c$-dimensional parameters $B_1,\ldots,B_{d_r}$, respectively, that form rows of $\mB$. Equivalently, when the $i_r$-th dr
 row of $\mX_i$ is non-zero, we can assume $Y_i$ is a noisy observation for the $i_r$-th task, with feature vector equal to the $i_r$-th row of $X_i$. In multi-task learning the goal is to learn the parameters (matrix $\mB$), leveraging structural properties (similarities) of the tasks [7].
-\item {\bf Matrix-completion}: Let $\Pi$ be uniform distribution on canonical basis matrices for $Rd_r d_c$ , the set of all matrices that have only a single non-zero entry which is equal to 1. In this case we recover the well-known matrix completion problem, that is estimating B⋆ when n noisy observations of (uniformly randomly) selected entries are available. A more general version of this problem is when Π a non-uniform probability distribution over the basis matrices.
+\item {\bf Matrix-completion}: Let $\Pi$ be uniform distribution on canonical basis matrices for $Rd_r d_c$ , the set of all matrices that have only a single non-zero entry which is equal to 1. In this case we recover the well-known matrix completion problem, that is estimating $B$ when n noisy observations of (uniformly randomly) selected entries are available. A more general version of this problem is when $\Pi$ a non-uniform probability distribution over the basis matrices.
 
 \end{itemize}
 
