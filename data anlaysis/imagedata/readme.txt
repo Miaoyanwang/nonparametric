@@ -7,3 +7,5 @@ imglist*.RData: List of image matrices with missing entries (5 repeatition for e
        (missingrate)-missing*.pdf : image visualization over different missing rates.
 *.svg: Original image svg files from which the image files are made (1: Hot air balloon, 2: Lenna).
        All svg files are for image visualizations.
+       
+*.jpeg or jpg: Orignal image files
