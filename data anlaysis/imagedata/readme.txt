@@ -5,6 +5,8 @@ imglist*.RData: List of image matrices with missing entries (5 repeatition for e
 *.pdf: Image files in the note (1: Hot air balloon, 2: Lenna).
        compare*.pdf : MAE vs Rank
        (missingrate)-missing*.pdf : image visualization over different missing rates.
+       (missingrate)-missingf.pdf : hot ballon image visualization based on the best rank for each method.
+       
 *.svg: Original image svg files from which the image files are made (1: Hot air balloon, 2: Lenna).
        All svg files are for image visualizations.
        
