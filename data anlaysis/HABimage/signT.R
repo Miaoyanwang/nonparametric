@@ -1,6 +1,4 @@
-library(rTensor)
-library(Matrix)
-library(quadprog)
+
 min.thresh=10^(-3)
 max.thresh=10^10
 
@@ -17,30 +15,30 @@ gradient=function(A1,A2,A3,mode,Ybar,W,type=c("logistic","hinge")){
     }else if(type=="hinge"){
         tem=-W*Ybar*(margin<1)
     }
+    scale = length(tem)-sum(is.na(tem))
     tem[is.na(tem)]=0
 
     if(mode==3){
         Grad=matrix(0,nrow=dim(A3)[1],ncol=R)
         for(r in 1:R){
-            Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A2[,r]))),ms=c(1,2))@data
+            Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A2[,r]))),ms=c(1,2))@data/scale
         }}else if(mode==2){
             Grad=matrix(0,nrow=dim(A2)[1],ncol=R)
             for(r in 1:R){
-                Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A3[,r]))),ms=c(1,3))@data
+                Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A1[,r])),as.matrix(t(A3[,r]))),ms=c(1,3))@data/scale
             }}else if(mode==1){
                 Grad=matrix(0,nrow=dim(A1)[1],ncol=R)
                 for(r in 1:R){
-                    Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A2[,r])),as.matrix(t(A3[,r]))),ms=c(2,3))@data
+                    Grad[,r]=ttl(as.tensor(tem),list(as.matrix(t(A2[,r])),as.matrix(t(A3[,r]))),ms=c(2,3))@data/scale
                 }}
     return(Grad)
 }
 
- 
+
 # weighted classification with large margin loss function
 cost=function(A1,A2,A3,Ybar,W,type=c("logistic","hinge")){
     return(mean(W*loss(tensorize(A1,A2,A3)*Ybar,type),na.rm=TRUE))
 }
-
 
 
 
@@ -192,7 +190,7 @@ Alt=function(Ybar,W,r,type=c("logistic","hinge"),start="linear"){
 
     error=1;iter=1;
 
- while((error>0.01)&(binary_obj[iter]>0.01)&(iter<20)){
+ while((error>0.01)&(iter<20)){
 
 
  optimization=optim(c(A3),function(x)cost(A1,A2,matrix(x,ncol=r),Ybar,W,type),function(x)gradient(A1,A2,matrix(x,ncol=r),3,Ybar,W,type),method="BFGS")
@@ -215,8 +213,6 @@ error=(obj[iter-1]-obj[iter])
  result$fitted=tensorize(A1,A2,A3); ## exact low-rank
  return(result)
 }
-
-
 
 
 #' Signal tensor estimation from a noisy and incomplete data tensor based on CP low rank tensor method.
