@@ -77,7 +77,7 @@
 
 \usepackage{enumitem}
 \theoremstyle{plain} 
-\newtheorem{thm}{Theorem}[subsection]
+\newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}{Lemma}
 
 \theoremstyle{definition}
@@ -371,7 +371,7 @@ The proof is provided in Section~\ref{sec:sub-Gaussian}.
 \begin{rmk}[Extending to general non-parametric matrix regression] For matrix nonparametrix regression (Theorem~\ref{thm:regression} of the main paper), the extension of bounded noise to sub-Gaussian noise incurs an additional $\log n$ factor, where $n$ is the sample size. The techniques of handling sub-Gaussian noise is identical to the above extension, and is thus omitted in the paper. 
 \end{rmk}
 
-\subsection{Extension to unbounded number of mass points}\label{eq:unbounded}
+\subsection{Extension to unbounded number of mass points}\label{sec:unbounded}
 Theorem~\ref{thm:estimation} of our main paper assumes the bounded $|\tN|_{\text{cover}}<c<\infty$ for some constant $c>0$, where $|\tN|_{\text{cover}}$ is defined as the covering number of $\tN$ with $2\Delta s$-bin's. Recall that $\tN$ corresponds to regions of jumps greater than $\Delta s = {1/d^2}$ in the CDF $G(\pi)=\mathbb{P}_{\omega\sim \Pi}(\Theta(\omega)\leq \pi)$. This setup gives a cleaner exposition of our results but may be restricted in some cases. For example, the high-rank matrices in Example~\ref{ex:high-rank} and Figure~\ref{fig:limit}(b) are excluded, because $\alpha=\infty$ and $|\tN|_{\text{cover}}=d$ in this setup. Fortunately, our framework still applies to this family of matrices with a little amendment. 
 
 We now extend the setup to allow for more general structured matrices including those in Example~\ref{ex:high-rank}. Redefine $\Delta s = {1/d}$. Correspondingly, redefine the smoothness index $\alpha$ and the set $\tN$ for the psudo density of $\mTheta(\omega)$ with new bin width $2\Delta s$. Let $|\tN|_{\text{cover}}$ be the covering number of $\tN$ with new $2\Delta s$-bin's. Under this new setup, the signal matrix in Example~\ref{ex:high-rank} has $|\tN|_{\text{cover}}=0$ and $\alpha<\infty$. Following the same line as in Theorem~\ref{thm:estimation} and use the fact that $\Delta s\lesssim t_n$, we obtain that
@@ -793,7 +793,7 @@ where $T>0$ is the upper bound of truncated hinge loss , the second line comes f
 \end{proof}
 
 Below we establish the estimation convergence rate for $\hat \phi_{\pi,F}$'s excess F-risk. The variance-to-mean relationship in Lemma~\ref{lem:prepare} plays a key role in determining the convergence rate based on empirical process theory~\citep{shen1994convergence}.
-The proof adopts the local iterative techniques from~\citet[Theorem 3]{wang2008probability}. Similar techniques have been used in \citet[Theorem 4]{bartlett2006convexity} for similar estimate but without ridge penalization.
+The proof adopts the local iterative techniques from~\citet[Theorem 3]{wang2008probability} (also see Section~\ref{sec:auxiliary}). Similar techniques have been used in \citet[Theorem 4]{bartlett2006convexity} for similar estimate but without ridge penalization.
 
 \begin{lem}[Excess $F$-risk error]\label{lem:risk}Consider the set-up as in Theorem~\ref{thm:unified}. Then, with high probability and $t_n$ specified in Theorem~\ref{thm:unified}, the following holds for all $\pi\notin\tN$. 
 \begin{enumerate}[label={2.\arabic*},wide, labelwidth=!, labelindent=0pt]
@@ -862,7 +862,7 @@ provided the loss function is bounded. By~\eqref{eq:outer} and~\eqref{eq:first},
 \begin{align}\label{eq:union}
 \Gamma\leq \sum_{s,k=1}^\infty\mathbb{P}\left\{\sup_{A_{s,k}}  \KeepStyleUnderBrace{\left[\mathbb{E}\Delta (\phi; (\mX,Y))-\mathbb{\hat E}\Delta (\phi; (\mX,Y))\right]}_{\text{empirical process indexed by $\phi\in A_{s,k}$}}\geq M(s,k)\right\},
 \end{align}
-where we have used the assumption that $a_n\leq L_n\leq M(s,k)$. We next bound the right-hand-side of~\eqref{eq:union} using standard empirical process theory. Specifically, we choose an $L_n$ that satisfies the conditions in~\citet[Theorem 3]{shen1994convergence}. (The specification of $L_n$ is deferred to the next paragraph). Once such $L_n$ is chosen, then it follows from~\citet[Theorem 3]{shen1994convergence} that
+where we have used the assumption that $a_n\leq L_n\leq M(s,k)$. We next bound the right-hand-side of~\eqref{eq:union} using standard empirical process theory. Specifically, we choose an $L_n$ that satisfies the conditions in~\citet[Theorem 3]{shen1994convergence}; see Section~\ref{sec:auxiliary}. (The specification of $L_n$ is deferred to the next paragraph). Once such $L_n$ is chosen, then it follows from~\citet[Theorem 3]{shen1994convergence} that
 \begin{align}\label{eq:gamma}
 \Gamma& \lesssim \sum_{s,k}\exp\left( - {nM^2(s,k)\over V(s,k)+M(s,k)}\right)\notag \\
 &\lesssim \sum_{s,k}\exp(-\rho nM(s,k)) \notag\\
@@ -1048,8 +1048,7 @@ where constants have been absorbed into the $\lesssim$ relationship. Therefore, 
 \end{proof}
 
 \clearpage
-\section{Auxiliary lemmas}
-
+\section{Auxiliary lemmas}\label{sec:auxiliary}
 \begin{lem}[Hinge loss and $L$-1 distance]\label{lem:hingeL1} Consider the same set-up as in Theorem~\ref{thm:extension}. Let $F(z)=(1-z)_{+}$ be the hinge loss. Then, the $L$-1 distance between $\phi$ and $\bayespif$ is bounded by their excess risk; i.e,
 \begin{equation}\label{eq:L}
 \onenormSize{}{\phi-\bayespif}
@@ -1227,6 +1226,28 @@ Both upper bounds $T$ and $V$ are allowed to depend on $n$. By applying Theorem~
 \mathbb{P}\left\{\sup_{f\in\tF}\left(\mathbb{E}f-\mathbb{\hat E}f \right)\geq x_n^*\right\}\lesssim \exp\left(-{n (x^*_n)^2\over V+Tx^*_n}\right).
 \]
 \end{rmk}
+
+We state the results from \citet[Theorem 1]{scott2011surrogate} in our contexts. 
+\begin{thm}[Theorem 1 in~\cite{scott2011surrogate}] Let $\riskF(\cdot)$ be $F$-risk defined in~\eqref{eq:riskdef} in the main paper, where $\pi\in[-1,1]$. Define conditional risk 
+\[
+C_{\pi,F}(\mX,t):=F(t)\mathbb{E}_{Y|\mX}(Y-\pi)^{+}+F(-t)\mathbb{E}_{Y|\mX}(Y-\pi)^{-},
+\]
+and associated function $H_{\pi,F}$:
+\[
+H_{\pi,F}(\mX)=\inf_{t\in\mathbb{R}\colon t(f(\mX)-\pi)\leq 0}C_{\pi,F}(\mX, t)-\inf_{t\in\mathbb{R}} C_{\pi,F}(\mX, t).
+\]
+Let $f(\mX)=\mathbb{E}(Y|\mX)$. For any $\varepsilon\geq 0$, define
+\[
+g(\varepsilon)=\begin{cases}
+\inf_{\mX\in\tX:|f(\mX)-\pi|\geq \varepsilon} H_{\pi,F}(\mX),& \varepsilon>0,\\
+0& \varepsilon=0.
+\end{cases}
+\]
+Now set $\psi=g^{**}$ where $g^{**}$ denotes the Fenchel-Legendre biconjugate of $g$. Then, for any decision function $\phi\colon \tX\to \mathbb{R}$ and any distribution of $(\mX,Y)$, we have
+\[
+\psi\left( \risk(\phi)-\inf_{\text{all }\phi}\risk(\phi)\right)\leq \psi \riskF(\phi)-\inf_{\text{all }\psi}\riskF(\phi).
+\]
+\end{thm}
 
 \begin{lem}[sub-Gaussian maximum]\label{lem:subg}
 Let $X_1,\ldots,X_n$ be independent sub-Gaussian zero-mean random variables with variance proxy $\sigma^2$. Then, for any $s>0,$

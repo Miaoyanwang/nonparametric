@@ -506,7 +506,7 @@ Consider the matrix model~\eqref{eq:modelcompletion} with $\alpha$-smooth signal
 \end{theorem}
 
 \noindent
-We remark that our estimation accuracy \eqref{eq:real} applies to both low-rank and high-rank signal matrices. Moreover, the estimation rate depends on the sign complexity $\mTheta\in\caliM(r)$, where $r$ can be much smaller than the usual matrix rank as shown in Proposition \ref{prop:signrank}. In fact, our theorem can also be relaxed for growing $|\tN|_{\text{cover}}$ as a function of $d$, with slight modification on the setup (see Appendix~\ref{app:unbounded} for extension). We now illustrate Theorem \ref{thm:estimation} with two matrix completion examples and compare with the existing literature.  
+We remark that our estimation accuracy \eqref{eq:real} applies to both low-rank and high-rank signal matrices. Moreover, the estimation rate depends on the sign complexity $\mTheta\in\caliM(r)$, where $r$ can be much smaller than the usual matrix rank as shown in Proposition \ref{prop:signrank}. In fact, our theorem can also be relaxed for growing $|\tN|_{\text{cover}}$ as a function of $d$, with slight modification on the setup (see Appendix~\ref{sec:unbounded} for extension). We now illustrate Theorem \ref{thm:estimation} with two matrix completion examples and compare with the existing literature.  
 
 \begin{example}[Stochastic block model-based matrix completion]
 The stochastic block model \cite{chi2020provable} assumes a checkerboard structure under marginal row and column permutations. The signal matrix belongs to our sign representable family $\mTheta \in \caliM(r)$, where $r$ is the total number of blocks. Furthermore, the block matrix is $\infty$-globally smooth, because $\tN$ consists of finitely many $2\Delta s$-bin's covering the block means in $\Theta$. Our signal estimate achieves the rate $\tilde\tO(d^{-1/2})$ when $\alpha=\infty$ in the absence of missingness. This rate agrees with the minimax root-mean-square error (RMSE) rate for stochastic block models with a fixed number of blocks \cite{gao2016optimal}. 
@@ -614,10 +614,10 @@ We briefly describe the hyperparameters in our Algorithm~\ref{alg:weighted}. Our
 \subsection{Large-margin statistical guarantees}\label{sec:large-margin}
 
 We next establish the statistical accuracy for the large-margin estimates under some additional technical assumptions. Let $\bayespif=\sign(f-\pi)$ denote the ground truth sign function at $\pi\in[-1,1]$, and let
-\begin{eqnarray*}
-\risk(\phi) & = & {1\over 2}\mathbb{E}|Y-\pi|F\big(\sign(Y-\pi)-\phi(\mX)\big), \\
-\riskF(\phi) & = & \mathbb{E}|Y-\pi|F\big(\sign(Y-\pi)\phi(\mX)\big), 
-\end{eqnarray*}
+\begin{align}
+\risk(\phi) & =  {1\over 2}\mathbb{E}|Y-\pi|F\big(\sign(Y-\pi)-\phi(\mX)\big), \notag \\
+\riskF(\phi) & =  \mathbb{E}|Y-\pi|F\big(\sign(Y-\pi)\phi(\mX)\big), 
+\end{align}
 denote the 0-1 risk and F-risk, respectively, where $F$ is the surrogate (continuous) loss, and the expectation is taken with respect to $(\mX,Y)\sim \mathbb{P}_{\mX,Y}$ following the regression model $f\in\caliF(r,s_1,s_2)$. For simplicity, we assume $d_1 = d_2 = d$ and $\FnormSize{}{\mX}\leq 1$ with probability 1. We consider the high-dimensional regime where both $n$ and $d$ grow, while $(r,s_1,s_2)$ remain fixed. We need the following assumptions. 
  
 \begin{assumption}[Assumptions on surrogate loss]\label{ass:main} \hfill
@@ -639,12 +639,12 @@ Suppose the surrogate loss $F$ satisfies Assumption~\ref{ass:main} with $a_n \le
 \begin{enumerate}[(a)]
 \item (Sign function estimation). For all $\pi\in[-1,1]$ except for a finite number of levels,
 \begin{equation*}
-\onenormSize{}{\sign\hat \phi_{\pi,F}-\sign(f-\pi)}\lesssim t_n ^{\alpha\over 2+\alpha}+{1\over \rho^2(\pi,\tN)}t_n.
+\onenormSize{}{\sign\hat \phi_{\pi,F}-\sign(f-\pi)}\lesssim t_n ^{\alpha/(2+\alpha)}+{1\over \rho^2(\pi,\tN)}t_n.
 \end{equation*}
 
 \item (Regression function estimation). 
 \begin{equation*}
-\onenormSize{}{\hat f_{F}- f} \lesssim t_n^{\min\left( {1\over 2},{\alpha \over 2+\alpha} \right)}.
+\onenormSize{}{\hat f_{F}- f} \lesssim \tilde \tO\left\{t_n^{\min\left( {1\over 2},{\alpha \over 2+\alpha} \right)}\right\}.
 \end{equation*}
 \end{enumerate}
 \end{theorem}
