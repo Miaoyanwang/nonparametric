@@ -6,6 +6,7 @@
 
 %%               Bold Math
 \def\mbeta{\boldsymbol{\beta}}
+\def\mTheta{\bm{\Theta}}
 
 \def\ma{\bm{a}}
 \def\mb{\bm{b}}
@@ -181,7 +182,7 @@
 \def\fploglb{\nabla_{\mb}\tL_{\tY}}
 \def\fpploglb{\nabla^2_{\mb}\tL_{\tY}}
 
-\newcommand{\MFnormSize}[2]{#1\lVert#2#1\rVert_{F,\Omega}} 
+%\newcommand{\MFnormSize}[2]{#1\lVert#2#1\rVert_{F,\Omega}} 
 
 
 \def\fixme#1#2{\textbf{[FIXME (#1): #2]}}
@@ -209,7 +210,7 @@
 \def\bbR{\mathbb{R}}
 
 \newcommand{\matr}[1]{\bm{#1}}
-\newcommand{\norm}[1]{\left\lVert#1\right\rVert_2}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand{\anorm}[1]{\left\lVert#1\right\rVert_M}
 \newcommand{\snorm}[1]{\left\lVert#1\right\rVert_\sigma}
 \newcommand{\onenorm}[1]{\left\lVert#1\right\rVert_1}
@@ -219,7 +220,9 @@
 \newcommand{\Fnorm}[1]{\left\lVert#1\right\rVert_F}
 \newcommand{\nnorm}[1]{\left\lVert#1\right\rVert_*}
 
+\newcommand{\newnormSize}[2]{#1\lVert#2#1\rVert}
 \newcommand{\zeronormSize}[2]{#1\lVert#2#1\rVert_0}
+\newcommand{\onenormSize}[2]{#1\lVert#2#1\rVert_1}
 \newcommand{\nnormSize}[2]{#1\lVert#2#1\rVert_*}
 \newcommand{\anormSize}[2]{#1\lVert#2#1\rVert_M}
 \newcommand{\vnormSize}[2]{#1\lVert#2#1\rVert_2}
