@@ -493,7 +493,7 @@ $\mZ$ & an arbitrary matrix\\
 \clearpage
 
 \subsection{Proof of Theorem~\ref{thm:oracle}}
-\begin{proof}
+\begin{proof}[Proof of Theorem~\ref{thm:oracle}]
 Fix $\pi\in[-1,1]$. For any arbitrary function $\phi\in \Phi(r)$, we evaluate the excess risk between $\sign(f-\pi)$ and $\sign \phi$,
 \begin{align}\label{eq:risk}
 &\risk(\sign \phi)- \risk(\sign(f-\pi)) \notag \\
@@ -523,7 +523,7 @@ Based on the definition of 0-1 classification loss, the $\risk(\cdot)$ relies on
 
 
 \subsection{Proof of Theorem~\ref{thm:identifiability}}
-\begin{proof}
+\begin{proof}[Proof of Theorem~\ref{thm:identifiability}]
 Fix $\pi\in[-1,1]$. For ease of notation, we drop the dependence of $\pi$ in $\bayesS(\pi)$ and simply write $\bayesS$. Based on~\eqref{eq:I} in the proof of Theorem~\ref{thm:oracle}, we have
 \begin{align}\label{eq:excess}
 d_\pi(S,\bayesS) &\stackrel{\text{def}}{=} \risk(\sign (S))-\risk(\sign(\bayesS))\notag \\
@@ -591,9 +591,9 @@ In fact, the similar inequality holds by replacing the 0-1 risk to hinge risk or
 \[
 \onenormSize{}{\phi^T-\bayespif} \leq \left[\riskF(\phi)-\riskF(\bayespif)\right]^{\alpha \over 1+\alpha}+{1\over \rho(\pi, \tN)}\left[\riskF(\phi)-\riskF(\bayespif)\right],
 \]
-where $\phi^T$ is a truncation of function $\phi$ (see formal definition in~\eqref{eq:Tphi}).
+where $\phi^T$ is a truncation of function $\phi$; see formal definition in~\eqref{eq:Tphi}.
 \end{itemize}
-See Lemma~\ref{lem:hingeL1}.
+See Lemma~\ref{lem:hingeL1} for proofs. 
 \end{rmk}
 
 
@@ -660,7 +660,7 @@ where $C=1$ for 0-1, hinge loss or $T$-truncated loss, and $C=2$ for psi-loss.
 The property (c) holds only for bounded loss functions, i.e, excluding hinge loss. 
 \end{rmk}
 
-\begin{proof}
+\begin{proof}[Proof of Lemma~\ref{lem:prepare}]
 \begin{enumerate}[label={2.\arabic*},wide, labelwidth=!, labelindent=0pt]
 
 \item[Case 1:] $F(z)=\mathds{1}(z<0)$ is 0-1 loss. 
@@ -1139,7 +1139,7 @@ Assume, for simplicity, that the intercept $b$ is known and that the function do
 \tH_{[\ ]}(\varepsilon,\ \Phi^k,\ \vnormSize{}{\cdot}) \leq  Cr(s_1+s_2) \log {kd\over \varepsilon }.
 \]
 \end{lem}
-\begin{proof} 
+\begin{proof}[Proof of Lemma~\label{lem:entropy}]
 For any given $k\in\mathbb{N}_{+}$, define the matrix class
 \[
 \tB=\{\mB\in \mathbb{R}^{d\times d}\colon \text{rank}(\mB)\leq r,\ \text{supp}(\mB)\leq (s_1,s_2),\ \FnormSize{}{\mB}^2\leq k\}.
@@ -1181,7 +1181,7 @@ Then, the following inequality is satisfied for all $k\in\{2,3,\ldots\}$,
 {1\over x}\int^{\sqrt{x^{\alpha/(\alpha+1)}+{x\over \rho (\pi, \tN)}}}_{x} \sqrt{\tH_{[\ ]}(\varepsilon,\ \Phi^{k},\ \vnormSize{}{\cdot}) }d\varepsilon \leq n^{1/2}, \quad \text{where}\ x:=L_n+\lambda J(k/2-1).
 \end{equation}
 \end{lem}
-\begin{proof}
+\begin{proof}[Proof of Lemma~\ref{lem:metric}]
 To simplify the notation, we write $\rho=\rho(\pi, \tN)$, and define
 \begin{equation}\label{eq:complexity}
 g(x, k)={1\over x}\int^{\sqrt{x^{\alpha/(\alpha+1)}+\rho^{-1}x}}_{x} \sqrt{r(s_1+s_2)\log\left({kd\over \varepsilon}\right)}d\varepsilon,\quad \text{for all }k\in\{2,3,\ldots\},
@@ -1205,27 +1205,18 @@ for all $k\in\{2,3,\ldots\}$, where $C'>0$ is a constant independent of $k$ and 
 \end{proof}
 
 
-\begin{thm}[Theorem 3 in~\cite{shen1994convergence}]~\label{thm:refer}Let $\tF$ be a class of functions defined on $\tX$ with $\sup_{f\in\tF}\norm{f}_{\infty}\leq T$. Let $(\mX_i)_{i=1}^n$ be i.i.d.\ random variables with distribution $\mathbb{P}_{\mX}$ over $\tX$. Set $\sup_{f\in\tF}\textup{Var}f(\mX)=V<\infty$. 
-Define the empirical process $\mathbb{\hat E}f={1\over n}\sum_{i=1}^n f(\mX_i)$. 
-Define $x_n^*$ be the solution of the equation to the following equation
-\[
-{1\over x}\int_x^{\sqrt{V}}\sqrt{\tH_{[\ ]}(\varepsilon,\tF,\vnormSize{}{\cdot})}d\varepsilon =\sqrt{n}.
-\]
-Suppose
-\[
-x_n^*\lesssim {V\over T},\quad \text{and}\quad \tH_{[\ ]}(\sqrt{V},\tF,\vnormSize{}{\cdot})\lesssim {n(x_n^*)^2 \over V}.
-\]
-Then we have
-\begin{equation}\label{eq:oneside}
-\mathbb{P}\left(\sup_{f\in\tF}\mathbb{\hat E}f -\mathbb{E}f\geq x^*_n\right)\lesssim  \exp\left(-{n (x^*_n)^2\over V+Tx^*_n}\right). %\lesssim \exp\left(-{n(x^*_n)^2\over V}\right).
-\end{equation}
-\end{thm}
-\begin{rmk}
-Both upper bounds $T$ and $V$ are allowed to depend on $n$. By applying Theorem~\ref{thm:refer} to $\tG=\{g\colon g= \mathbb{E}f-f, f\in \tF\}$, we obtain the other side inequality,
-\[
-\mathbb{P}\left\{\sup_{f\in\tF}\left(\mathbb{E}f-\mathbb{\hat E}f \right)\geq x_n^*\right\}\lesssim \exp\left(-{n (x^*_n)^2\over V+Tx^*_n}\right).
-\]
-\end{rmk}
+\begin{lem}[sub-Gaussian maximum]\label{lem:subg}
+Let $X_1,\ldots,X_n$ be independent sub-Gaussian zero-mean random variables with variance proxy $\sigma^2$. Then, for any $s>0,$
+\[\mathbb{P}\left\{\max_{1\leq i\leq n}|X_i|\geq\sqrt{2\sigma^2(\log n +s)}\right\}\leq2 e^{-s}.\]
+\end{lem}
+\begin{proof}[Proof of Lemma~\ref{lem:subg}]
+The conclusion follows from
+\begin{align}
+\mathbb{P}[\max_{1\leq i\leq n}X_i\geq u] \leq \sum_{i=1}^n\mathbb{P}[X_i\geq u]\leq n e^{-{u^2\over 2\sigma^2}} = e^{-s},
+\end{align}
+where we set $u = \sqrt{2\sigma^2(\log n+s)}.$
+\end{proof}
+
 
 We state the results from \citet[Theorem 1]{scott2011surrogate} in our contexts. 
 \begin{thm}[Theorem 1 in~\cite{scott2011surrogate}] Let $\riskF(\cdot)$ be $F$-risk defined in~\eqref{eq:riskdef} in the main paper, where $\pi\in[-1,1]$. Define conditional risk 
@@ -1248,18 +1239,27 @@ Now set $\psi=g^{**}$ where $g^{**}$ denotes the Fenchel-Legendre biconjugate of
 \psi\left( \risk(\phi)-\inf_{\text{all }\phi}\risk(\phi)\right)\leq \psi \riskF(\phi)-\inf_{\text{all }\psi}\riskF(\phi).
 \]
 \end{thm}
-
-\begin{lem}[sub-Gaussian maximum]\label{lem:subg}
-Let $X_1,\ldots,X_n$ be independent sub-Gaussian zero-mean random variables with variance proxy $\sigma^2$. Then, for any $s>0,$
-\[\mathbb{P}\left\{\max_{1\leq i\leq n}|X_i|\geq\sqrt{2\sigma^2(\log n +s)}\right\}\leq2 e^{-s}.\]
-\end{lem}
-\begin{proof}
-The conclusion follows from
-\begin{align}
-\mathbb{P}[\max_{1\leq i\leq n}X_i\geq u] \leq \sum_{i=1}^n\mathbb{P}[X_i\geq u]\leq n e^{-{u^2\over 2\sigma^2}} = e^{-s},
-\end{align}
-where we set $u = \sqrt{2\sigma^2(\log n+s)}.$
-\end{proof}
+\begin{thm}[Theorem 3 in~\cite{shen1994convergence}]~\label{thm:refer}Let $\tF$ be a class of functions defined on $\tX$ with $\sup_{f\in\tF}\norm{f}_{\infty}\leq T$. Let $(\mX_i)_{i=1}^n$ be i.i.d.\ random variables with distribution $\mathbb{P}_{\mX}$ over $\tX$. Set $\sup_{f\in\tF}\textup{Var}f(\mX)=V<\infty$. 
+Define the empirical process $\mathbb{\hat E}f={1\over n}\sum_{i=1}^n f(\mX_i)$. 
+Define $x_n^*$ be the solution of the equation to the following equation
+\[
+{1\over x}\int_x^{\sqrt{V}}\sqrt{\tH_{[\ ]}(\varepsilon,\tF,\vnormSize{}{\cdot})}d\varepsilon =\sqrt{n}.
+\]
+Suppose
+\[
+x_n^*\lesssim {V\over T},\quad \text{and}\quad \tH_{[\ ]}(\sqrt{V},\tF,\vnormSize{}{\cdot})\lesssim {n(x_n^*)^2 \over V}.
+\]
+Then we have
+\begin{equation}\label{eq:oneside}
+\mathbb{P}\left(\sup_{f\in\tF}\mathbb{\hat E}f -\mathbb{E}f\geq x^*_n\right)\lesssim  \exp\left(-{n (x^*_n)^2\over V+Tx^*_n}\right). %\lesssim \exp\left(-{n(x^*_n)^2\over V}\right).
+\end{equation}
+\end{thm}
+\begin{rmk}
+Both upper bounds $T$ and $V$ are allowed to depend on $n$. By applying Theorem~\ref{thm:refer} to $\tG=\{g\colon g= \mathbb{E}f-f, f\in \tF\}$, we obtain the other side inequality,
+\[
+\mathbb{P}\left\{\sup_{f\in\tF}\left(\mathbb{E}f-\mathbb{\hat E}f \right)\geq x_n^*\right\}\lesssim \exp\left(-{n (x^*_n)^2\over V+Tx^*_n}\right).
+\]
+\end{rmk}
 
 
 \bibliographystyle{plainnat} % Style BST file (imsart-number.bst or imsart-nameyear.bst)
