@@ -1,0 +1,614 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{stackrel}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{natbib}
+\usepackage{url} % not crucial - just used below for the URL 
+
+%\pdfminorversion=4
+% NOTE: To produce blinded version, replace "0" with "1" below.
+\newcommand{\blind}{0}
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+\mathop{%
+\mathchoice
+{\underbrace{\displaystyle#1}}%
+{\underbrace{\textstyle#1}}%
+{\underbrace{\scriptstyle#1}}%
+{\underbrace{\scriptscriptstyle#1}}%
+}\limits
+}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\mathtoolsset{showonlyrefs}
+\usepackage{amsmath,amssymb,amsthm,bm,hyperref,enumerate}
+\usepackage{dsfont,listings}
+
+\usepackage[ruled,vlined]{algorithm2e}
+
+\usepackage{enumitem}
+\newtheorem{schm}{Scheme}
+\newtheorem*{schm*}{Scheme}
+\newtheorem{example}{Example}
+\newtheorem{defn}{Definition}
+\newtheorem{prop}{Properties}
+
+\usepackage{comment}
+% DON'T change margins - should be 1 inch all around.
+\addtolength{\oddsidemargin}{-.5in}%
+\addtolength{\evensidemargin}{-.5in}%
+\addtolength{\textwidth}{1in}%
+\addtolength{\textheight}{-.3in}%
+\addtolength{\topmargin}{-.8in}%
+
+\input macros.tex
+\begin{document}
+
+%\bibliographystyle{natbib}
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\if1\blind
+{
+  \title{\bf Model free probability estimation for matrix feature}
+  \author{Author 1\thanks{
+    The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
+    Department of YYY, University of XXX\\
+    and \\
+    Author 2 \\
+    Department of ZZZ, University of WWW}
+  \maketitle
+} \fi
+
+\if0\blind
+{
+  \bigskip
+  \bigskip
+  \bigskip
+  \begin{center}
+    {\LARGE\bf Nonparametric learning with matrix-valued predictors in high dimensions}
+\end{center}
+  \medskip
+} \fi
+
+\bigskip
+\begin{abstract}
+We consider the problem of learning the relationship between a binary label response and a high-dimensional matrix-valued predictor. Such data problems arise commonly in brain imaging studies, sensor network localization, and personalized medicine. Existing regression analysis often takes a parametric procedure by imposing a pre-specified relationship between variables. However, parametric models are insufficient in capturing complex regression surfaces defined over high-dimensional matrix space. Here, we propose a flexible nonparametric framework for various learning tasks, including classification, level set estimation, and regression, that specifically accounts for the matrix structure in the predictors. Unlike classical approaches, our method adapts to the possibly non-smooth, non-linear pattern in the regression function of interest. The proposal achieves prediction and interpretability simultaneously via a joint optimization of prediction rules and dimension reduction in the matrix space. Generalization bounds, estimation consistency, and convergence rate are established. We demonstrate the advantage of our method over previous approaches through simulations and applications to  {\color{red}XXX} data analyses. 
+
+\end{abstract}
+
+\noindent%
+{\it Keywords:} Nonparametric learning, matrix-valued predictors, high dimension, classification, level-set estimation, regression.
+\vfill
+
+\newpage
+\spacingset{1.5} % DON'T change the spacing!
+\section{Introduction}
+\label{sec:intro}
+%Our research is motivated by some important applications, where the matrix-valued covariateshave an important attribute that the variables in the same row (column) share similar information or are associated with a common (latent) factor. For example, in electroencephalography (EEG) data, variables in the same row are associated with the same location, and variables in the same column are associated with the same frequency of electrode. Selection of the location and frequency is of interest in application. Also in Excitation–emission matrix (EEM) data, the variables of the same row and column are associated with the same excitation and emission wavelength, respectively. And selection of these wavelength is important in applications. Another example is the analysis of colorimetric sensor array data (Zhong and Suslick, 2015), where the rows of the data represent the dye affect and columns stand for the spectrum of color. One would like to select the important dyes and spectrums. In these applications, one would like to select the variables in rows and columns.
+
+
+\section{Methods}
+\label{sec:meth}
+%In this section, we formulate the problem of joint dimension reduction and supervising learning with matrix-valued predictors. We develop a structural empirical risk minimizer procedure for classification, level-set estimation, and regression estimation. 
+%We derive our methodology for classification and probability estimation on a set of data matrices.  In particular, we propose a large-margin classifier considering matrix features.  Based on the new classification method, we suggest training a series of weighed classifiers and using them to construct the probability estimation. 
+
+\subsection{Models and Motivation}
+Consider a statistical learning problem where we would like to model the relationship between a feature $\mX \in \tX$ and a response $Y\in\tY$. Suppose that we observe a sample of of $n$ data points, $(\mX_1,Y_1),\ldots,(\mX_n,Y_n)$, identically and independently distributed (i.i.d.) according to a unknown distribution $\mathbb{P}(\mX,Y)$ over $\tX\times \tY$. We are interested in predicting a new response $Y_{n+1}$ from a new feature value $\mX_{n+1}$. The observations $\{(\mX_i,Y_i)\}_{i=1}^n$ are called the training data and $(\mX_{n+1},Y_{n+1})$ the test point. When no confusion arises, we often omit the subscript $(n+1)$ and simply write $(\mX,Y)$ for the prototypical test point. The test point is assumed independent of the training data and is drawn from the same unknown distribution $\mathbb{P}$. Our goal is to make accurate prediction under a wide range of distributions. In particular, we consider a non-parametric, distribution-free setting with no strong assumptions on the data generative distribution other than i.i.d. 
+
+%curse of dimensionality in non-parametric regression
+%Solution: semiparametric model: partially linear model）a+b1X1+m2(X2)[6], additive mode a+m1(X1)+...+md(Xd)[7], single index model）m(b1X1+...+bdXd), varying coefficient model）b1(T1)X1+...+bd(Td)Xd[9]
+
+%6. Härdle, Wolfgang, Liang, Hua and Gao, Jiti (2000) Partilly linear models. Physica-Verlag, Heidelberg
+%7. Hastie, Trevor and Tibshirani, Rob (1990) Generalized additive models. Chapman and Hall, London
+%8. Härdle, Wolfgang, Hall, Peter, and Ichimura, Hidehiko (1993) Optmal smoothing in single-index models. Ann. Statist. 21, 151–178
+%9. Hastie, Trevor and Tibshirani, Rob (1993) Varying-coefficient models. J. Roy. Stat.Soc. Ser. B. 55, 757–796
+
+
+We focus on the scenario with matrix-valued predictors and binary label response; that is, $\tX=\mathbb{R}^{d_1\times d_2}$ and $\tY=\{-1,1\}$. Matrix-valued predictors ubiquitously arise in modern applications. One example is from electroencephalography studies of alcoholism. The data set records voltage value measured from 64 channels of electrodes on 256 subjects for 256 time points~\citep{zhou2014regularized}. Each feature is a $256\times 64$ matrix and the response is a binary indicator of subject being alcoholic or control. Another example is pedestrian detection from image data. Each image is divided into 9 regions where local orientation statistics are generated with a total of 22 numbers per region. This yields a $22 \times 9$ matrix-valued feature and a binary label response indicating whether the image is pedestrian~\citep{Shashua2004PedestrianDF}. 
+
+
+In the above two examples and many other studies, researchers are interested in \emph{interpretable prediction}, where the goal is to not only make accurate prediction but also identify features that are informative to the prediction. While classical learning method has been ..., a lack. A key challenge with matrix data is the complex structure in the feature space. Matrix space is a tensor product space in which both rows and columns. The notions of features are not well defined for matrix space. For example, one may be interested in entrywise significance, or important vectors, or the spaces that corresponds to the matrix. Find the right representations. interpretable, adaptive, informative, ..., More relevant in non-linear learning. Bad representation leads to complicated data..., sensitive to noise. A model that is complex in the original space may projected into simpler surface in manifold. (complex function surface). 
+Another challenge is ...Notably, the ambient dimension with matrix-valued feature is $d_1d_2$, while the number of sample is $n$. Modern applications are often in the high dimensional regime where $d_1d_2$ is comparable to, or even larger, than the sample size $n$. (do we allow $d$ to increase with $n$ in the asymptotic result?). The challenge of high-dimensionality is notably hard especially for matrix-valued features. A second challenge is the notation of informative features. While vectors ... Matrices encodes more information. such as columns space, row space, local structure, global structure, entrywise, spacewise, vs. volumne, etc. One of our contribution is to have a general framework that ...
+
+Before we propose methods to address the challanges. Our framework is general in that it . We focus on three concrete three learning problems and the connection between them. As we will see, combinations
+
+\subsection{Three Main Learning Problems}
+The distribution $y|\mX$ is binary, so its distribution is completely determined by the class probability $\mathbb{P}(Y=1|\mX)$. Based on the properties $\mathbb{E}(y|\mX) = 2\mathbb{P}(Y=1|\mX)-1$, it is equivalent to estimate $\mathbb{E}(Y|\mX)$. We denote the function $\eta(\mX)=\mathbb{E}(y|\mX)$. Three questions in increasing difficulty.
+
+%Let 
+%\[
+%p(\mx)=\mathbb{E}(Y|\mX=\mx),\quad \mx\in\tX.
+%\]
+%denote the regression function. 
+
+{\bf Classification}. Find the level set $S_{0}=\{\mX: \eta(\mX) \geq 0\}$. 
+
+{\bf Level-set estimation}. Given $\pi\in[-1,1]$, find the level set $S_{\pi}=\{\mX: \eta(\mX)\geq \pi\}$.
+
+{\bf Regression}: Estimate the function $\eta(\mX)\colon \mathbb{R}^{d_1\times d_2} \mapsto [-1,1]$. 
+
+Each of them does not depend on the unknown function $\eta$, and furthermore, the minimizer of decision rule is the desired properties. Problem 1 is a special case of Problem 2. Problem 3 can be addressed by. 
+%Take a countable sequence of $\tJ$ covers the interval $[-1,1]$. A natural estimation of $\eta(\mX)$ is
+%\[
+%\hat \eta(\mX)={1\over |\tJ|}\sum_{\pi \in \tJ}\mathds{1}\{\mX\in \hat S_\pi\}.
+%\]
+
+
+Because log-likelihood for $\eta $ is unknown, we consider the loss function that does not depend on the ground truth and distribution. The following loss can be treated as non-likelihood loss. 
+
+\begin{example}
+Define classification error $\mathbb{P}[y \neq g(\mX)]$. Find a decision rule $g$ such that minimizes classification error in the space $g\in\tF$. 
+\end{example}
+
+\begin{example} Define weighted classification error: $\mathbb{E}[|y - \pi| \mathds{1}\{y\neq g(\mX)\}]$. Find a decision rule $g$ such that minimizes classification error in the space $g\in\tF$. 
+
+\end{example}
+
+\begin{example}
+Define least-squared loss $\mathbb{E}[f(\mX)-y]^2$. Find a decision rule $g$ such that minimizes classification error in the space $f \in\tF$.
+\end{example}
+
+
+\section{Example: Trace regression model}
+\subsection{Example: Non-linear matrix completion}
+\[
+y_{ij} = \text{sign}(f(x_{ij})), \ \text{where} \quad \mX=\entry{x_{ij}}.
+\]
+Estimate $\mB$ itself recovers the binary matrix completion problem. 
+
+\subsection{Example: Graph classification}
+Both node level and edge level. 1. projection of nodes. 2. of edges (edges are generated from eigen model.. angle??? different homophily effect to the response label)
+
+Difference in topology. absence of presence of small hubs. Output is the projection matrices. 
+
+
+\subsubsection{Choice of loss function}
+Large-margin loss which is convex of the 0-1 loss. The sample version is
+\[
+L(g)=\sum_{i=1}^n (1-y_ig(\mX_i))_{+}.
+\]
+Other fisher-consistent loss is also possible. Such as ..... 
+Similarly, the weighted version is 
+\[
+L(g)=\sum_{y_i=1}(1-\pi)(1-g(\mX_i))_{+}+\sum_{y_i=-1}(1+\pi)(1-g(\mX_i))_{+}
+\]
+
+Consider the optimization problem
+\[
+\min_{f\in \tH} \sum_{i=1}^n L(f(\mX_i),y_i)+\lambda J(f)
+\]
+where depending on the application, the cost function $L(\cdot, \cdot)$ can be selected to be, e.g., the least-squares (LS), the logistic or the hinge loss; $J(\cdot)$ is an increasing function; and, $\lambda >0$ is a regularization parameter that controls overfitting. 
+
+\section{Matrix kernels for subspace embedding}
+The aforementioned three problems are formulated as empirical risk minimization over functions defined over matrices.  
+In this section, we will propose a family of matrix kernels as building blocks for constructing functions in matrix space. 
+Informally, a matrix kernel is a distance measure between matrices based on their similarity. 
+Kernels defined over non-vector objects have recently evolved into a rapidly developing area of structured learning. 
+Unlike vectors, matrix-value feature encodes a two-way relationship across rows and columns. 
+Taking into account the two-way relationship is essential in the matrix kernel formulation.
+
+We now propose a matrix kernel inspired by low-rank latent factor models. The use of matrix kernel in learning will be described in Section XX.
+
+Thank you for handing our paper. We came across a concern about self-citation (double-blind review) during the response, and we greatly appreciate your advice. 
+
+The main concerns of R2 and R4 are insufficient acknowledges of previous work [31, 32, 33]. In fact, we are exactly the authors of these three papers. Authors 3 and 4 of this paper lead the prior work [31], and [33, 34], respectively. The prevailing theme of our work is to characterize the statical and computational properties of higher-order tensor problems. We proposed and have been advocating the success of non-convex approach in various contexts. 
+
+With that said, the problem presented in the present paper is more challenging than previous problems. Our method is essentially a mixed-integer programming, which is harder than these mentioned non-convex problems. Most previous non-convex optimizations built upon continuous functions [33, 34] fail in our setting. Detailed comparison and discussion are provided in the paper and response letter. We believe our work provides a (somewhat surprising) new idea for tensor clustering problem, and we obtain results that were previously difficult to establish.
+
+We take reviewers' comments as a compliment to our previous work. However, it would be disappointing to diminish our current contribution because "the idea has been proposed somewhere else". Tensor learning is a clear challenge for further research. We have been trying hard to avoid author identifiability. (We did not post the arXiv preprint for the same reason). We hope the work opens up new inquiry that allows more machine learning researchers to contribute to this field. 
+
+We sincerely thank you for your time. 
+
+\begin{defn}[Matrix Kernel] Given two matrices $\mM$ and $\mM'$ from the space of matrix $\tM$. The problem of matrix comparison is to find a mapping $s$
+\[
+s\colon \tM \times \tM \to \mathbb{R} 
+\]
+such that $s(\mM,\mM')$ quantifies the similarity (or dissimilarity) of $\mM$ and $\mM'$.
+\end{defn}
+(Add a figure)
+
+Goal: topological description. Map each matrix to a feature vector, and use distance and metrics on vectors for learning on graphs. 
+
+Let $\mX\in\text{Sym}_d(\mathbb{R})$ be the feature matrix. We define a feature mapping $\Phi$ that sends a matrix in $\text{Sym}_d(\mathbb{R})$ to $\text{Sym}_d(\tH^2)$. Here $\text{Sym}_d(\tH^2)$ denote the collection of $d$-by-$d$ symmetric matrices with each matrix entry takes value in $\tH^2$. 
+Let $\mB\in\tH^{d\times d}$ be a matrix defined in $\tH$. Replace product in $\mathbb{R}$ to inner product in $\tH$. 
+
+\section{Mahalanobis metric}
+
+\begin{enumerate}
+\item Sum. $\mB+\mB'=\entry{b_{ij}+b'_{ij}}\in\tH^{d\times d}$
+\item Liner combination. Let $\mP\in\mathbb{R}^{d\times r}$ be a real-valued matrix. Define a $\mB\mP=\entry{c_{ij}}\in\tH^{d\times r}$, where $c_{ij}=\sum_{s}p_{sj}b_{is} \in \tH^2$.
+\item Inner product. $\langle \mB,\mB'\rangle=\sum_{ij}\langle b_{ij}, b'_{ij}\rangle$.
+\item Matrix product $\mB\mB'=\entry{c_{ij}} \in \mathbb{R}^{d\times d}$, where $c_{ij}=\sum_{s}\langle b_{is},\ b'_{sj}\rangle_H$. 
+\end{enumerate}
+
+Here $\tH^2=\tH\times \tH$ denotes the Cartesian product of two Hilbert space. Specifically, the mapping $\mX\mapsto\Phi(\mX)=\entry{f_{ij}}$, where each element is a pair of possibly infinite dimensional features defined as
+\[
+f_{ij}=[\Phi(\mX)]_{ij}\stackrel{\text{def}}{=}(\phi(\mX_{i:}), \phi(\mX_{:j})) \in \tH^2,\quad \text{for all }i\geq j,\ (i,j)\in[d]\times [d],
+\]
+and $f_{ji}=f_{ij}$. Note that the entry $f_{ij}$ takes value in $\tH^2$ for all $(i,j)\in[d]\times [d]$. Furthermore, $\Phi(\mX)$ is a symmetric matrix in the sense that $[\Phi(\mX)]_{ij}=[\Phi(\mX)]_{ji}$ for all $(i,j)$. 
+Then the decision function is defined in the high dimensional features,
+\[
+f(\mX)=\langle \tB,\ \Phi(\mX)\rangle, \ \text{where } \tB \in (\tH^2)^{d\times d}.
+\]
+The parameter $\tB=\entry{\mb_{ij}}$ is a $d$-by-$d$ matrix defined over $\tH^2$; that is, each entry $\mb_{ij}=(\mb_{ij1},\mb_{ij2})\in \tH^2$ for all $(i,j)\in[d]^2$. We consider low-rank structure in $\tB=\mP^T\tC\mP$. Then low rank function space
+\begin{align}
+\tF&=\left\{f\colon \mX\mapsto \langle \mC, \mP^T\Phi(\mX)\mP \rangle\ \big| \mP\mP^T=\mI,\ \mP\in\mathbb{R}^{d\times r},\ \tC\in (\tH^2)^{r\times r}  \right\}\\
+&=\left\{ f\in\text{RKHS generated by $\tK(\mP)$}\ \big|\ \mP\mP^T=\mI,\ \mP\in\mathbb{R}^{d\times r} \right\}\\
+&=\left\{ f\in\text{RKHS generated by $\tK(\mW)$}\ \big|\ \ \mW \succeq 0,\ \text{rank}(\mW)\leq r\right\}
+\end{align}
+The orthogonality condition is based on the relationship $\mW=\mP^T\Lambda^2\mP$ and scale invariance between the function $\langle \tC, \mP^T\Phi(\mX)\mP\rangle = \langle \Lambda\mP\tC,\Phi(\mX)\mP \Lambda\rangle$.
+The kernel 
+\begin{align}
+\tK(\mW)&=\langle \mP^T\Phi(\mX)\mP,\mP^T\Phi(\mX')\mP\rangle \\
+%&= \langle \mW, \Phi(\mX)\Phi^T(\mX')\rangle\\
+%&=\sum_{ij}w_{ij}   \sum_{s,s'}w_{s,s'}\left[ \langle \phi(\mX_{i,:}),  \phi(\mX'_{j,:})  \rangle + \langle \phi(\mX_{:,s}) \phi(\mX'_{:,s'})  \rangle\right]\\
+%&= r_{\text{col}}\sum_{ij}w_{ij}d_{\text{row}}(\mx_i,\mx'_j) + r_{\text{row}}\sum_{ss'}w_{ss'}d_{\text{col}}(\mx_s,\mx'_{s'})\\
+&=c_{\text{col}}\tK_{\text{row}}(\mP\mP^T)+c_{\text{row}}\tK_{\text{col}}(\mP\mP^T)
+\end{align} 
+
+
+\begin{prop} Let $\mP\in\mathbb{R}^{d\times r}$ be a projection matrix. The mapping $\mP\circ\Phi = \mP\Phi(\mX)\mP \in (\tH^2)^{r\times r}$ defines a kernel $\tK(\mX,\mX')=$
+\end{prop}
+%We propose the following function set 
+%\[
+%\tP \colon \mX \mapsto \mP\mX\mQ,\quad f\circ \tP \colon \mX \mapsto f(\mP\mX\mQ).
+%\]
+%Then the target function space 
+%\[
+%\tF\circ \tP =\{ \mX \mapsto f(\mP\mX\mQ) \colon f\in \tF, \ \mP\mP^T=\mQ\mQ^T=\mI_r  \}
+%\]
+
+%Let $\mK$ be a kernel defined on $\mathbb{R}^d\times \mathbb{R}^d$. We assume the kernel applies to all possible pairs of columns of $\mX$ and $\mX'$. 
+%The induced distance function $\mM(\mX,\mX')$ is
+%\[
+%\mM(\mX,\mX')=\entry{m_{ij}},\quad \text{where}\quad m_{ij}=\mK(\mX_i, \mX'_j), \text{ for all }(i,j)\in[d]%\times [d]. 
+%\]
+%Then we define the function as
+%\[
+%\tF(c,1)= \left\{\mX\mapsto \sum_{i}w_i\ma^T \mM(\mX,\mX_i)\ma \ \big|\ \ma\in\mS^{d-1}, \sum_iw^2_i \leq %C \right\}
+%\]
+
+Linear function family:
+%\begin{enumerate}
+%\item 
+Represented by features. Let $\mX\in\text{Sym}_d(\mathbb{R})$. 
+\begin{align}
+\tF(r)&=\{ f\colon \mX\mapsto \langle \mW,\ \mX\rangle\ \big|\ \text{rank}(\mW)\leq r,\ \mW\in\text{Sym}_d(\mathbb{R})\}\\
+&=\{ f\colon \mX\mapsto \langle \mC,\ \mP^T\mX\mP\rangle\ \big|\ \mP\mP^T =\mI,\ \mP\in\mathbb{R}^{d\times r},\ \mC\in\text{Sym}_r(\mathbb{R})\}
+\end{align}
+
+%\item represented by kernel. Let $\mX=[\mx_1,\ldots,\mx_d],\mX'=[\mx'_1,\ldots,\mx'_d]$ be a pair of matrices in $\text{Sym}_d(\mathbb{R})$, and denote the linear kernel $\kappa(\mx,\mx')=\mx^T\mx'$ for all $\mx,\mx'\in\mathbb{R}^d$. 
+%\[
+%\tK(r)=\left\{ K\colon (\mX,\mX')\mapsto \sum_{i,j\in[d]}w_{ij}\kappa(\mx_i,\mx'_j)\ \big| \ \mW=\entry{w_{ij}} \succeq 0,\ \text{rank}(\mW)\leq r\right\}.
+%\]
+%\end{enumerate}
+%In particular $\mW\propto \mI_{d\times d}$ corresponds to the classical vectorization case. 
+
+%Any kernel $K$ in $\tK(r)$ corresponds to a family of function in $\tF$. 
+%\begin{align}
+%\tF(r)&=\cup\{ f\colon f\in \text{RKHS generated by kernel $K$}\ \big| \ K\in\tK(r)\}\\
+%&=\cup\{f\colon f \in \text{RKHS generated by weight matrix $\mW$}\ \big|\ \mW\in\mathbb{R}^{d\times d}, \text{rank}(\mW)\leq r\}
+%\end{align}
+%Therefore, any function 
+%\[
+%\max_{ f\in\tF(r)}\tL(f) = \max_{\mW\in \tK(r)}\max_{f \in \text{RKHS}(\mW)} \tL(f)
+%\]
+
+\begin{defn}[Kernel defined in matrix space] Let $d(\cdot,\ \cdot)$ be a kernel defined in vector space $\mathbb{R}^d$, and $\mW=\entry{w_{ij}}\in\mathbb{R}^{d\times d}$ be a rank-$r$ semi-positive definite matrix. Then $\mK$ and $\mW$ induce a low-rank projection kernel $\tK$ in matrix space:
+\begin{align}
+\tK \colon \mathbb{R}^{d\times d} \times \mathbb{R}^{d\times d} &\mapsto \mathbb{R}\\
+(\mX,\mX')&\mapsto\tK(\mX,\mX')= \sum_{i,j\in[d]}w_{ij}d(\mx_i,\mx'_j),
+\end{align}
+where $\mx_i, \mx'_j$ denote the $i$-th and $j$-th columns of $\mX$, $\mX'$, respectively. 
+\end{defn}
+
+Often, the kernel $\mK$ is specified by users, whereas the projection kernel $\mW$ is learned by our algorithm. In particular $\mW\propto \mI_{d\times d}$ corresponds to the classical vectorization case. We denote the low-rank projection kernel $\tK=\tK(\mW)$. 
+
+\begin{prop}[Properties of projection kernel]
+The kernel family defines a set of kernels that indexed by $\mW$. In particular, 
+\begin{itemize}
+\item $\tK(\mW)+\tK(\mW')=\tK(\mW+\mW')$ for all $\mW,\mW' \in\mathbb{R}^{d\times d}$.
+\item In the special rank-1 case $\mW=\entry{w_iw_j}$, our kernel corresponds to the bandwidth selection. 
+\item The kernel $\tK(\mW)$ corresponds to a valid feature mapping $\Phi\colon \mathbb{R}^{d\times d}\to \tH^r$.
+\item Rank-$k$ kernel is a convex hull of rank-1 kernels. 
+\end{itemize}
+\end{prop}
+
+in total $d(d-1)/2$ terms involving interaction between row and column $K(\mx_i,\mx_j)$. $C=\tH_1+\cdots+\tH_{d(d-1)/2}$. Then rank-$r$ projection over the left space. ....? 
+$\mX$
+
+Consider the family of kernels
+\[
+\tF(r)=\left\{ f\in\text{RKHS generated by $\tK(\mW)$}\ \big| \ \mW \succeq 0,\ \text{rank}(\mW)= r\right\}.
+\]
+We use $\tF(r)$ to denote the set of kernels generated by rank-$r$ projection. 
+
+Each kernel $\tK$ generates a RKHS. We consider the optimization over the union of RKHS. The union of RKHS is not RKHS. 
+\[
+\max_{f\in\tF(r)}L(f) = \max_{\substack{ \text{rank}(\mW)=r,\\ \mW \succeq 0}}\max_{f\in \text{RKHS}(\tK(\mW))}L(f)
+\]
+
+{\bf Connection to adaptive kernel learning} The above can be viewed as an optimization of kernels 
+\begin{align}
+\max_{f\in \tF(r)}L(f)&=\max_{f=\alpha_1 f_1+\cdots \alpha_r f_r\colon f_i\in\tK(1), \alpha\in\mathbb{R}^n} L(f)\\
+&=\max_{f\in \tK(1)\oplus \cdots \oplus \tK(1)}L(f)
+\end{align}
+
+{\bf Connection to Metric learning}
+\[
+\max_{f\in \tF(r)}L(f)=\max_{\alpha \in \Delta, f\in \text{RKHS}(\tK(1))} L(f)
+\]
+
+Ensemble methods. 
+
+\begin{example} [Multiple kernel learning] Let $\mX=\text{diag}(x_i),\mX'=\text{diag}(x'_i)$ are diagonal matrices and inner-product kernel $\mK(\mx,\mx')=g(\langle\mx,\mx'\rangle)$. Then our rank-1 projection kernel reduces to
+\[
+\tK(\mX,\mX')=\sum_{i\in[d]} w^2_{i}d(x_i,x'_i) 
+\]
+\end{example}
+
+%{\bf Connection to feature selection}
+\begin{example}[Feature selection with lasso penalty] Let $\mX,\mX'$ are diagonal matrices. 
+\[
+\tK(\mX,\mX')=\sum_{\boldsymbol{\alpha}\in \Delta(r)}\alpha_id(x_i,x'_i)
+\]
+weighted features. 
+Let $\tF(1)$ denote the RKHS induced by rank-1 projection. Then rank $\tF(r)=\tF(1)\oplus\cdots\oplus\tF(1)$
+\end{example} 
+
+\begin{example} Group lasso on the features. Weight $\sim \text{Multinormial}(d,r)$. Then rank-kernel is $r$.
+\end{example}
+
+\begin{example}[Convolution kernel]
+\end{example}
+
+Orthogonality between rank-1 kernels. If and only if $\tF(1)\cap \tF(1)=0$
+\begin{comment}
+Nonlinear function class: 
+\[
+\tF(r)=\{\mX\mapsto \langle \mW, \Phi(\mX)\mP\rangle_{\tH} \ \big| \ \mP\mP^T=\mI,\ \mP\in\mathbb{R}^{d\times r} \}.
+\]
+Similarly, one can define the row-wise kernel. 
+
+Let $K\colon \mathbb{R}^d\times \mathbb{R}^d \to \mathbb{R}$ be a positive definite kernel and $\phi\colon \mathbb{R}^d \to \tH$ the induced feature mapping. Now we consider the lifted feature mapping $\Phi \colon \mathbb{R}^{d\times d} \to \tH^d$
+\begin{align}
+\Phi:\mathbb{R}^{d\times d}&\to  \tH^d \\
+\mX&\mapsto\Phi(\mX)=[\phi(\mx_1),\ldots,\phi(\mx_d)]
+\end{align}
+We use the isomorphism $  \mathbb{R}^{d\times d} \cong  \mathbb{R}^d\otimes \mathbb{R}^d $ and $ \tH^d \cong \tH\otimes \mathbb{R}^d$, so the above mapping is reviewed as a mapping between tensor product of Hilbert space. 
+
+
+
+The operation inherited from the operation in $\tH$ and we define the 
+\[
+\langle \mA,\ \mB\rangle_{H^{d}}=\sum_{i\in[d]} \langle \mA_i, \mB_i \rangle_H,\quad \text{for all $\mA, \mB\in H^d$}.
+\]
+The product between the space $\mX\in\tH^d$ and $\mP\in\mathbb{R}^{r_1\times r_2}$
+\[
+\mX\mP=\sum_{i=1}^dw_i\mx_i.
+\]
+Projection map in Cartesian powers
+\[
+\tP(1)\circ \tH^d = \left\{\sum^d_{i=1}w_i\mx_i \ \big| \ \mx_i\in\tH, w_i\in\mathbb{R}\right\}
+\]
+rank-$1$ projection
+\begin{align}
+\tP: &\tH^d \mapsto \tH\\
+(\mx_1,\ldots,\mx_h)&\to \my=\sum_d w_i \mx_i
+\end{align}
+
+Rank-$r$ projection
+\begin{align}
+\tP: \tH^d &\mapsto \tH^r\\
+\mX &\to \mY\ \text{where }\mY= \mP \mX,
+\end{align}
+Here $\mP$ can be identified by $\mathbb{R}^{d\times 2}$.
+
+Rank-$r$ function 
+\[
+\tF=\left\{\mX\mapsto    \langle \mW, \Phi(\mX)\rangle_{H^d}\right\}
+\]
+
+\begin{alignat}{4}
+&\mathbb{R}^{d\times d}\stackrel{\text{feature mapping}}{\longrightarrow} &&\tH^d \stackrel{\text{low-rank projection}}{\longrightarrow}& &\tH^r \stackrel{\text{linear function}}{\longrightarrow} &\mathbb{R}
+\\
+&\mX\mapsto &&\Phi(\mX) \mapsto&&\Phi(\mX)\mP \mapsto &&\langle \mW, \Phi(\mX)\mP\rangle_{\tH^r}
+\end{alignat}
+Equivalently, define a family of kernels induced by a given $K$. 
+\[
+\tF(r)=\left\{ (\mX,\mX')\mapsto \sum_{i,j}a_{ij}K(\mx_i,\mx'_j)\ \big| \ \mA=\entry{a_{ij}} \succeq 0,\ \text{rank}(\mA)\leq r \right\}.
+\]
+Given a classical kernel $\mK$. Define a positive semi-definite matrix $\mA=\entry{a_{ij}}$, define a kernel in matrix space:
+\begin{align}
+\tA \colon \mathbb{R}^{d\times d} \times \mathbb{R}^{d\times d} & \to \mathbb{R}\\
+(\mX,\mX')&\mapsto \sum_{i,j}a_{ij}K(\mx_i, \mx'_j).
+\end{align}
+Then $\tA$ is a value kernel defined in matrix space. Now let $\tF(\mA)$ denote the RKHS generated from $\mA$. 
+\[
+\tF(\mA)=\left\{\mX\mapsto \sum_{ij}a_{ij}\mK(\mx_i,\cdot)\ \big| \ \mX\in\mathbb{R}^{d\times d}\right\}
+\]
+\end{comment}
+
+Each of the kernel induces the functions defined in matrix space. 
+\begin{align}
+\tF(r)&=\left\{ f\in\tF(\mA) \ \big| \ \mA  \succeq 0, \ \text{rank}(\mA)\leq r\right\} \\
+&=\left\{ \mX\mapsto \sum_{i,j}a_{ij}\mK(\mx_i,\ \cdot) \ \big|  \ \mA=\entry{a_{ij}} \text{ is a rank-$r$ PSD matrix} \right\}.
+\end{align}
+
+\begin{example}[Rank-1 kernel] 
+\[
+\tK(\mW)=\sum_{ij}w_iw_jK(\mx_i,\mx'_j) \quad \text{for some }\ma\in\mathbb{R}^d. 
+\]
+\end{example}
+
+%\begin{example}[Rank-2 kernel]
+%\[
+%f(\mX')=\sum_{ij}a_ia_jK(\mx_i,\mx'_j) + \sum_{ij}b_ib_jK(\mx_i,\mx'_j) \quad \text{for some } \ma,\mb\in\mathbb{R}^d.
+%\]
+%\end{example}
+
+\[
+\tF=\{\mX\mapsto \sum_{ij}a_ia_j\mK(\mx_i,\cdot)\ \big| \ \ma\in\mathbb{R}^d\}
+\]
+\[
+f\in \text{Span}(\tF) \ \text{and} \ \text{rank}(f)\leq r. 
+\]
+
+\subsubsection{Non-Asymmetric case}
+\[
+\tK(\mP_1,\mP_2)= \sum_{(i_1,i_2,j_1,j_2)}a_{i_1j_1}b_{j_1j_2}d(\mx_{i_1i_2},\mx'_{j_1j_2}) = \langle D(\mX,\mX'),\ \mP_1\otimes \mP_2\rangle 
+\]
+
+\subsection{Classification}
+
+
+We consider linear predictors on matrix feature of the form 
+\begin{align}
+f_{\mB}(\mX) = \langle \mB,\mX\rangle,
+\end{align}
+where $\mB,\mX\in\mathbb{R}^{d_1\times d_2}$ and $\langle \mX,\mX'\rangle = \text{Tr}(\mX^T\mX')$. We extend the linear model to non-linear case in Section \ref{sec:nonlinear}.
+This matrix representation has advantage of regularizing the coefficient matrix $\mB$ and restricting the number of parameters. Specifically, we assume that $\mB$ has low-rank structure such that
+\begin{align}
+\mB = \mU\mV^T \text{ where } \mU \in\mathbb{R}^{d_1\times r} ,\mV\in\mathbb{R}^{d_2\times r}\text{ and } r\leq\min(d_1,d_2)
+\end{align}
+We show how low rankness let us consider column and row wise structure of feature matrices and prevents overfitting in Section  \ref{sec:thm}.
+Assume we are given a set of training data and label pairs $\{\mX_i,y_i\}_{i=1}^n$ where $\mX_i\in\mathbb{R}^{d_1\times d_2}$ and $y_i\in\{-1,+1\}$. Our goal is to learn a model with a low error on the training data. One successful approach is  large-margin classifiers.
+A large-margin classifier minimizes a cost function in $f$ over a decision function class $\tF$:
+\begin{align}
+\label{eq:large-margin}
+\min_{f\in\tF}n^{-1}\sum_{i=1}^n L\left(y_i f(\mX_i)\right)+\lambda J(f),
+\end{align}
+where $J(f)$ is a penalty term for model complexity and $L(z)$ is a margin loss that is a function of the functional margin $yf(\mX)$. Examples of such loss functions are the hinge loss function $L(z) = (1-z)_+$ and the logistic loss function $L(z) =\log(1+e^{-z})$.  
+For demonstration, we focus on the hinge loss functions. However, our estimation schemes and theorems are applicable to general large-margin classifiers. Consider linear decision function class with low rank coefficient  $\tF = \{f: f(\cdot) = \langle \mU\mV,\cdot\rangle \text{ where }\mU\in\mathbb{R}^{d_1\times r},\mV\in\mathbb{R}^{d_2\times r}\}$.
+The solution $f(\mX)$ of Equation \eqref{eq:large-margin}  is shown to have the form  (check Supplement)
+\begin{align}\label{eq:form}
+f(\mX) = \sum_{i=1}^n \alpha_i y_i\langle \mP_r\mX_i, \mP_r \mX\rangle,
+\end{align}
+where $\{\alpha_i\}_{i=1}^n$ are solution  (spare)  in the dual problem of Equation \eqref{eq:large-margin} and $\mP_r\in\mathbb{R}^{r\times d_1}$ is the projection matrix induced by low rank coefficient $\mU,\mV$. Let $\langle \cdot,\cdot\rangle_{\mP_r}$ denote the low rank linear kernel for a pair of matrices:
+\begin{align}\label{eq:linear kernel}
+\langle \mX,\mX'\rangle_{\mP_r} \stackrel{\text{def}}{=}\langle \mP_r\mX,\mP_r\mX'\rangle, \quad\text{ for all } \mX,\mX'\in\mathbb{R}^{d_1\times d_2},.
+\end{align}
+Therefore, we consider the decision function of the form:
+\begin{align}
+f(\cdot) = \sum_{i=1}^n \alpha_iy_i\langle\mX_i,\cdot\rangle_{\mP_r}.
+\end{align}
+We can think of our considered classification function class as the reproducing kernel Hilbert space induced by rank-$r$ linear kernels $\{\langle \cdot,\cdot\rangle_{\mP}: \mP\in\mathbb{R}^{r\times d_1}\text{ is a projection matrix} \}$.
+We estimate coefficient $\{\hat \alpha_i\}_{i=1}^n$ and the projection matrix $\hat \mP_r$ from a given dataset. Detailed estimation algorithm appears in Section \ref{sec:alg}. We obtain our classification rule as
+\begin{align}
+G(\mX) = \text{sign}\left(\sum_{i=1}^n \hat \alpha_i y_i\langle \mX_i,\mX\rangle_{\hat \mP_r}\right).
+\end{align}
+
+
+
+\subsection{Probability function estimation}
+Our proposed method is designed to estimate $p(\mX)\stackrel{\text{def}}{=}\mathbb{P}(y = 1|\mX)$ at any $\mX$ which does not necessarily belong to the observed training data set. We consider the weighed version of \eqref{eq:large-margin},
+\begin{align}
+\label{eq:weighted}
+\min_{f\in\tF}n^{-1}\sum_{i=1}^n \omega_{\pi}(y_i)L\left(y_if(\mX_i)\right)+ \lambda J(f),
+\end{align}
+where $\omega_\pi(y) = 1-\pi $ if $y = 1$ and $\pi$ if $y = -1$.
+\citet{wang2008probability} showed that The minimizer $\hat f_\pi$ to Equation \eqref{eq:weighted} is a consistent estimate of $\text{sign}(p(\mX)-\pi)$. Therefore,  for a given smoothing parameter $H\in\mathbb{N}_+,$ We estimate the target probability through two main steps.
+\begin{align}
+\label{eq:approx}
+p(\mX) &\stackrel{\text{step1}}{\approx} \sum_{h=1}^H\frac{h-1}{H}\mathds{1}\left\{\mX:\frac{h-1}{H}\leq p(\mX)<\frac{h}{H}\right\}\\&\stackrel{\text{step2}}{\approx} \sum_{h=1}^H\frac{h-1}{H}\mathds{1}\left\{\mX:\text{sign}(\hat f_{\frac{h-1}{H}}) = 1, \text{sign}(\hat f_{\frac{h}{H}}) = -1\right\},
+\end{align}
+where Step 1 approximates the target probability by linear combination of step functions and Step 2 uses the fact that the solution of \eqref{eq:weighted} is consistent to Bayes rule.
+The probability estimation scheme can be summarized as follows.\\
+{\bf Scheme}\vspace{-.4cm}
+\begin{enumerate}[label={S.\arabic*}]
+\item Choose a sequence of weight $\pi_h = \frac{h}{H}$, for $h = 1,\ldots, H$.
+\item For each weight $\pi_h\in[0,1]$, solve Equation \eqref{eq:weighted} with $\omega_{\pi_h}(y)$
+\item Denote the sequence of solutions and decision regions 
+\begin{align}
+\{\hat f_h\}_{h=1}^H \text{ and } \{\hat \tD_h\}_{h=1}^H = \left\{\left\{\mX:\text{sign}(\hat f_{\frac{h-1}{H}}) = 1, \text{sign}(\hat f_{\frac{h}{H}}) = -1\right\}\right\}_{h=1}^H
+\end{align}
+\item Estimate the target probability function by 
+\begin{align}
+\hat p(mX) = \sum_{h=1}^H\frac{h-1}{H}\mathds{1}\left\{\mX\in \hat \tD_h\right\}.
+\end{align}
+\end{enumerate}
+Notice that this scheme can be applied to any large-margin classifiers though we  focus on the hinge loss function in this paper. Solution of weighted hinge loss in Equation \eqref{eq:weighted} is solved with simple modification from classification algorithm in Section \ref{sec:alg}.
+
+
+\section{Algorithm}
+\label{sec:alg}
+In this Section, we describe the algorithm to seek the optimizer of Equation  \eqref{eq:large-margin} in the case of hinge loss function $L(z) = (1-z)_+$ and linear function class $\tF = \{f:f(\cdot)= \langle \mU\mV^T,\cdot\rangle, \text{ where }\mU\in\mathbb{R}^{d_1\times r}\mV\in\mathbb{R}^{d_2\times r}\}$.
+Equation \eqref{eq:large-margin} is written as 
+\begin{align}
+\label{eq:opt}
+\min_{\{(\mU,\mV)\in\mathbb{R}^{d_1\times r}\times \mathbb{R}^{d_2\times r}\}}n^{-1}\sum_{i=1}^n \left(1-y_i\langle \mU\mV^T,\mX_i\rangle\right)_++\lambda \FnormSize{}{\mU\mV^T}^2
+\end{align}
+We optimize Equation \eqref{eq:opt} with a coordinate descent algorithm that solves one block holding the other block fixed.  Each step is a convex optimization and can be solved with quadratic programming.
+To be specific, when we fix $\mV$ and update $\mU$ we have the following equivalent dual problem 
+\begin{align}
+ \hspace{1.5cm}\max_{\malpha\in\mathbb{R}^n:\malpha\geq0}& \left(\sum_{i=1}^n\alpha_i-\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j\langle \mX_i,\mX_j \mV(\mV^T\mV)^{-1}\mV^T\rangle\right)\\
+    \text{subject to}&\quad\sum_{i=1}^Ny_i\alpha_i = 0,\quad0\leq\alpha_i\leq\frac{1}{2\lambda n},\quad i=1.\cdots,n,
+    \end{align}
+   We use quadratic programming to solve this dual problem and update $\mU = \sum_{i=1}^n\alpha_iy_i\mX_i\mV(\mV^T\mV)^{-1}.$
+Similar approach is applied to update $\mV$ fixing $\mU$.  The Algorithm \ref{alg:linear} gives the full description.
+
+ \begin{algorithm}[h]
+ \label{alg:linear}
+\KwIn{$(\mX_1,y_1),\cdots,(\mX_n,y_m)$, rank $r$}
+{\bf Parameter:} U,V\\
+{\bf Initizlize:} $\mU^{(0)}, \mV^{(0)}$\\
+{\bf Do until converges}\\
+\hspace*{.5cm}{\bf Update} $\mU$ fixing $\mV$ :\\[.1cm]
+\hspace*{.4cm} Solve $ \max_{\malpha}\sum_{i=1}^n\alpha_i-\frac{1}{2}\sum_{i=1}^n \sum_{j=1}^n\alpha_i\alpha_jy_iy_j\langle \mX_i,\mX_j\mV(\mV^T\mV)^{-1}\mV^T\rangle$.\\
+\hspace{.5cm} $\mU = \sum_{i=1}^n\alpha_iy_i \mX_i\mV(\mV^T\mV)^{-1}$.\\[.1cm]
+\hspace*{.5cm}{\bf Update} $\mV$ fixing $\mU$ :\\[.1cm]
+\hspace*{.4cm} Solve  $ \max_{\malpha}\sum_{i=1}^n\alpha_i-\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j\langle \mX_i,\mU(\mU^T\mU)^{-1}\mU^T\mX_j\rangle$.\\
+\hspace{.5cm} $\mV = \sum_{i=1}^n\alpha_iy_i \mX_i^T\mU(\mU^T\mU)^{-1}$.\\[.1cm]
+\KwOut{ $\mB = \mU\mV^T$}
+    \caption{{\bf Linear classification algorithm} }
+\label{alg:smm}
+\end{algorithm}
+
+\section{Extension to nonlinear case}
+\label{sec:nonlinear}
+We extend linear function class to non-linear class with kernel trick. We enlarge feature space through feature mapping $\mh:\mathbb{R}^{d_1\times d_2}\rightarrow \mathbb{R	}^{d_1\times d_2'}$. Once this mapping fixed, the procedure is the same as before.
+We fit the linear classifier using pair of input feature and label $\{\mh(\mX_i),y_i\}_{i=1}^n$.
+Define a nonlinear low rank kernel in similar way to linear case.
+\begin{align}\label{eq:nonlinear kernel}
+\langle \mX,\mX'\rangle_{\mP_r,h} &\stackrel{\text{def}}{=} \langle \mP_r h(\mX),\mP_r h(\mX')\rangle = \text{trace}\left[\mK(\mX,\mX')\mP_r^T\mP_r\right]\quad\text{ for all } \mX,\mX'\in\mathbb{R}^{d_1\times d_2},
+\end{align}
+where $\mK(\mX,\mX')\stackrel{\text{def}}{=} h(\mX)h^T(\mX')
+\in \mathbb{R}^{d_1\times d_1}$ denotes the matrix product of mapped features.
+The solution function $ f(\cdot)$ of \eqref{eq:large-margin} on enlarged feature can be written 
+\begin{align}
+f(\cdot) = \sum_{i=1}^n\alpha _i y_i \langle \mP_r h(\mX_i), \mP_r h(\cdot)\rangle =  \sum_{i=1}^n  \alpha _i y_i \langle \mX_i, \cdot\rangle_{ \mP_r,h}  =  \sum_{i=1}^n  \alpha _i y_i \text{trace}\left[\mK(\mX_i,\cdot)\ \mP_r^T \mP_r\right],
+\end{align}
+which involves feature mapping $h(\mX)$ only thorough inner products. In fact, we need not specify the the transformation $h(\mX)$ at all but only requires knowledge of the $
+\mK(\mX,\mX')$. A sufficient condition and a necessary condition for $\mK$ being reasonable appear in Supplement.
+Three popular choices for $\mK$ are
+\begin{itemize}
+\item Linear kernel: $\mK(\mX,\mX')=\mX\mX'^T$.
+\item Polynomial kernel with degree $m$: $\mK(\mX,\mX')=(\mX\mX'^T+\lambda\mI)^{\circ m}$.
+\item Gaussian kernel: the $(i,j)$-th entry of $\mK(\mX,\mX')$ is 
+\[
+\left[\mK(\mX,\mX')\right]_{(i,j)}=\exp\left\{-{1\over 2\sigma^2} \|\mX[i,\colon]-\mX'[j,\colon]\|_2^2\right\}
+\]
+for all $(i,j)\in[d_1]\times[d_1]$.
+\end{itemize}
+One can check detailed description for non-linear case algorithm in Supplement.
+\section{Theory}
+\label{sec:thm}
+\section{Conclusion}
+\label{sec:conc}
+
+
+\bigskip
+\begin{center}
+{\large\bf SUPPLEMENTARY MATERIAL}
+\end{center}
+
+
+\bibliographystyle{plain}
+\bibliography{tensor_wang}
+
+\end{document}

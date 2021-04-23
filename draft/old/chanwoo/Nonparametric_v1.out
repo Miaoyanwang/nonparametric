@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Introduction \(skipped\)}{}% 2
+\BOOKMARK [1][-]{section.3}{Three learning problems}{}% 3
+\BOOKMARK [1][-]{section.4}{From classification to regression: a new deal}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Level set approaches to nonparametric matrix regression}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Sparse and low-rank function boundaries}{section.4}% 6
+\BOOKMARK [1][-]{section.5}{Large-margin learning with high dimensional matrices}{}% 7
+\BOOKMARK [2][-]{subsection.5.1}{Classification of high dimensional matrices}{section.5}% 8
+\BOOKMARK [2][-]{subsection.5.2}{Level set estimation in high dimensional matrix space}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.3}{Nonparametric matrix regression}{section.5}% 10
+\BOOKMARK [1][-]{section.6}{Alternating optimization for structural risk minimization}{}% 11
+\BOOKMARK [1][-]{section.7}{Extension to nonlinear boundaries}{}% 12
+\BOOKMARK [1][-]{section.8}{Numerical results}{}% 13
+\BOOKMARK [1][-]{section.9}{Discussion}{}% 14

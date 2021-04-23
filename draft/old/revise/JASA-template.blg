@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: JASA-template.aux
+The style file: plain.bst
+Database file #1: tensor_wang.bib
+You've used 3 entries,
+            2118 wiz_defined-function locations,
+            546 strings with 5194 characters,
+and the built_in function-call counts, 1086 in all, are:
+= -- 108
+> -- 49
+< -- 1
++ -- 19
+- -- 16
+* -- 82
+:= -- 185
+add.period$ -- 9
+call.type$ -- 3
+change.case$ -- 17
+chr.to.int$ -- 0
+cite$ -- 3
+duplicate$ -- 38
+empty$ -- 81
+format.name$ -- 16
+if$ -- 224
+int.to.chr$ -- 0
+int.to.str$ -- 3
+missing$ -- 3
+newline$ -- 18
+num.names$ -- 6
+pop$ -- 13
+preamble$ -- 1
+purify$ -- 14
+quote$ -- 0
+skip$ -- 28
+stack$ -- 0
+substring$ -- 77
+swap$ -- 8
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 12
+warning$ -- 0
+while$ -- 12
+width$ -- 4
+write$ -- 35

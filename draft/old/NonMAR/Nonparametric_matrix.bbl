@@ -1,0 +1,366 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Alquier and Biau}{Alquier and
+  Biau}{2013}]{alquier2013sparse}
+Alquier, P. and G.~Biau (2013).
+\newblock Sparse single-index model.
+\newblock {\em Journal of Machine Learning Research\/}~{\em 14\/}(Jan),
+  243--280.
+
+\bibitem[\protect\citeauthoryear{Altman}{Altman}{1992}]{altman1992introduction}
+Altman, N.~S. (1992).
+\newblock An introduction to kernel and nearest-neighbor nonparametric
+  regression.
+\newblock {\em The American Statistician\/}~{\em 46\/}(3), 175--185.
+
+\bibitem[\protect\citeauthoryear{Arroyo and Levina}{Arroyo and
+  Levina}{2020}]{arroyo2020simultaneous}
+Arroyo, J. and E.~Levina (2020).
+\newblock Simultaneous prediction and community detection for networks with
+  application to neuroimaging.
+\newblock {\em arXiv preprint arXiv:2002.01645\/}.
+
+\bibitem[\protect\citeauthoryear{Atzmon, Haim, Yariv, Israelov, Maron, and
+  Lipman}{Atzmon et~al.}{2019}]{atzmon2019controlling}
+Atzmon, M., N.~Haim, L.~Yariv, O.~Israelov, H.~Maron, and Y.~Lipman (2019).
+\newblock Controlling neural level sets.
+\newblock In {\em Advances in Neural Information Processing Systems}, pp.\
+  2034--2043.
+
+\bibitem[\protect\citeauthoryear{Audibert, Tsybakov, et~al.}{Audibert
+  et~al.}{2007}]{audibert2007fast}
+Audibert, J.-Y., A.~B. Tsybakov, et~al. (2007).
+\newblock Fast learning rates for plug-in classifiers.
+\newblock {\em The Annals of statistics\/}~{\em 35\/}(2), 608--633.
+
+\bibitem[\protect\citeauthoryear{Balabdaoui, Durot, Jankowski,
+  et~al.}{Balabdaoui et~al.}{2019}]{balabdaoui2019least}
+Balabdaoui, F., C.~Durot, H.~Jankowski, et~al. (2019).
+\newblock Least squares estimation in the monotone single index model.
+\newblock {\em Bernoulli\/}~{\em 25\/}(4B), 3276--3310.
+
+\bibitem[\protect\citeauthoryear{Bartlett, Jordan, and McAuliffe}{Bartlett
+  et~al.}{2006}]{bartlett2006convexity}
+Bartlett, P.~L., M.~I. Jordan, and J.~D. McAuliffe (2006).
+\newblock Convexity, classification, and risk bounds.
+\newblock {\em Journal of the American Statistical Association\/}~{\em
+  101\/}(473), 138--156.
+
+\bibitem[\protect\citeauthoryear{Candes and Plan}{Candes and
+  Plan}{2011}]{candes2011tight}
+Candes, E.~J. and Y.~Plan (2011).
+\newblock Tight oracle inequalities for low-rank matrix recovery from a minimal
+  number of noisy random measurements.
+\newblock {\em IEEE Transactions on Information Theory\/}~{\em 57\/}(4),
+  2342--2359.
+
+\bibitem[\protect\citeauthoryear{Chen, Jiang, Liao, and Zhao}{Chen
+  et~al.}{2019}]{chen2019nonparametric}
+Chen, M., H.~Jiang, W.~Liao, and T.~Zhao (2019).
+\newblock Nonparametric regression on low-dimensional manifolds using deep {\bf
+  relu} networks.
+\newblock {\em arXiv preprint arXiv:1908.01842\/}.
+
+\bibitem[\protect\citeauthoryear{Chen, Genovese, and Wasserman}{Chen
+  et~al.}{2017}]{chen2017density}
+Chen, Y.-C., C.~R. Genovese, and L.~Wasserman (2017).
+\newblock Density level sets: Asymptotics, inference, and visualization.
+\newblock {\em Journal of the American Statistical Association\/}~{\em
+  112\/}(520), 1684--1696.
+
+\bibitem[\protect\citeauthoryear{Chollet and Allaire}{Chollet and
+  Allaire}{2018}]{chollet2018deep}
+Chollet, F. and J.~J. Allaire (2018).
+\newblock {\em Deep Learning mit R und Keras: Das Praxis-Handbuch von den
+  Entwicklern von Keras und RStudio}.
+\newblock MITP-Verlags GmbH \& Co. KG.
+
+\bibitem[\protect\citeauthoryear{Desikan, S{\'e}gonne, Fischl, Quinn,
+  Dickerson, Blacker, Buckner, Dale, Maguire, Hyman, et~al.}{Desikan
+  et~al.}{2006}]{desikan2006automated}
+Desikan, R.~S., F.~S{\'e}gonne, B.~Fischl, B.~T. Quinn, B.~C. Dickerson,
+  D.~Blacker, R.~L. Buckner, A.~M. Dale, R.~P. Maguire, B.~T. Hyman, et~al.
+  (2006).
+\newblock An automated labeling system for subdividing the human cerebral
+  cortex on mri scans into gyral based regions of interest.
+\newblock {\em Neuroimage\/}~{\em 31\/}(3), 968--980.
+
+\bibitem[\protect\citeauthoryear{Donoho, Johnstone, et~al.}{Donoho
+  et~al.}{1998}]{donoho1998minimax}
+Donoho, D.~L., I.~M. Johnstone, et~al. (1998).
+\newblock Minimax estimation via wavelet shrinkage.
+\newblock {\em The annals of Statistics\/}~{\em 26\/}(3), 879--921.
+
+\bibitem[\protect\citeauthoryear{Fan, Gong, and Zhu}{Fan
+  et~al.}{2019}]{fan2019generalized}
+Fan, J., W.~Gong, and Z.~Zhu (2019).
+\newblock Generalized high-dimensional trace regression via nuclear norm
+  regularization.
+\newblock {\em Journal of Econometrics\/}~{\em 212\/}(1), 177--202.
+
+\bibitem[\protect\citeauthoryear{Friedman, Hastie, and Tibshirani}{Friedman
+  et~al.}{2010}]{friedman2010regularization}
+Friedman, J., T.~Hastie, and R.~Tibshirani (2010).
+\newblock Regularization paths for generalized linear models via coordinate
+  descent.
+\newblock {\em Journal of Statistical Software\/}~{\em 33\/}(1), 1.
+
+\bibitem[\protect\citeauthoryear{Ganti, Rao, Balzano, Willett, and Nowak}{Ganti
+  et~al.}{2017}]{ganti2017learning}
+Ganti, R., N.~Rao, L.~Balzano, R.~Willett, and R.~Nowak (2017).
+\newblock On learning high dimensional structured single index models.
+\newblock In {\em Proceedings of the Thirty-First AAAI Conference on Artificial
+  Intelligence}, pp.\  1898--1904. AAAI Press.
+
+\bibitem[\protect\citeauthoryear{Geenens et~al.}{Geenens
+  et~al.}{2011}]{geenens2011curse}
+Geenens, G. et~al. (2011).
+\newblock Curse of dimensionality and related issues in nonparametric
+  functional regression.
+\newblock {\em Statistics Surveys\/}~{\em 5}, 30--43.
+
+\bibitem[\protect\citeauthoryear{Gibou, Fedkiw, and Osher}{Gibou
+  et~al.}{2018}]{gibou2018review}
+Gibou, F., R.~Fedkiw, and S.~Osher (2018).
+\newblock A review of level-set methods and some recent applications.
+\newblock {\em Journal of Computational Physics\/}~{\em 353}, 82--109.
+
+\bibitem[\protect\citeauthoryear{Goodfellow, Bengio, Courville, and
+  Bengio}{Goodfellow et~al.}{2016}]{goodfellow2016deep}
+Goodfellow, I., Y.~Bengio, A.~Courville, and Y.~Bengio (2016).
+\newblock {\em Deep learning}, Volume 1(2).
+\newblock MIT press Cambridge.
+
+\bibitem[\protect\citeauthoryear{Guha and Rodriguez}{Guha and
+  Rodriguez}{2020}]{guha2020bayesian}
+Guha, S. and A.~Rodriguez (2020).
+\newblock Bayesian regression with undirected network predictors with an
+  application to brain connectome data.
+\newblock {\em Journal of the American Statistical
+  Association\/}~(just-accepted), 1--34.
+
+\bibitem[\protect\citeauthoryear{Guntuboyina, Sen, et~al.}{Guntuboyina
+  et~al.}{2018}]{guntuboyina2018nonparametric}
+Guntuboyina, A., B.~Sen, et~al. (2018).
+\newblock Nonparametric shape-restricted regression.
+\newblock {\em Statistical Science\/}~{\em 33\/}(4), 568--594.
+
+\bibitem[\protect\citeauthoryear{Hamidi and Bayati}{Hamidi and
+  Bayati}{2019}]{hamidi2019low}
+Hamidi, N. and M.~Bayati (2019).
+\newblock On low-rank trace regression under general sampling distribution.
+\newblock {\em arXiv preprint arXiv:1904.08576\/}.
+
+\bibitem[\protect\citeauthoryear{Hao, Wang, Wang, Zhang, Yang, and Sun}{Hao
+  et~al.}{2019}]{hao2019sparse}
+Hao, B., B.~Wang, P.~Wang, J.~Zhang, J.~Yang, and W.~W. Sun (2019).
+\newblock Sparse tensor additive regression.
+\newblock {\em arXiv preprint arXiv:1904.00479\/}.
+
+\bibitem[\protect\citeauthoryear{Hardle, Hall, and Ichimura}{Hardle
+  et~al.}{1993}]{hardle1993optimal}
+Hardle, W., P.~Hall, and H.~Ichimura (1993).
+\newblock Optimal smoothing in single-index models.
+\newblock {\em The annals of Statistics\/}, 157--178.
+
+\bibitem[\protect\citeauthoryear{Hastie, Tibshirani, and Wainwright}{Hastie
+  et~al.}{2015}]{hastie2015statistical}
+Hastie, T., R.~Tibshirani, and M.~Wainwright (2015).
+\newblock {\em Statistical learning with sparsity: the lasso and
+  generalizations}.
+\newblock CRC press.
+
+\bibitem[\protect\citeauthoryear{Hu, Shen, Zhou, and Kong}{Hu
+  et~al.}{2020}]{hu2020matrix}
+Hu, W., W.~Shen, H.~Zhou, and D.~Kong (2020).
+\newblock Matrix linear discriminant analysis.
+\newblock {\em Technometrics\/}~{\em 62\/}(2), 196--205.
+
+\bibitem[\protect\citeauthoryear{Kosorok}{Kosorok}{2007}]{kosorok2007introduction}
+Kosorok, M.~R. (2007).
+\newblock {\em Introduction to empirical processes and semiparametric
+  inference}.
+\newblock Springer Science \& Business Media.
+
+\bibitem[\protect\citeauthoryear{Moore, Scott, Reise, Port, Jackson, Ruparel,
+  Savitt, Gur, and Gur}{Moore et~al.}{2015}]{moore2015development}
+Moore, T.~M., J.~C. Scott, S.~P. Reise, A.~M. Port, C.~T. Jackson, K.~Ruparel,
+  A.~P. Savitt, R.~E. Gur, and R.~C. Gur (2015).
+\newblock Development of an abbreviated form of the penn line orientation test
+  using large samples and computerized adaptive test simulation.
+\newblock {\em Psychological assessment\/}~{\em 27\/}(3), 955.
+
+\bibitem[\protect\citeauthoryear{Murdoch, Singh, Kumbier, Abbasi-Asl, and
+  Yu}{Murdoch et~al.}{2019}]{murdoch2019definitions}
+Murdoch, W.~J., C.~Singh, K.~Kumbier, R.~Abbasi-Asl, and B.~Yu (2019).
+\newblock Definitions, methods, and applications in interpretable machine
+  learning.
+\newblock {\em Proceedings of the National Academy of Sciences\/}~{\em
+  116\/}(44), 22071--22080.
+
+\bibitem[\protect\citeauthoryear{Parikh and Boyd}{Parikh and
+  Boyd}{2014}]{parikh2014proximal}
+Parikh, N. and S.~Boyd (2014).
+\newblock Proximal algorithms.
+\newblock {\em Foundations and Trends in Optimization\/}~{\em 1\/}(3),
+  127--239.
+
+\bibitem[\protect\citeauthoryear{Reli{\'o}n, Kessler, Levina, and
+  Taylor}{Reli{\'o}n et~al.}{2019}]{relion2019network}
+Reli{\'o}n, J. D.~A., D.~Kessler, E.~Levina, and S.~F. Taylor (2019).
+\newblock Network classification with applications to brain connectomics.
+\newblock {\em The Annals of Applied Statistics\/}~{\em 13\/}(3), 1648--1677.
+
+\bibitem[\protect\citeauthoryear{Rigollet, Vert, et~al.}{Rigollet
+  et~al.}{2009}]{rigollet2009optimal}
+Rigollet, P., R.~Vert, et~al. (2009).
+\newblock Optimal rates for plug-in estimators of density level sets.
+\newblock {\em Bernoulli\/}~{\em 15\/}(4), 1154--1178.
+
+\bibitem[\protect\citeauthoryear{Scott}{Scott}{2011}]{scott2011surrogate}
+Scott, C. (2011).
+\newblock Surrogate losses and regret bounds for cost-sensitive classification
+  with example-dependent costs.
+\newblock In {\em ICML}.
+
+\bibitem[\protect\citeauthoryear{Scott and Davenport}{Scott and
+  Davenport}{2007}]{scott2007regression}
+Scott, C. and M.~Davenport (2007).
+\newblock Regression level set estimation via cost-sensitive classification.
+\newblock {\em IEEE Transactions on Signal Processing\/}~{\em 55\/}(6),
+  2752--2757.
+
+\bibitem[\protect\citeauthoryear{Shekhar and Javidi}{Shekhar and
+  Javidi}{2019}]{shekhar2019multiscale}
+Shekhar, S. and T.~Javidi (2019).
+\newblock Multiscale gaussian process level set estimation.
+\newblock In {\em The 22nd International Conference on Artificial Intelligence
+  and Statistics}, pp.\  3283--3291.
+
+\bibitem[\protect\citeauthoryear{Shen and Wang}{Shen and
+  Wang}{2006}]{shen2006discussion}
+Shen, X. and L.~Wang (2006).
+\newblock Discussion of 2004 {IMS} {M}edallion {L}ecture: Local rademacher
+  complexities and oracle inequalities in risk minimization.
+\newblock {\em The Annals of Statistics\/}~{\em 34}, 2677--2680.
+
+\bibitem[\protect\citeauthoryear{Singh, Scott, Nowak, et~al.}{Singh
+  et~al.}{2009}]{singh2009adaptive}
+Singh, A., C.~Scott, R.~Nowak, et~al. (2009).
+\newblock Adaptive {H}ausdorff estimation of density level sets.
+\newblock {\em The Annals of Statistics\/}~{\em 37\/}(5B), 2760--2782.
+
+\bibitem[\protect\citeauthoryear{Tsybakov}{Tsybakov}{2008}]{tsybakov2008introduction}
+Tsybakov, A.~B. (2008).
+\newblock {\em Introduction to nonparametric estimation}.
+\newblock Springer Science \& Business Media.
+
+\bibitem[\protect\citeauthoryear{Tsybakov et~al.}{Tsybakov
+  et~al.}{1997}]{tsybakov1997nonparametric}
+Tsybakov, A.~B. et~al. (1997).
+\newblock On nonparametric estimation of density level sets.
+\newblock {\em The Annals of Statistics\/}~{\em 25\/}(3), 948--969.
+
+\bibitem[\protect\citeauthoryear{Tsybakov et~al.}{Tsybakov
+  et~al.}{2004}]{tsybakov2004optimal}
+Tsybakov, A.~B. et~al. (2004).
+\newblock Optimal aggregation of classifiers in statistical learning.
+\newblock {\em The Annals of Statistics\/}~{\em 32\/}(1), 135--166.
+
+\bibitem[\protect\citeauthoryear{Van~Essen, Smith, Barch, Behrens, Yacoub,
+  Ugurbil, Consortium, et~al.}{Van~Essen et~al.}{2013}]{van2013wu}
+Van~Essen, D.~C., S.~M. Smith, D.~M. Barch, T.~E. Behrens, E.~Yacoub,
+  K.~Ugurbil, W.-M.~H. Consortium, et~al. (2013).
+\newblock The wu-minn human connectome project: an overview.
+\newblock {\em Neuroimage\/}~{\em 80}, 62--79.
+
+\bibitem[\protect\citeauthoryear{Vapnik}{Vapnik}{2013}]{vapnik2013nature}
+Vapnik, V. (2013).
+\newblock {\em The nature of statistical learning theory}.
+\newblock Springer science \& business media.
+
+\bibitem[\protect\citeauthoryear{Varshney and Willsky}{Varshney and
+  Willsky}{2010}]{varshney2010classification}
+Varshney, K.~R. and A.~S. Willsky (2010).
+\newblock Classification using geometric level sets.
+\newblock {\em The Journal of Machine Learning Research\/}~{\em 11}, 491--516.
+
+\bibitem[\protect\citeauthoryear{Wahba}{Wahba}{1990}]{wahba1990spline}
+Wahba, G. (1990).
+\newblock {\em Spline models for observational data}.
+\newblock SIAM.
+
+\bibitem[\protect\citeauthoryear{Wang, Shen, and Liu}{Wang
+  et~al.}{2008}]{wang2008probability}
+Wang, J., X.~Shen, and Y.~Liu (2008).
+\newblock Probability estimation for large-margin classifiers.
+\newblock {\em Biometrika\/}~{\em 95\/}(1), 149--167.
+
+\bibitem[\protect\citeauthoryear{Wang, Shen, Sun, and Qu}{Wang
+  et~al.}{2016}]{wang2016classification}
+Wang, J., X.~Shen, Y.~Sun, and A.~Qu (2016).
+\newblock Classification with unstructured predictors and an application to
+  sentiment analysis.
+\newblock {\em Journal of the American Statistical Association\/}~{\em
+  111\/}(515), 1242--1253.
+
+\bibitem[\protect\citeauthoryear{Wang, Zhang, and Dunson}{Wang
+  et~al.}{2019}]{wang2019common}
+Wang, L., Z.~Zhang, and D.~Dunson (2019).
+\newblock Common and individual structure of brain networks.
+\newblock {\em The Annals of Applied Statistics\/}~{\em 13\/}(1), 85--112.
+
+\bibitem[\protect\citeauthoryear{Wang, Zhu, and Initiative}{Wang
+  et~al.}{2017}]{wang2017generalized}
+Wang, X., H.~Zhu, and A.~D.~N. Initiative (2017).
+\newblock Generalized scalar-on-image regression models via total variation.
+\newblock {\em Journal of the American Statistical Association\/}~{\em
+  112\/}(519), 1156--1168.
+
+\bibitem[\protect\citeauthoryear{Wasserman}{Wasserman}{2006}]{wasserman2006all}
+Wasserman, L. (2006).
+\newblock {\em All of nonparametric statistics}.
+\newblock Springer Science \& Business Media.
+
+\bibitem[\protect\citeauthoryear{Willett and Nowak}{Willett and
+  Nowak}{2007}]{willett2007minimax}
+Willett, R.~M. and R.~D. Nowak (2007).
+\newblock Minimax optimal level-set estimation.
+\newblock {\em IEEE Transactions on Image Processing\/}~{\em 16\/}(12),
+  2965--2979.
+
+\bibitem[\protect\citeauthoryear{Xu, Dan, Khim, and Ravikumar}{Xu
+  et~al.}{2020}]{xu2020class}
+Xu, Z., C.~Dan, J.~Khim, and P.~Ravikumar (2020).
+\newblock Class-weighted classification: Trade-offs and robust approaches.
+\newblock {\em ICML\/}.
+
+\bibitem[\protect\citeauthoryear{Yang, Ma, and Buja}{Yang
+  et~al.}{2016}]{yang2016rate}
+Yang, D., Z.~Ma, and A.~Buja (2016).
+\newblock Rate optimal denoising of simultaneously sparse and low rank
+  matrices.
+\newblock {\em The Journal of Machine Learning Research\/}~{\em 17\/}(1),
+  3163--3189.
+
+\bibitem[\protect\citeauthoryear{Zhang, Descoteaux, Zhang, Girard, Chamberland,
+  Dunson, Srivastava, and Zhu}{Zhang et~al.}{2018}]{zhang2018mapping}
+Zhang, Z., M.~Descoteaux, J.~Zhang, G.~Girard, M.~Chamberland, D.~Dunson,
+  A.~Srivastava, and H.~Zhu (2018).
+\newblock Mapping population-based structural connectomes.
+\newblock {\em NeuroImage\/}~{\em 172}, 130--145.
+
+\bibitem[\protect\citeauthoryear{Zhou and Li}{Zhou and
+  Li}{2014}]{zhou2014regularized}
+Zhou, H. and L.~Li (2014).
+\newblock Regularized matrix regression.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)\/}~{\em 76\/}(2), 463--483.
+
+\bibitem[\protect\citeauthoryear{Zhou, Wong, and He}{Zhou
+  et~al.}{2020}]{zhou2020broadcasted}
+Zhou, Y., R.~K. Wong, and K.~He (2020).
+\newblock Broadcasted nonparametric tensor regression.
+\newblock {\em arXiv preprint arXiv:2008.12927\/}.
+
+\end{thebibliography}

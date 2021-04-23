@@ -1,0 +1,20 @@
+\begin{thebibliography}{1}
+
+\bibitem{Shashua2004PedestrianDF}
+Amnon Shashua, Yoram Gdalyahu, and Gaby Hayun.
+\newblock Pedestrian detection for driving assistance systems: single-frame
+  classification and system level performance.
+\newblock {\em IEEE Intelligent Vehicles Symposium, 2004}, pages 1--6, 2004.
+
+\bibitem{wang2008probability}
+Junhui Wang, Xiaotong Shen, and Yufeng Liu.
+\newblock Probability estimation for large-margin classifiers.
+\newblock {\em Biometrika}, 95(1):149--167, 2008.
+
+\bibitem{zhou2014regularized}
+Hua Zhou and Lexin Li.
+\newblock Regularized matrix regression.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 76(2):463--483, 2014.
+
+\end{thebibliography}

@@ -1,0 +1,61 @@
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Nonparametric_matrix——zhangComment.aux
+The style file: chicago.bst
+Database file #1: tensor_wang.bib
+Warning--no number and no volume in arroyo2020simultaneous
+Warning--page numbers missing in arroyo2020simultaneous
+Warning--no number and no volume in chen2019nonparametric
+Warning--page numbers missing in chen2019nonparametric
+Warning--no volume for guha2020bayesian
+Warning--no number and no volume in hamidi2019low
+Warning--page numbers missing in hamidi2019low
+Warning--no number and no volume in hao2019sparse
+Warning--page numbers missing in hao2019sparse
+Warning--no number and no volume in hardle1993optimal
+Warning--no number and no volume in xu2020class
+Warning--page numbers missing in xu2020class
+Warning--no number and no volume in zhou2020broadcasted
+Warning--page numbers missing in zhou2020broadcasted
+You've used 55 entries,
+            2861 wiz_defined-function locations,
+            956 strings with 14828 characters,
+and the built_in function-call counts, 42749 in all, are:
+= -- 3424
+> -- 3680
+< -- 4
++ -- 1136
+- -- 1218
+* -- 4138
+:= -- 7818
+add.period$ -- 166
+call.type$ -- 55
+change.case$ -- 433
+chr.to.int$ -- 55
+cite$ -- 69
+duplicate$ -- 1023
+empty$ -- 2346
+format.name$ -- 1398
+if$ -- 7932
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 63
+newline$ -- 278
+num.names$ -- 550
+pop$ -- 331
+preamble$ -- 1
+purify$ -- 771
+quote$ -- 0
+skip$ -- 1084
+stack$ -- 0
+substring$ -- 2174
+swap$ -- 338
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 1020
+warning$ -- 14
+while$ -- 503
+width$ -- 0
+write$ -- 722
+(There were 14 warnings)

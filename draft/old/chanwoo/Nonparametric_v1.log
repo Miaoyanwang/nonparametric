@@ -1,0 +1,1040 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  28 OCT 2020 01:17
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**Nonparametric_v1.tex
+(./Nonparametric_v1.tex
+LaTeX2e <2018-04-01> patch level 2
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2017/09/02 v2.17a AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks14
+\ex@=\dimen103
+))
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen104
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count88
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count89
+\leftroot@=\count90
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count91
+\DOTSCASE@=\count92
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen105
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count93
+\c@MaxMatrixCols=\count94
+\dotsspace@=\muskip10
+\c@parentequation=\count95
+\dspbrk@lvl=\count96
+\tag@help=\toks15
+\row@=\count97
+\column@=\count98
+\maxfields@=\count99
+\andhelp@=\toks16
+\eqnshift@=\dimen106
+\alignsep@=\dimen107
+\tagshift@=\dimen108
+\tagwidth@=\dimen109
+\totwidth@=\dimen110
+\lineht@=\dimen111
+\@envbody=\toks17
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks18
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks19
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen112
+\Gin@req@width=\dimen113
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/tools/enumerate.sty
+Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
+\@enLab=\toks20
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip46
+\bibsep=\skip47
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count100
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2018/01/08 v1.21 mathematical typesetting tools
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count101
+\calc@Bcount=\count102
+\calc@Adimen=\dimen114
+\calc@Bdimen=\dimen115
+\calc@Askip=\skip48
+\calc@Bskip=\skip49
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count103
+\calc@Cskip=\skip50
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2017/03/31 v1.3 programming setup (MH)
+)
+LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
+\g_MT_multlinerow_int=\count104
+\l_MT_multwidth_dim=\dimen116
+\origjot=\skip51
+\l_MT_shortvdotswithinadjustabove_dim=\dimen117
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen118
+\l_MT_above_intertext_sep=\dimen119
+\l_MT_below_intertext_sep=\dimen120
+\l_MT_above_shortintertext_sep=\dimen121
+\l_MT_below_shortintertext_sep=\dimen122
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2017/10/31 v2.20.4
+\thm@style=\toks21
+\thm@bodyfont=\toks22
+\thm@headfont=\toks23
+\thm@notefont=\toks24
+\thm@headpunct=\toks25
+\thm@preskip=\skip52
+\thm@postskip=\skip53
+\thm@headsep=\skip54
+\dth@everypar=\toks26
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2017/01/16 v1.2c Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
+LaTeX Info: Redefining \bm on input line 207.
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package: pdftexcmds 2018/01/30 v0.27 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO
+)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
+Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
+)
+(/usr/local/texlive/2018/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+)
+\@linkdim=\dimen123
+\Hy@linkcounter=\count105
+\Hy@pagecounter=\count106
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+\Hy@SavedSpaceFactor=\count107
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4509.
+Package hyperref Info: Link nesting OFF on input line 4514.
+Package hyperref Info: Hyper index ON on input line 4517.
+Package hyperref Info: Plain pages OFF on input line 4524.
+Package hyperref Info: Backreferencing OFF on input line 4529.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4762.
+\c@Hy@tempcnt=\count108
+LaTeX Info: Redefining \url on input line 5115.
+\XeTeXLinkMargin=\dimen124
+\Fld@menulength=\count109
+\Field@Width=\dimen125
+\Fld@charsize=\dimen126
+Package hyperref Info: Hyper figures OFF on input line 6369.
+Package hyperref Info: Link nesting OFF on input line 6374.
+Package hyperref Info: Hyper index ON on input line 6377.
+Package hyperref Info: backreferencing OFF on input line 6384.
+Package hyperref Info: Link coloring OFF on input line 6389.
+Package hyperref Info: Link coloring with OCG OFF on input line 6394.
+Package hyperref Info: PDF/A mode OFF on input line 6399.
+LaTeX Info: Redefining \ref on input line 6439.
+LaTeX Info: Redefining \pageref on input line 6443.
+\Hy@abspage=\count110
+\c@Item=\count111
+\c@Hfootnote=\count112
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
+\Fld@listcount=\count113
+\c@bookmark@seq@number=\count114
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip55
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/doublestroke/dsfont.sty
+Package: dsfont 1995/08/01 v0.1 Double stroke roman fonts
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count115
+\lst@gtempboxa=\box28
+\lst@token=\toks27
+\lst@length=\count116
+\lst@currlwidth=\dimen127
+\lst@column=\count117
+\lst@pos=\count118
+\lst@lostspace=\dimen128
+\lst@width=\dimen129
+\lst@newlines=\count119
+\lst@lineno=\count120
+\lst@maxwidth=\dimen130
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count121
+\lst@skipnumbers=\count122
+\lst@framebox=\box29
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
+))
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
+Package: algorithm2e 2017/07/18 v5.2 algorithms environments
+\c@AlgoLine=\count123
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\algocf@hangindent=\skip56
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count124
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/relsize/relsize.sty
+Package: relsize 2013/03/29 ver 4.1
+)
+\skiptotal=\skip57
+\skiplinenumber=\skip58
+\skiprule=\skip59
+\skiphlne=\skip60
+\skiptext=\skip61
+\skiplength=\skip62
+\algomargin=\skip63
+\skipalgocfslide=\skip64
+\algowidth=\dimen131
+\inoutsize=\dimen132
+\inoutindent=\dimen133
+\interspacetitleruled=\dimen134
+\interspacealgoruled=\dimen135
+\interspacetitleboxruled=\dimen136
+\algocf@ruledwidth=\skip65
+\algocf@inoutbox=\box30
+\algocf@inputbox=\box31
+\AlCapSkip=\skip66
+\AlCapHSkip=\skip67
+\algoskipindent=\skip68
+\algocf@nlbox=\box32
+\algocf@hangingbox=\box33
+\algocf@untilbox=\box34
+\algocf@skipuntil=\skip69
+\algocf@capbox=\box35
+\algocf@lcaptionbox=\skip70
+\algoheightruledefault=\skip71
+\algoheightrule=\skip72
+\algotitleheightruledefault=\skip73
+\algotitleheightrule=\skip74
+\c@algocfline=\count125
+\c@algocfproc=\count126
+\c@algocf=\count127
+\algocf@algoframe=\box36
+\algocf@algobox=\box37
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip75
+\enit@outerparindent=\dimen137
+\enit@toks=\toks28
+\enit@inbox=\box38
+\enitdp@description=\count128
+)
+\c@schm=\count129
+\c@thm=\count130
+\c@lem=\count131
+\c@prop=\count132
+\c@pro=\count133
+\c@assumption=\count134
+\c@cor=\count135
+\c@defn=\count136
+\c@example=\count137
+\c@rmk=\count138
+\c@clm=\count139
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+(./macros.tex
+(/usr/local/texlive/2018/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
+Package: stmaryrd 1994/03/03 St Mary's Road symbol package
+\symstmry=\mathgroup9
+LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
+(Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
+))
+(./Nonparametric_v1.aux)
+\openout1 = `Nonparametric_v1.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+
+(/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count140
+\scratchdimen=\dimen138
+\scratchbox=\box39
+\nofMPsegments=\count141
+\nofMParguments=\count142
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count143
+\MPscratchDim=\dimen139
+\MPnumerator=\count144
+\makeMPintoPDFobject=\count145
+\everyMPtoPDFconversion=\toks30
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\AtBeginShipoutBox=\box40
+Package hyperref Info: Link coloring OFF on input line 49.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
+
+(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+)
+\c@section@level=\count146
+)
+LaTeX Info: Redefining \ref on input line 49.
+LaTeX Info: Redefining \pageref on input line 49.
+LaTeX Info: Redefining \nameref on input line 49.
+
+(./Nonparametric_v1.out) (./Nonparametric_v1.out)
+\@outlinefile=\write3
+\openout3 = `Nonparametric_v1.out'.
+
+\c@lstlisting=\count147
+ [1
+
+{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for U+msa on input line 102.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 102.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+stmry on input line 102.
+
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
+
+Package natbib Warning: Citation `zhou2014regularized' on page 2 undefined on i
+nput line 102.
+
+
+Package natbib Warning: Citation `Shashua2004Pedestrian' on page 2 undefined on
+ input line 102.
+
+[2] [3]
+
+Package natbib Warning: Citation `man2005expression' on page 4 undefined on inp
+ut line 121.
+
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 125.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/doublestroke/Udsrom.fd
+File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
+)
+./Nonparametric_v1.tex:125: Undefined control sequence.
+<recently read> \sign 
+                      
+l.125 ...mes d_2}\to \{-1,1\}$. We also use $\sign
+                                                  (f)\in\{-1,1\}$ to denote ...
+
+? 
+./Nonparametric_v1.tex:125: Undefined control sequence.
+<recently read> \sign 
+                      
+l.125 ...the sign of function $f$; that is, $\sign
+                                                   f=1$ if $f>0$ and $\sign ...
+
+? 
+./Nonparametric_v1.tex:125: Undefined control sequence.
+<recently read> \sign 
+                      
+l.125 ... that is, $\sign f=1$ if $f>0$ and $\sign
+                                                   f=-1$ if $f\leq 0$. We re...
+
+? 
+./Nonparametric_v1.tex:126: Undefined control sequence.
+<recently read> \newnormSize 
+                             
+l.126 ..., where $i\in[d_1]$. We use $\newnormSize
+                                                  {}{\cdot}_p$ to denote the...
+
+? 
+./Nonparametric_v1.tex:126: Undefined control sequence.
+<recently read> \newnormSize 
+                             
+l.126 ... matrix $\mB$ is defined as $\newnormSize
+                                                  {}{\mB}_{p,q}=\newnormSize...
+
+? 
+./Nonparametric_v1.tex:126: Undefined control sequence.
+l.126 ...s $\newnormSize{}{\mB}_{p,q}=\newnormSize
+                                                  {}{\mb}_q$, where $\mb=(\n...
+
+? 
+./Nonparametric_v1.tex:126: Undefined control sequence.
+l.126 ...mSize{}{\mb}_q$, where $\mb=(\newnormSize
+                                                  {}{\mB_1}_p,\ldots,\newnor...
+
+? 
+./Nonparametric_v1.tex:126: Undefined control sequence.
+l.126 ...ewnormSize{}{\mB_1}_p,\ldots,\newnormSize
+                                                  {}{\mB_{d_1}}_p)\in\mathbb...
+
+? 
+./Nonparametric_v1.tex:126: Undefined control sequence.
+<recently read> \newnormSize 
+                             
+l.126 ...ws in $\mB$. In particular, $\newnormSize
+                                                  {}{\mB}_{1,0}=\#\{i\in [d_...
+
+? 
+./Nonparametric_v1.tex:126: Undefined control sequence.
+<recently read> \newnormSize 
+                             
+l.126 ...non-zero rows in $\mB$, and $\newnormSize
+                                                  {}{\mB^T}_{1,0}$ denotes t...
+
+? 
+[4] [5]
+./Nonparametric_v1.tex:151: Undefined control sequence.
+l.151 \bayesS
+             \{\mX\in\mathbb{R}^{d_1\times d_2}\colon p(\mX)\geq 1/2\},
+? 
+./Nonparametric_v1.tex:166: Undefined control sequence.
+l.166 \bayesS
+             (\pi) = \{\mX\in\mathbb{R}^{d_1\times d_2}\colon p(\mX)\geq \pi\}.
+
+? 
+
+Package natbib Warning: Citation `willett2007minimax' on page 6 undefined on in
+put line 169.
+
+
+Package natbib Warning: Citation `scott2007regression' on page 6 undefined on i
+nput line 169.
+
+
+Package natbib Warning: Citation `wang2008probability' on page 6 undefined on i
+nput line 169.
+
+[6] [7] [8]
+<level.pdf, id=126, 614.92737pt x 158.3702pt>
+File: level.pdf Graphic file (type pdf)
+<use level.pdf>
+Package pdftex.def Info: level.pdf  used on input line 201.
+(pdftex.def)             Requested size: 455.24408pt x 117.24768pt.
+
+
+Package natbib Warning: Citation `gibou2018review' on page 9 undefined on input
+ line 202.
+
+
+Package natbib Warning: Citation `gibou2018review' on page 9 undefined on input
+ line 202.
+
+[9 <./level.pdf>]
+
+Package amsmath Warning: Foreign command \over;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 212.
+
+./Nonparametric_v1.tex:223: Undefined control sequence.
+<recently read> \bayesS 
+                        
+l.223 ...pi\in(0,1)$, we call a level set $\bayesS
+                                                  (\pi)$ is identifiable fro...
+
+? 
+./Nonparametric_v1.tex:225: Undefined control sequence.
+l.225 \mathbb{P}_{\mX}\left[ S  \Delta \bayesS
+                                              (\pi)\right]\leq C \left[R_{\p...
+
+? 
+./Nonparametric_v1.tex:225: Undefined control sequence.
+l.225 ...t]\leq C \left[R_{\pi}(S)-R_{\pi}(\bayesS
+                                                  (\pi))\right]^{\alpha}, \q...
+
+? 
+./Nonparametric_v1.tex:230: Undefined control sequence.
+<recently read> \bayesS 
+                        
+l.230 ...tifiability implies that the set $\bayesS
+                                                  (\pi)$ is the unique (up t...
+
+? 
+./Nonparametric_v1.tex:230: Undefined control sequence.
+l.230 ...e always have $R_{\pi}(S)-R_{\pi}(\bayesS
+                                                  (\pi))\leq \mathbb{P}_{\mX...
+
+? 
+./Nonparametric_v1.tex:230: Undefined control sequence.
+l.230 ...eq \mathbb{P}_{\mX}\left[S \Delta \bayesS
+                                                  (\pi)\right]$. In particul...
+
+? 
+[10]
+./Nonparametric_v1.tex:236: Undefined control sequence.
+<argument> ...i }(\bar S(\pi )) -R_{\pi }(\bayesS 
+                                                  (\pi ))\right ]^{\alpha }. 
+l.236 \end{align}
+                 
+? 
+./Nonparametric_v1.tex:236: Undefined control sequence.
+<argument> ...i }(\bar S(\pi )) -R_{\pi }(\bayesS 
+                                                  (\pi ))\right ]^{\alpha }. 
+l.236 \end{align}
+                 
+? 
+[11]
+
+LaTeX Warning: Reference `sec:population' on page 12 undefined on input line 24
+2.
+
+./Nonparametric_v1.tex:256: Undefined control sequence.
+l.256 ...bb{E}\left[w_\pi(y)\mathds{1}(y\neq \sign
+                                                   f(\mX))\right],
+? 
+./Nonparametric_v1.tex:258: Undefined control sequence.
+<recently read> \sign 
+                      
+l.258 ...times d_2}$, and its sign function $\sign
+                                                   \bar f$ induces the class...
+
+? 
+[12]
+Overfull \hbox (13.56812pt too wide) detected at line 263
+[]
+ []
+
+./Nonparametric_v1.tex:264: Undefined control sequence.
+l.264 ... two-way sparsity, with $s_1=\newnormSize
+                                                  {}{\mB}_{1,0}$ and $s_2=\n...
+
+? 
+./Nonparametric_v1.tex:264: Undefined control sequence.
+l.264 ...mSize{}{\mB}_{1,0}$ and $s_2=\newnormSize
+                                                  {}{\mB^T}_{1,0}$ being the...
+
+? 
+./Nonparametric_v1.tex:269: Undefined control sequence.
+<argument> ...t [w_\pi (y)\mathds {1}(y\neq \sign 
+                                                  f(\mX ))\right ], 
+l.269 \end{align}
+                 
+? 
+./Nonparametric_v1.tex:269: Undefined control sequence.
+<argument> ...t [w_\pi (y)\mathds {1}(y\neq \sign 
+                                                  f(\mX ))\right ], 
+l.269 \end{align}
+                 
+? 
+[13]
+
+Package natbib Warning: Citation `zhou2014regularized' on page 14 undefined on 
+input line 281.
+
+
+Package natbib Warning: Citation `guha2020bayesian' on page 14 undefined on inp
+ut line 281.
+
+
+Package natbib Warning: Citation `relion2019network' on page 14 undefined on in
+put line 281.
+
+
+Package natbib Warning: Citation `hu2020matrix' on page 14 undefined on input l
+ine 283.
+
+[14] [15]
+
+Package natbib Warning: Citation `bartlett2006convexity' on page 16 undefined o
+n input line 319.
+
+[16]
+./Nonparametric_v1.tex:348: Undefined control sequence.
+<recently read> \bayesf 
+                        
+l.348 Let $\bayesf
+                   (\mX)= I(\mX\in S_{\text{bayes}}) =I(\mX\colon p(\mX)\geq...
+
+? 
+
+Overfull \hbox (27.35054pt too wide) in paragraph at lines 348--349
+[][]\OT1/cmr/bx/n/12 Assumption 2 \OT1/cmr/m/n/12 (Con-di-tions for ma-trix cla
+s-si-fi-ca-tion)\OT1/cmr/bx/n/12 . []\OT1/cmr/m/it/12 Let $\OT1/cmr/m/n/12 (\OM
+L/cmm/b/it/12 X\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 I\OT1/cmr/m/n/12 (\OML/cmm/
+b/it/12 X \OMS/cmsy/m/n/12 2 \OML/cmm/m/it/12 S[]\OT1/cmr/m/n/12 ) = \OML/cmm/m
+/it/12 I\OT1/cmr/m/n/12 (\OML/cmm/b/it/12 X [] [] \OML/cmm/m/it/12 p\OT1/cmr/m/
+n/12 (\OML/cmm/b/it/12 X\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ^^U
+ []
+
+./Nonparametric_v1.tex:350: Undefined control sequence.
+l.350 ...shes; i.e., $R_\ell(f^*_n)-R_\ell(\bayesf
+                                                  )\leq a_n\to 0$ and $\Fnor...
+
+? 
+./Nonparametric_v1.tex:351: Undefined control sequence.
+l.351 ...,s_2)$ with $R_\ell(f^*_n)-R_\ell(\bayesf
+                                                  ) \leq \delta$, the varian...
+
+? 
+./Nonparametric_v1.tex:353: Undefined control sequence.
+l.353 \text{Var}\left[\ell(yf(\mX))-\ell(y\bayesf
+                                                 (\mX))\right] \leq C[R_\ell...
+
+? 
+./Nonparametric_v1.tex:353: Undefined control sequence.
+l.353 ...))\right] \leq C[R_\ell(f)-R_\ell(\bayesf
+                                                  )]^\rho.
+? 
+[17]
+./Nonparametric_v1.tex:359: Undefined control sequence.
+<recently read> \bayesf 
+                        
+l.359 ... by $\tF(r,s_1,s_2)$ and that by $\bayesf
+                                                  $. Note that this assumpti...
+
+? 
+./Nonparametric_v1.tex:359: Undefined control sequence.
+<recently read> \bayesf 
+                        
+l.359 ...r,s_1,s_2)$ and Bayes classifier $\bayesf
+                                                  $. The former concerns the...
+
+? 
+./Nonparametric_v1.tex:359: Undefined control sequence.
+<recently read> \bayesf 
+                        
+l.359 ...ariance within a neighborhood of $\bayesf
+                                                  $. The exponent $\rho$ dep...
+
+? 
+./Nonparametric_v1.tex:368: Undefined control sequence.
+l.368 R(\hat S_{\text{bayes}}) - R(\bayesS
+                                          ) \leq C\left({r(s_1+s_2)\log d \o...
+
+? 
+[18]
+
+Package natbib Warning: Citation `tsybakov2004optimal' on page 19 undefined on 
+input line 373.
+
+
+Package natbib Warning: Citation `audibert2007fast' on page 19 undefined on inp
+ut line 373.
+
+
+Package natbib Warning: Citation `tsybakov2006discussion' on page 19 undefined 
+on input line 373.
+
+./Nonparametric_v1.tex:373: Undefined control sequence.
+l.373 ...the classifier boundary $\partial \bayesS
+                                                  $.
+? 
+
+Package natbib Warning: Citation `scott2011surrogate' on page 19 undefined on i
+nput line 381.
+
+
+Package natbib Warning: Citation `bartlett2006convexity' on page 19 undefined o
+n input line 381.
+
+
+Package natbib Warning: Citation `scott2011surrogate' on page 19 undefined on i
+nput line 381.
+
+[19]
+./Nonparametric_v1.tex:384: Undefined control sequence.
+l.384 ..._{\text{bayes},\pi}(\mX)=I(\mX\in \bayesS
+                                                  (\pi))=I(\mX\colon p(\mX) ...
+
+? 
+./Nonparametric_v1.tex:384: Undefined control sequence.
+l.384 ...b{E}\left[w_\pi(y)\mathds{1}\{y\neq \sign
+                                                   f(\mX)\}\right]$ denote t...
+
+? 
+
+Overfull \hbox (19.83829pt too wide) in paragraph at lines 384--385
+\U/msb/m/n/12 E []$ \OT1/cmr/m/n/12 de-note the weighted clas-si-fi-ca-tion ris
+k, and $\OML/cmm/m/it/12 R[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 f\OT1/cmr/m/n/12 
+) = \U/msb/m/n/12 E []$
+ []
+
+./Nonparametric_v1.tex:386: Undefined control sequence.
+l.386 R_{\pi}(f)-R_{\pi}(\bayesf
+                                ) \leq R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf)...
+
+? 
+./Nonparametric_v1.tex:386: Undefined control sequence.
+l.386 ...\leq R_{\ell,\pi}(f)-R_{\ell,\pi}(\bayesf
+                                                  ), \quad \text{for all mea...
+
+? 
+./Nonparametric_v1.tex:388: Undefined control sequence.
+<recently read> \bayesf 
+                        
+l.388 ...to[0,1]$, the level set function $\bayesf
+                                                  $ minimizes the surrogate ...
+
+? 
+[20]
+./Nonparametric_v1.tex:402: Undefined control sequence.
+l.402 ...b{P}\left( \hat S(\pi) \ \Delta \ \bayesS
+                                                  (\pi)\right) \leq C\left({...
+
+? 
+./Nonparametric_v1.tex:407: Undefined control sequence.
+l.407 ... the level set boundary $\partial \bayesS
+                                                  $. Our characterization wi...
+
+? 
+
+Package natbib Warning: Citation `singh2009adaptive' on page 21 undefined on in
+put line 407.
+
+[21]
+Overfull \hbox (19.09329pt too wide) detected at line 414
+[]
+ []
+
+[22]
+
+./Nonparametric_v1.tex:429: LaTeX Error: Environment corollary undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.429 \begin{corollary}
+                       [High-dimensional consistency] Consider the same set-...
+
+? 
+
+./Nonparametric_v1.tex:434: LaTeX Error: \begin{document} ended by \end{corolla
+ry}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.434 \end{corollary}
+                     
+? 
+[23]
+Overfull \hbox (4.67845pt too wide) detected at line 468
+[]
+ []
+
+[24] [25]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (28.12013pt too wide) detected at line 538
+\OMS/cmsy/m/n/12 L\OT1/cmr/m/n/12 (\OML/cmm/b/it/12 B\OML/cmm/m/it/12 ; \OML/cm
+m/b/it/12 c\OT1/cmr/m/n/12 ; \OML/cmm/b/it/12 S\OML/cmm/m/it/12 ; \OT1/cmr/m/n/
+12 ^^C\OML/cmm/m/it/12 ; ^^Z; ^^U\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 n[] [] L 
+[] \OT1/cmr/m/n/12 + (\OML/cmm/m/it/12 ^^U \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 ^
+^Z\OT1/cmr/m/n/12 ) [][] \OML/cmm/m/it/12 :
+ []
+
+[26]
+Overfull \hbox (13.07773pt too wide) detected at line 542
+\OMS/cmsy/m/n/12 L\OT1/cmr/m/n/12 ([]\OML/cmm/m/it/12 ; \OML/cmm/b/it/12 c\OT1/
+cmr/m/n/12 ; \OML/cmm/b/it/12 S\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 ^^C\OML/cmm/m
+/it/12 ; ^^Z; ^^U\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 n[] [] L [] \OT1/cmr/m/n/
+12 + (\OML/cmm/m/it/12 ^^U \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 ^^Z\OT1/cmr/m/n/1
+2 )\OMS/cmsy/m/n/12 k[]k[]\OML/cmm/m/it/12 :
+ []
+
+[27] [28] [29]
+Overfull \hbox (16.11278pt too wide) in paragraph at lines 598--599
+[][]\OT1/cmr/bx/n/12 Definition 2. []\OT1/cmr/m/it/12 Let $\OML/cmm/m/it/12 K[]
+\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OML/cmm/m/it/12 ; \OMS/cmsy/m/n/12 ^^A\OT
+1/cmr/m/n/12 )$ \OT1/cmr/m/it/12 be clas-si-cal ker-nels which can be rep-re-se
+nted as $\OML/cmm/m/it/12 K[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OML/cmm/m/it
+/12 ; \OMS/cmsy/m/n/12 ^^A\OT1/cmr/m/n/12 ) = \OMS/cmsy/m/n/12 h\OML/cmm/m/it/1
+2 ^^^[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ;
+ ^^^[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OT1/cmr/m/n/12 )\OMS/cmsy/m/n/12 i$
+
+ []
+
+[30]
+No file Nonparametric_v1.bbl.
+
+Package natbib Warning: There were undefined citations.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 631.
+[31]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 631.
+ (./Nonparametric_v1.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 631.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 631.
+Package rerunfilecheck Info: File `Nonparametric_v1.out' has not changed.
+(rerunfilecheck)             Checksum: 349341380FA93FE6259F4B7102F0C63B;1059.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 631.
+ ) 
+Here is how much of TeX's memory you used:
+ 10590 strings out of 492649
+ 150646 string characters out of 6129622
+ 269057 words of memory out of 5000000
+ 14218 multiletter control sequences out of 15000+600000
+ 17288 words of font info for 66 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 28i,15n,35p,1352b,531s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{equation.7.13} has been referenced but does not e
+xist, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.7.12} has been referenced but does not exi
+st, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.7.11} has been referenced but does not exi
+st, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.6.10} has been referenced but does not exi
+st, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.6.9} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.6.8} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.6.7} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.5.5} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.5.4} has been referenced but does not exis
+t, replaced by a fixed one
+
+</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
+/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
+usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
+sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></us
+r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/
+local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
+cal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/lo
+cal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></us
+r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/lo
+cal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local
+/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/te
+xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texli
+ve/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive
+/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/
+2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/20
+18/texmf-dist/fonts/type1/public/doublestroke/dsrom12.pfb></usr/local/texlive/2
+018/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texli
+ve/2018/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/t
+exlive/2018/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
+Output written on Nonparametric_v1.pdf (31 pages, 1348490 bytes).
+PDF statistics:
+ 494 PDF objects out of 1000 (max. 8388607)
+ 433 compressed objects within 5 object streams
+ 107 named destinations out of 1000 (max. 500000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
+
