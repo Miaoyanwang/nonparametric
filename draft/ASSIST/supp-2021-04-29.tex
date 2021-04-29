@@ -612,10 +612,11 @@ where the loss function $F$ could be either standard 0-1 loss $F(z)=\mathds{1}(z
 The following theorem states the accuracy for sign function estimate $\sign(\hat \phi_{\pi,F})\colon \tX\to\{-1,1\}$. We say that an event $E$ occurs ``with high probability'' if $\mathbb{P}(E)$ tends to 1 as the dimension $d\to \infty$.
 
 
- \begin{thm}[Large-margin sign estimation]~\label{thm:unified} Fix $\pi\notin\tN$. Suppose the regression function $f\in\caliF(r,s_1,s_2)$ is $(\pi,\alpha)$-smooth over $\tX$. Then, with high probability at least $1-\exp(-nt_n)$ over training data $(\mX_i,Y_i)_{i\in[n]}$, the estimate~\eqref{eq:phi} satisfies
+ \begin{thm}[Large-margin sign estimation]~\label{thm:unified} Fix $\pi\notin\tN$. Suppose the regression function $f\in\caliF(r,s_1,s_2)$ is $(\pi,\alpha)$-smooth over $\tX$. Then, with high probability at least $1-\exp(-cnt_n)$ over training data $(\mX_i,Y_i)_{i\in[n]}$, the estimate~\eqref{eq:phi} satisfies
 \begin{equation}\label{eq:unified_sign}
 \onenormSize{}{\sign \hat \phi_{\pi,F}-\bayespif}\lesssim t_n^{\alpha/( 2+\alpha)}+{1\over \rho^2(\pi,\tN)}t_n,
 \end{equation}
+for some constant $c>0$,
 under the following three specifications:
 \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
 \item[(a)] (Theorem~\ref{thm:main}) 0-1 loss $F(z)=\mathds{1}(z>0)$, no penalization $\lambda=0$, $(s_1,s_2)=(d_1,d_2)$, and $t_n={1\over n}rd_{\max} $.
@@ -943,19 +944,29 @@ The remaining proof follows a similar line of argument as the bounded case. In p
 \begin{proof}[Proof of Theorem~\ref{thm:unified}]
 Write $\rho=\rho(\pi,\tN)$. Combining Theorem~\ref{thm:identifiability} and Lemma~\ref{lem:risk} gives
 \begin{align}
-\onenormSize{}{\sign \phi-\bayespif} &\lesssim \left[\risk(\hat \phi_{\pi,F})-\risk(\bayespif)\right]^{\alpha/(\alpha+1)}+{1\over \rho}\left[\risk(\hat \phi_{F,\pi})-\risk(\bayespif)\right]\\
+\onenormSize{}{\sign \hat\phi_{\pi,F}-\bayespif} &\lesssim \left[\risk(\hat \phi_{\pi,F})-\risk(\bayespif)\right]^{\alpha/(\alpha+1)}+{1\over \rho}\left[\risk(\hat \phi_{F,\pi})-\risk(\bayespif)\right]\\
 &\lesssim t_n^{\alpha/(\alpha+2)}+{1\over \rho^{\alpha/\alpha+1}}t_n^{\alpha/(\alpha+1)}+{1\over \rho}t_n^{(\alpha+1)/(\alpha+2)}+{1\over \rho^2}t_n\notag \\
 &\leq 4t_n^{\alpha/(\alpha+2)}+{4\over \rho^2}t_n,
 \end{align}
 where the last line follows from the fact that $a(b^2+b^{(\alpha+2)/(\alpha+1)}+b+1) \leq 4 a (b^2+1)$ with $a={t_n \over \rho^2}$ and $b=\rho t_n^{-1/(\alpha+2)}$. The proof is complete by specializing $t_n$ in each context. 
 \end{proof}
 
+\begin{rmk}\label{rmk:lt}
+Lemma~\ref{lem:metric} shows that  any  $L_n$ such that $L_n\gtrsim (t_n)^{(\alpha+1)/(\alpha+2)} +\frac{1}{\rho}t_n$,  satisfies the conditions in \citet[Theorem 3]{shen1994convergence}.  Therefore, following the same proof of Theorem~\ref{thm:unified}, we have
+\begin{equation}\label{eq:unified_sign}
+\onenormSize{}{\sign \hat \phi_{\pi,F}-\bayespif}\lesssim t^{\alpha/( 2+\alpha)}+{1\over \rho^2(\pi,\tN)}t,
+\end{equation}
+with high probability at least $1-\exp(-cnt)$ for any $t\geq t_n$.
+\end{rmk}
+
+
 \subsection{Proofs of Theorem~\ref{thm:regression},~\ref{thm:sparse} and Part (b) in  Theorem~\ref{thm:extension}}\label{sec:regression}
 \begin{proof}[Proof of Theorem~\ref{thm:regression}]
 Define the event
 \[
-E=\left\{\onenormSize{}{\sign \hat \phi_\pi- \sign (f-\pi)} \leq t_n^{\alpha/(2+\alpha)}+{t_n\over \rho^2(\pi,\tN)} \text{ for all }\pi\in\tH\right\}.
+E=\left\{\onenormSize{}{\sign \hat \phi_\pi- \sign (f-\pi)} \leq t^{\alpha/(2+\alpha)}+{t\over \rho^2(\pi,\tN)} \text{ for all }\pi\in\tH\right\},
 \]
+for any $t\geq t_n$ where $t_n$ is specified in Theorem~\ref{thm:unified}.
 %We first bound the probability of the event $E$, and then show $E$ implies~\eqref{eq:pfmain2}. Based on Theorem~\ref{thm:unified} and union bound over $\pi\in \tH$, we have that, 
 %\begin{align}\label{eq:joint}
 %\mathbb{P}(E) &\geq 1-\sum_{\pi\in\tH}\mathbb{P}\left( \onenormSize{}{\sign \hat \phi_\pi- \sign (f-\pi)} \geq t_n^{\alpha/(2+\alpha)}+{t_n\over \rho^2(\pi,\tN)} \text{ for a given }\pi \right)\\
@@ -968,7 +979,7 @@ E=\left\{\onenormSize{}{\sign \hat \phi_\pi- \sign (f-\pi)} \leq t_n^{\alpha/(2+
 %One the other hand, 
 We first show that the $E$ implies
 \begin{align}\label{eq:mb}
-\onenormSize{}{\hat f-f}\lesssim t_n^{\alpha/(\alpha+2)}+{1\over H}+t_nH.
+\onenormSize{}{\hat f-f}\lesssim t^{\alpha/(\alpha+2)}+{1\over H}+tH.
 \end{align} 
 It follows from the definition of $\hat f$ that
 \begin{align}\label{eq:pfmain}
@@ -996,17 +1007,26 @@ Theorem~\ref{thm:unified} shows that the sign function accuracy depends on the c
 \end{align}
 By assumption, the first term of~\eqref{eq:twobounds} involves only finite number of summands and thus can be bounded by $4C/(2H + 1)$ where $C > 0$ is a constant such that $|\tN|\leq C$. We bound the second term using the explicit forms of $\rho(\pi, \tN)$ in the sequence $\pi \in\Pi\cap \tN_H^c$. 
 \begin{align}
-{1\over 2H+1}\sum_{\pi \in \tH\cap \tN_H^c} \onenormSize{}{\sign \hat \phi_\pi- \sign (f-\pi)} &\lesssim  {1\over 2H+1}\sum_{\pi\in \tH\cap \tN_H^c} t_n^{\alpha/(2+\alpha)}+{t_n\over 2H+1}\sum_{\pi \in \tH\cap \tN_H^c}{1\over \rho^2(\pi, \tN)}\\
-&\leq t_n^{\alpha/(2+\alpha)}+{t_n\over 2H+1} \sum_{\pi \in \tH\cap \tN_H^c} \sum_{\pi' \in \tN}{1\over |\pi-\pi'|^2}\\
-&\leq  t_n^{\alpha/(2+\alpha)}+{t_n\over 2H+1} \sum_{\pi'\in \tN} \sum_{\pi \in \tH\cap \tN_H^c}{1\over |\pi-\pi'|^2}\\
-&\leq t_n^{\alpha/(2+\alpha)}+ 2CHt_n,
+{1\over 2H+1}\sum_{\pi \in \tH\cap \tN_H^c} \onenormSize{}{\sign \hat \phi_\pi- \sign (f-\pi)} &\lesssim  {1\over 2H+1}\sum_{\pi\in \tH\cap \tN_H^c} t^{\alpha/(2+\alpha)}+{t\over 2H+1}\sum_{\pi \in \tH\cap \tN_H^c}{1\over \rho^2(\pi, \tN)}\\
+&\leq t^{\alpha/(2+\alpha)}+{t\over 2H+1} \sum_{\pi \in \tH\cap \tN_H^c} \sum_{\pi' \in \tN}{1\over |\pi-\pi'|^2}\\
+&\leq  t^{\alpha/(2+\alpha)}+{t\over 2H+1} \sum_{\pi'\in \tN} \sum_{\pi \in \tH\cap \tN_H^c}{1\over |\pi-\pi'|^2}\\
+&\leq t^{\alpha/(2+\alpha)}+ 2CHt,
 \end{align}
-where the first inequality uses the property of $E$, and the last inequality follows from Lemma~\ref{lem:H}.  Combining the bounds for the last two terms in \eqref{eq:twobounds} and plugging it into \eqref{eq:pfmain} shows that the event $E$ implies \eqref{eq:mb}.  Finally, we have
-\[
-\mathbb{P}\left(\onenormSize{}{\hat f-f}\gtrsim t_n^{\alpha/(\alpha+2)}+{1\over H}+t_nH \right)\leq \mathbb{P	}(E^c)\leq He^{-cnt_n},
-\]
-where the last inequality comes from the union bound and Theorem~\ref{thm:unified}.
-Setting $H\asymp t^{-1/2}_n$ yields the desired upper bound. 
+where the first inequality uses the property of $E$, and the last inequality follows from Lemma~\ref{lem:H}.  Combining the bounds for the last two terms in \eqref{eq:twobounds} and plugging it into \eqref{eq:pfmain} yields, 
+\begin{equation}
+\mathbb{P}\left(\onenormSize{}{\hat f-f}\lesssim t^{\alpha/(\alpha+2)}+{1\over H}+tH\right)\geq\mathbb{P}(E),
+\end{equation}
+for any $t\geq t_n$.
+Based on Remark~\ref{rmk:lt} and union bound over $\pi\in\tH$, we have,
+\begin{align*}
+\mathbb{P	}(E)&\geq 1-\sum_{\pi\in\tH}\mathbb{P}\left(\onenormSize{}{\sign \hat\phi_\pi-\sign(f-\pi)}\leq t^{\alpha/(2+\alpha)}+{t\over \rho^2(\pi,\tN)} \text{ for a given } \pi
+\right)\\&\gtrsim 1-(2H+1)\exp(-cnt)\gtrsim 1-\exp(-cnt+\log H).
+\end{align*}
+Choose $t \asymp t_n\log H$ so that $\log H$-term  is negligible compared to $cnt$-term.  Finally, we obtain 
+\begin{align*}
+\onenormSize{}{\hat f-f}\lesssim (t_n\log H)^{\alpha/(\alpha+2)}+{1\over H}+t_nH\log H,
+\end{align*}
+with probability at least $1-\exp(-cnt_n\log H)\geq 1-\exp(-cnt_n)$ for some constant $c>0$.  Setting $H\asymp t^{-1/2}_n$ yields the desired upper bound. 
 
 Poofs of Theorem~\ref{thm:sparse} and Part (b) of Theorem~\ref{thm:extension} follow the same argument with $t_n$ specified in Theorem~\ref{thm:unified}.
  \end{proof}
@@ -1204,7 +1224,7 @@ where $C,C'>0$ are constants.
 \begin{lem}[Local complexity of $\Phi(r,s_1,s_2)$] \label{lem:metric}
 Define $\Phi^{k}=\{f\in\Phi(r,s_1,s_2)\colon \FnormSize{}{f}^2\leq k\}$ for all $k\in\mathbb{N}_{+}$; i.e., $\Phi^k$ is the subset of functions in $\Phi(r,s_1,s_2)$ with magnitudes bounded by $k$. Set 
 \begin{equation}\label{eq:specification}
-L_n\asymp \left({r(s_1+s_2)\log d \over n } \right)^{\alpha+1\over \alpha+2} + {1\over \rho (\pi, \tN)}\left({r(s_1+s_2)\log d \over n } \right),\quad \text{and}\ 
+L_n\gtrsim \left({r(s_1+s_2)\log d \over n } \right)^{\alpha+1\over \alpha+2} + {1\over \rho (\pi, \tN)}\left({r(s_1+s_2)\log d \over n } \right),\quad \text{and}\ 
 \lambda \asymp {L_n}.
 \end{equation}
 Then, the following inequality is satisfied for all $k\in\{2,3,\ldots\}$,
@@ -1223,7 +1243,12 @@ g(x,k)&\leq {\sqrt{r(s_1+s_2)}\over L}\int_{x}^{\sqrt{x^{\alpha/(\alpha+1)}+\rho
 &\leq \sqrt{r(s_1+s_2)(\log k+\log d - \log x)}\left({\sqrt{x^{\alpha/(2\alpha+2)}}+\sqrt{\rho^{-1}x} \over x }-1\right)\notag \\
 &\leq  \sqrt{r(s_1+s_2)(\log k+\log d)}\left( {1\over x^{(\alpha+2)/(2\alpha+2)}}+{1\over \sqrt{\rho x}}\right),
 \end{align}
-where the second line follows from $\sqrt{a+b} \leq \sqrt{a}+\sqrt{b}$ for $a,b>0$.  It remains to verify that $g(L_n+\lambda J(k/2-1), k) \leq n^{1/2}$ for all $k\in\{2,3,\ldots,\}$. Notice that 
+where the second line follows from $\sqrt{a+b} \leq \sqrt{a}+\sqrt{b}$ for $a,b>0$.   Notice that $g(x,k)$ is decreasing function with respect to $x>0.$. So it suffices to show that $g(L_n+\lambda J(k/2-1), k) \leq n^{1/2}$ for all $k\in\{2,3,\ldots,\}$ when we set,
+\[
+L_n\asymp \left({r(s_1+s_2)\log d \over n } \right)^{\alpha+1\over \alpha+2} + {1\over \rho (\pi, \tN)}\left({r(s_1+s_2)\log d \over n } \right),\quad \text{and}\ 
+\lambda \asymp {L_n}.
+\]
+ Notice that 
 \[
 L_n+\lambda J(k/2-1)=(k/2+C)\left\{\left( {r(s_1+s_2)\log d \over n}\right)^{(\alpha+1)/(\alpha+2)}+{1\over \rho}\left( {r(s_1+s_2)\log d \over n}\right)\right\},
 \]
