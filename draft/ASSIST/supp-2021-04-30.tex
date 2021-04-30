@@ -611,7 +611,7 @@ where the loss function $F$ could be either standard 0-1 loss $F(z)=\mathds{1}(z
 \begin{align}\label{eq:phi}
 \hat \phi_{\pi,F}=\argmin_{\phi \in\Phi(r,s_1,s_2)}\left\{ {1\over n}\sum_{i=1}^n \ell_{\pi,F}(\phi; (\mX_i,Y_i))+ \lambda \FnormSize{}{\phi}^2\right\}.
 \end{align}
-The following theorem states the accuracy for sign function estimate $\sign(\hat \phi_{\pi,F})\colon \tX\to\{-1,1\}$. We say that an event $E$ occurs ``with high probability'' if $\mathbb{P}(E)$ tends to 1 as the dimension $d\to \infty$.
+The following theorem states the accuracy for sign function estimate $\sign(\hat \phi_{\pi,F})\colon \tX\to\{-1,1\}$. We say that an event $A$ occurs ``with high probability'' if $\mathbb{P}(A)$ tends to 1 as the dimension $d\to \infty$.
 
 
  \begin{thm}[Large-margin sign estimation]~\label{thm:unified} Fix $\pi\notin\tN$. Suppose the regression function $f\in\caliF(r,s_1,s_2)$ is $(\pi,\alpha)$-smooth over $\tX$. Then, with high probability at least $1-\exp(-nt_n)$ over training data $(\mX_i,Y_i)_{i\in[n]}$, the estimate~\eqref{eq:phi} satisfies
@@ -1010,7 +1010,7 @@ with high probability at least $1-\exp(-nt)$ for any $t\geq t_n$.
 \begin{proof}[Proof of Theorem~\ref{thm:regression}]
 Define the event
 \[
-E=\left\{\onenormSize{}{\sign \hat \phi_\pi- \sign (f-\pi)} \leq t^{\alpha/(2+\alpha)}+{t\over \rho^2(\pi,\tN)} \text{ for all }\pi\in\tH\right\},
+A=\left\{\onenormSize{}{\sign \hat \phi_\pi- \sign (f-\pi)} \leq t^{\alpha/(2+\alpha)}+{t\over \rho^2(\pi,\tN)} \text{ for all }\pi\in\tH\right\},
 \]
 for any $t\geq t_n$ where $t_n$ is specified in Theorem~\ref{thm:unified}.
 %We first bound the probability of the event $E$, and then show $E$ implies~\eqref{eq:pfmain2}. Based on Theorem~\ref{thm:unified} and union bound over $\pi\in \tH$, we have that, 
@@ -1058,14 +1058,14 @@ By assumption, the first term of~\eqref{eq:twobounds} involves only finite numbe
 &\leq  t^{\alpha/(2+\alpha)}+{t\over 2H+1} \sum_{\pi'\in \tN} \sum_{\pi \in \tH\cap \tN_H^c}{1\over |\pi-\pi'|^2}\\
 &\leq t^{\alpha/(2+\alpha)}+ 2CHt,
 \end{align}
-where the first inequality uses the property of $E$, and the last inequality follows from Lemma~\ref{lem:H}.  Combining the bounds for the last two terms in \eqref{eq:twobounds} and plugging it into \eqref{eq:pfmain} yields, 
+where the first inequality uses the property of $A$, and the last inequality follows from Lemma~\ref{lem:H}.  Combining the bounds for the last two terms in \eqref{eq:twobounds} and plugging it into \eqref{eq:pfmain} yields, 
 \begin{equation}
-\mathbb{P}\left(\onenormSize{}{\hat f-f}\lesssim t^{\alpha/(\alpha+2)}+{1\over H}+tH\right)\geq\mathbb{P}(E),
+\mathbb{P}\left(\onenormSize{}{\hat f-f}\lesssim t^{\alpha/(\alpha+2)}+{1\over H}+tH\right)\geq\mathbb{P}(A),
 \end{equation}
 for any $t\geq t_n$.
 Based on Remark~\ref{rmk:lt} and union bound over $\pi\in\tH$, we have,
 \begin{align*}
-\mathbb{P	}(E)&\geq 1-\sum_{\pi\in\tH}\mathbb{P}\left(\onenormSize{}{\sign \hat\phi_\pi-\sign(f-\pi)}\leq t^{\alpha/(2+\alpha)}+{t\over \rho^2(\pi,\tN)} \text{ for a given } \pi
+\mathbb{P	}(A)&\geq 1-\sum_{\pi\in\tH}\mathbb{P}\left(\onenormSize{}{\sign \hat\phi_\pi-\sign(f-\pi)}\leq t^{\alpha/(2+\alpha)}+{t\over \rho^2(\pi,\tN)} \text{ for a given } \pi
 \right)\\&\gtrsim 1-(2H+1)\exp(-nt)\gtrsim 1-\exp(-nt+\log H).
 \end{align*}
 Choosing $t \asymp t_n\log H$ so that $\log H$ is negligible compared to $nt$, we obtain 
