@@ -683,7 +683,7 @@ We next establish the statistical accuracy for the large-margin estimators under
 \riskF(\phi) & =  \mathbb{E}|Y-\pi|F\big(\phi(\mX)\sign(Y-\pi)\big), 
 \end{split}
 \end{align}
-denote the 0-1 risk and F-risk, respectively, where $F$ is the surrogate continuous loss, and the expectation is taken with respect to $(\mX,Y)\sim \mathbb{P}_{\mX,Y}$ following the regression model $f\in\caliF(r,s_1,s_2)$. For simplicity, we assume $d_1 = d_2 = d$ and $\FnormSize{}{\mX}\leq 1$ with probability 1. We consider the high dimensional regime where both $n$ and $d$ grow, while $(r,s_1,s_2)$ remain fixed. We need the following assumptions. 
+denote the 0-1 risk and F-risk, respectively, where $F$ is the surrogate continuous loss, and the expectation is taken with respect to $(\mX,Y)\sim \mathbb{P}_{\mX,Y}$. For simplicity, we assume $d_1 = d_2 = d$ and $\FnormSize{}{\mX}\leq 1$ with probability 1. We consider the high dimensional regime where both $n$ and $d$ grow, while $(r,s_1,s_2)$ remain fixed. We need the following assumptions. 
  
 \begin{assumption}[Assumptions on surrogate loss]\label{ass:main} \hfill
 \begin{enumerate}
@@ -693,7 +693,7 @@ denote the 0-1 risk and F-risk, respectively, where $F$ is the surrogate continu
 \end{assumption}
 
 \noindent
-Assumption~\ref{ass:main}(a) quantifies the representation capability of $F$ and $\Phi(r, s1, s2)$. We note that, although the Bayes rule $\bayespif$ also depends on $n$ implicitly through $d=d(n)$, we drop the dependence on $n$ for simpler notation. Assumption~\ref{ass:main}(b) implies the Fisher consistency bound for the weighted risk \citep{scott2011surrogate},
+Assumption~\ref{ass:main}(a) quantifies the representation capability of $F$ and $\Phi(r, s_1, s_2)$. We note that, although the Bayes rule $\bayespif$ also depends on $n$ implicitly through $d=d(n)$, we drop the dependence on $n$ for simpler notation. Assumption~\ref{ass:main}(b) implies the Fisher consistency bound for the weighted risk \citep{scott2011surrogate},
 \begin{equation*} \label{eq:fisher}
 \risk(\phi)-\risk(\bayespif)\leq C[\riskF(\phi)-\riskF(\bayespif)], \text{ for all $\pi\in[-1,1]$ and all $\phi$}.
 \end{equation*}
@@ -918,7 +918,7 @@ Our work unlocks several possible future directions. One is nonparametric modeli
 The research was supported in part by NSF DMS-1915978, NSF DMS-2023239, Wisconsin Alumni Research Foundation (to M.\ Wang), NIH R01 AG061303 (to L.\ Li), and NSF CCF-1740858 (to H.\ Zhang)
 
 \bibliographystyle{plainnat} 
-\bibliography{ref-trace.bib}    
+\bibliography{rArxiv_v1}    
 
 \newpage
 \appendix
@@ -1501,10 +1501,10 @@ Recall that $\hat \phi_{\pi,F}$ is the minimizer of empirical $F$-risk.  To quan
 \begin{align}
 &\riskF(\hat \phi_{\pi,F})-\inf_{\text{all }{\phi}}\riskF(\phi)\\
 =&
- \KeepStyleUnderBrace{\riskF(\hat \phi_{\pi,F})-\inf_{\phi\in\Phi(r,s_1,s_2)}\riskF(\phi_\pi^*)}_{\text{estimation error}}+\KeepStyleUnderBrace{
+ \KeepStyleUnderBrace{\riskF(\hat \phi_{\pi,F})-\inf_{\phi\in\Phi(r,s_1,s_2)}\riskF(\phi)}_{\text{estimation error}}+\KeepStyleUnderBrace{
  \inf_{\phi\in\Phi(r,s_1,s_2)}\riskF(\phi)-\inf_{\text{all }\phi}\riskF(\phi)}_{\text{approximation error}},
  \end{align}
-The simplest way to bound $\hat \phi_{\pi,F}$'s excess risk is to use a uniform convergence of excess risk over classifiers $\Phi(r,s_1,s_2)$; however, this approach ignores the local complexity around $\hat \phi_{\pi,F}$ and yields a suboptimal rate. Here we adopt the local iterative techniques of~\citet[Theorem 3]{wang2008probability} to obtain a better rate. The improvement stems from the fact that, under considered assumptions, the variance of the excess loss is bounded in terms of its expectation. Because the variance decreases as we approach the optimal $\phi^*_{\pi}$, the risk of the empirical minimizer converges more quickly to the optimal risk than the simple uniform converge results would suggest. 
+The simplest way to bound $\hat \phi_{\pi,F}$'s excess risk is to use a uniform convergence of excess risk over classifiers $\Phi(r,s_1,s_2)$; however, this approach ignores the local complexity around $\hat \phi_{\pi,F}$ and yields a suboptimal rate. Here we adopt the local iterative techniques of~\citet[Theorem 3]{wang2008probability} to obtain a better rate. The improvement stems from the fact that, under considered assumptions, the variance of the excess loss is bounded in terms of its expectation. Because the variance decreases as we approach the optimal $\phi^*_{\pi}:=\argmin_{\phi\in\Phi(r,s_1,s_2)}\riskF(\phi)$, the risk of the empirical minimizer converges more quickly to the optimal risk than the simple uniform converge results would suggest. 
 
 The following result summarizes the key properties of four common losses: 0-1 loss, hinge loss, $T$-truncated hinge loss, and psi-loss. Here, the $T$-truncated hinge loss is defined as $F(z)=\min((1-z)_{+},T)$ for a given $T\geq 2$. We will use $T$-truncated hinge loss to facilitate the proofs of Lemma~\ref{lem:risk} and Theorem~\ref{thm:unified}. 
 
