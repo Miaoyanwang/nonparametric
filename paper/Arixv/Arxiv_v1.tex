@@ -608,7 +608,7 @@ Specifically, we generalize the 0-1 loss minimization \eqref{eq:loss} to the fol
 \begin{align}\label{eq:large-margin}
 \hat \phi_{\pi, F} = \argmin_{\phi \in\Phi(r,s_1,s_2)}\left\{ {1\over n}\sum_{i=1}^n |Y_i-\pi|F(\phi(\mX_i)\sign(Y_i-\pi))+ \lambda \FnormSize{}{\phi}^2\right\},
 \end{align}
-where $F(z)\colon \mathbb{R}\mapsto \mathbb{R}_{\geq 0}$ is a continuous function of the margin $z=y\phi(\mX)$, $\lambda>0$ is the penalty parameter, and $\FnormSize{}{\phi}$ is the penalty function. We set $\FnormSize{}{\phi}=\FnormSize{}{\mB}$, with $\mB$ being the coefficient matrix associated with $\phi\in\Phi(r,s_1,s_2)$. The use of large-margin loss in \eqref{eq:large-margin} allows us to leverage efficient large-margin optimization algorithms, while maintaining desirable statistical properties under mild conditions. The benefit of ridge penalization has been studied \citep{shen2003psi}. We obtain the corresponding regression function estimate as, 
+where $F(z)\colon \mathbb{R}\mapsto \mathbb{R}_{\geq 0}$ is a continuous function of the margin $z=y\phi(\mX)$, $\lambda>0$ is the penalty parameter, and $\FnormSize{}{\phi}$ is the penalty function. We set $\FnormSize{}{\phi}=\FnormSize{}{\mB}$, with $\mB$ being the coefficient matrix associated with $\phi\in\Phi(r,s_1,s_2)$. The use of large-margin loss in \eqref{eq:large-margin} allows us to leverage efficient large-margin optimization algorithms, while maintaining desirable statistical properties under mild conditions. The benefit of ridge penalization has been studied \citep{shen2003psi}. We obtain the corresponding regression function estimate as
 \begin{equation}\label{eq:stepfunction-large-margin}
 \hat f_{F} = {1\over 2H+1}\sum_{\pi \in \tH} \sign \hat \phi_{\pi, F}.
 \end{equation}
