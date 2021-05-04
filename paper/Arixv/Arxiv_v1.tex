@@ -175,14 +175,14 @@
 %\renewcommand{\tablename}{Supplemental Table}
 
 \usepackage{authblk}
-\title{Nonparametric Trace Regression in High Dimensions via Sign Series Representation}
+\title{Nonparametric Trace Regression in High Dimensions via \\Sign Series Representation}
 \author[1]{Chanwoo Lee}
 \author[2]{Lexin Li}
 \author[3]{Hao Helen Zhang}
-\author[1]{Miaoyan Wang}
-\affil[1]{University of Wisconsin-Madison}
-\affil[2]{University of California-Berkley}
-\affil[3]{University of Arizona}
+\author[1]{Miaoyan Wang$^*$\footnote{$^*$corresponding author: miaoyan.wang@wisc.edu. }}
+\affil[1]{Department of Statistics, University of Wisconsin--Madison}
+\affil[2]{Division of Biostatistics, University of California--Berkley}
+\affil[3]{Department of Mathematics, University of Arizona}
 \date{}
 
 
@@ -201,7 +201,7 @@ Learning of matrix-valued data has recently surged in a range of scientific and 
 \section{Introduction}
 \label{sec:intro}
 
-Matrix-valued data are rising ubiquitously in modern data science applications, for instance, brain neuroimaging analysis, integrative genomics, and sensor network localization. Trace regression is one of the most commonly used approaches for modeling matrix data \cite{fan2019generalized,hamidi2019low}. The model characterizes the relationship between a scalar response $Y$ and a high dimensional matrix predictor $\mX \in \tX \subset \mathbb{R}^{d_1\times d_2}$ as 
+Matrix-valued data are rising ubiquitously in modern data science applications, for instance, brain neuroimaging analysis, integrative genomics, and sensor network localization. Trace regression is one of the most commonly used approaches for modeling matrix data \citep{fan2019generalized,hamidi2019low}. The model characterizes the relationship between a scalar response $Y$ and a high dimensional matrix predictor $\mX \in \tX \subset \mathbb{R}^{d_1\times d_2}$ as 
 \begin{equation}\label{eq:linear}
 Y=\langle \mX, \mB \rangle+ \varepsilon,\ \text{with } \mB \in \mathbb{R}^{d_1\times d_2} \text{ and rank}(\mB)\leq r,
 \end{equation}
@@ -216,7 +216,7 @@ where $\varepsilon$ is a zero-mean sub-Gaussian noise, and $r\in\mathbb{N}_{+}$ 
 \item {\bf Multi-task learning.} Another application of trace regression is multi-task learning, where the goal is to predict one task response by leveraging the structural similarities among multiple tasks. Here the predictor space $\tX$ consists of only matrices that have a single non-zero row. The multi-task problem collects $n$ observations from $d_1$ different supervised learning tasks. Each task is modeled as a linear regression with an unknown $d_2$-dimensional parameter $\mb_i, i=1,\ldots,d_1$, and the collection of $\mb_i$ forms the rows of $\mB$. The model exploits similarities among multiple tasks to predict the response of the $i$-th task \citep{caruana1997multitask,fan2019generalized}. 
 \smallskip
 
-\item {\bf Compressed sensing.} Compressed sensing is also a special application of trace regression, where the goal is to recover the structured matrix $\mB$ from multiple linear combinations of the entry observations. The space $\tX$ is the family of measurement matrices given the sampling schemes. For example, Gaussian ensembles use random matrices $\mX$ with i.i.d.\ entries from a standard normal distribution \citep{candes2011tight}, while factorized ensembles use rank-1 matrices $\mX=\bmu\mv^T$ for two random vectors $\bmu\in\mathbb{R}^{d_1}, \mv\in\mathbb{R}^{d_2}$ \cite{recht2010guaranteed}.
+\item {\bf Compressed sensing.} Compressed sensing is also a special application of trace regression, where the goal is to recover the structured matrix $\mB$ from multiple linear combinations of the entry observations. The space $\tX$ is the family of measurement matrices given the sampling schemes. For example, Gaussian ensembles use random matrices $\mX$ with i.i.d.\ entries from a standard normal distribution \citep{candes2011tight}, while factorized ensembles use rank-1 matrices $\mX=\bmu\mv^T$ for two random vectors $\bmu\in\mathbb{R}^{d_1}, \mv\in\mathbb{R}^{d_2}$ \citep{recht2010guaranteed}.
 \end{itemize}
 
 \noindent
@@ -273,9 +273,9 @@ Nonparametric learning for matrix data is much more challenging than standard mu
 
 Our work is related to but also clearly distinctive from several lines of existing research. The first line is the classical trace regression \citep{fan2019generalized,hamidi2019low}. The key difference is that the existing solutions all adopt a parametric model with a global low-rank structure. By contrast, our method is nonparametric and embraces nonlinear, local, and possibly high-rank effects for high dimensional matrices. 
  
-The second line is the recent development of nonparametric methods with matrix-valued or tensor-valued data. In imaging analysis,  convolution neural networks (CNNs) have been widely adopted as a nonparametric tool for prediction given matrix-valued images \citep{goodfellow2016deep}. In contrast, our proposal studies not only prediction, but also estimation and interpretability, with the theoretical guarantees. We also numerically compare our method with CNNs. Hao et al.~\citep{hao2019sparse} proposed a sparse additive model with tensor predictors by extending the usual spline basis functions. Zhou et al.~\citep{zhou2020broadcasted} studied tensor predictors and proposed a broadcasting operation to introduce nonlinearity to individual tensor entries. Our nonparametric solution has broader implications than those approaches in estimating local low-rank effects. Our sign series representation of function bridges the gap between regression and classification in high dimensions, and naturally lends the problem to a learning reduction type solution. Moreover, although a matrix can be viewed as a two-dimensional tensor, the problem of nonparametric learning for matrix data itself is more parsimonious and deserves a full investigation. We leave the counterpart problem for nonparametric tensor regression as future research. 
+The second line is the recent development of nonparametric methods with matrix-valued or tensor-valued data. In imaging analysis,  convolution neural networks (CNNs) have been widely adopted as a nonparametric tool for prediction given matrix-valued images \citep{goodfellow2016deep}. In contrast, our proposal studies not only prediction, but also estimation and interpretability, with the theoretical guarantees. We also numerically compare our method with CNNs. \cite{hao2019sparse} proposed a sparse additive model with tensor predictors by extending the usual spline basis functions. \cite{zhou2020broadcasted} studied tensor predictors and proposed a broadcasting operation to introduce nonlinearity to individual tensor entries. Our nonparametric solution has broader implications than those approaches in estimating local low-rank effects. Our sign series representation of function bridges the gap between regression and classification in high dimensions, and naturally lends the problem to a learning reduction type solution. Moreover, although a matrix can be viewed as a two-dimensional tensor, the problem of nonparametric learning for matrix data itself is more parsimonious and deserves a full investigation. We leave the counterpart problem for nonparametric tensor regression as future research. 
 
-The third line is function sign estimation, which is in turn related to classification, or more generally, the level set estimation. The latter problem has a long history in statistics \citep{tsybakov1997nonparametric} and computational mathematics \citep{gibou2018review}. Particularly, Wang et al.~\cite{wang2008probability} proposed a conditional probability estimation method based on support vector machines (SVMs), but their results were restricted to a fixed number of features and vector predictors only. Singh et al.~\cite{singh2009adaptive} proposed a tree based method for multiple sets extraction, but their goal was level set estimation instead of function estimation. None of these methods address the regression problem or high dimensional matrix predictors. By contrast, we bridge the problems of level set estimation and nonparametric regression using low-rank sign series representations. Instead of constructing a point-wise function in the domain space, the sign representation partitions the domain space based on the function range. The benefit bears the analogy of Lebesgue versus Riemann integrals in functional analysis, in the sense that the neighborhood is determined by the range space instead of the domain space. The former approach is especially appealing for matrix regressions, where the range space is determined by a simple scalar response, whereas the domain space is huge and high dimensional. 
+The third line is function sign estimation, which is in turn related to classification, or more generally, the level set estimation. The latter problem has a long history in statistics \citep{tsybakov1997nonparametric} and computational mathematics \citep{gibou2018review}. Particularly, \cite{wang2008probability} proposed a conditional probability estimation method based on support vector machines (SVMs), but their results were restricted to a fixed number of features and vector predictors only. \cite{singh2009adaptive} proposed a tree based method for multiple sets extraction, but their goal was level set estimation instead of function estimation. None of these methods address the regression problem or high dimensional matrix predictors. By contrast, we bridge the problems of level set estimation and nonparametric regression using low-rank sign series representations. Instead of constructing a point-wise function in the domain space, the sign representation partitions the domain space based on the function range. The benefit bears the analogy of Lebesgue versus Riemann integrals in functional analysis, in the sense that the neighborhood is determined by the range space instead of the domain space. The former approach is especially appealing for matrix regressions, where the range space is determined by a simple scalar response, whereas the domain space is huge and high dimensional. 
 
 
 
@@ -312,7 +312,7 @@ where $\mB=\mB(\pi)$ is a rank-$r$ matrix, and $b=b(\pi)$ is the intercept. A fu
 
 Next, we show that \eqref{eq:model} and \eqref{eq:sign} together form a very general family of models that incorporate most existing matrix regression models, including the low-rank trace regression, single index models, and high-rank matrix completion model. 
 
-\begin{example}[Generalized trace regression] The linear and generalized trace regression \cite{zhou2014regularized, wang2017generalized, fan2019generalized} imposes that $f(\mX)=g(\langle \mX, \mB \rangle)$ with a known link function $g$ and a rank-$r$ coefficient matrix $\mB$. By definition, $\sign(f(\mX)-\pi)=\sign(\langle \mX, \mB \rangle -g^{-1}(\pi))$ holds for every $\pi$ in the function range. Therefore, our model includes the generalized trace regression, i.e, $f \in \caliF(r)$. In particular, the usual trace model corresponds to the identity link $g$. More generally, any monotonic $g$ is allowed as the link function, e.g., the logistic function $g(z)=(1+\exp(-z))^{-1}$, the arctangent function $g(z)={1/\pi}\arctan(z)+{1/2}$, the rectified linear unit (ReLU) function $g(z)=\max(0,z)$, and any inverse cumulative distribution function. 
+\begin{example}[Generalized trace regression] The linear and generalized trace regression \citep{zhou2014regularized, wang2017generalized, fan2019generalized} imposes that $f(\mX)=g(\langle \mX, \mB \rangle)$ with a known link function $g$ and a rank-$r$ coefficient matrix $\mB$. By definition, $\sign(f(\mX)-\pi)=\sign(\langle \mX, \mB \rangle -g^{-1}(\pi))$ holds for every $\pi$ in the function range. Therefore, our model includes the generalized trace regression, i.e, $f \in \caliF(r)$. In particular, the usual trace model corresponds to the identity link $g$. More generally, any monotonic $g$ is allowed as the link function, e.g., the logistic function $g(z)=(1+\exp(-z))^{-1}$, the arctangent function $g(z)={1/\pi}\arctan(z)+{1/2}$, the rectified linear unit (ReLU) function $g(z)=\max(0,z)$, and any inverse cumulative distribution function. 
 \end{example}
 
 \begin{example}[Single index regression model] 
@@ -349,7 +349,7 @@ The family $\caliM(r)$ is a special case of the function family $\caliF(r)$ in D
 \noindent
 Proposition \ref{prop:signrank} highlights the advantages of using the sign rank in the high dimensional matrix analysis. The first property implies that classical low-rank matrix model is a special case of our low sign rank model. The second property shows that, compared to the matrix rank, the sign rank remains nearly invariant under monotonic transformations, since $\srank(g(\mTheta)) \leq 1+\srank(\mTheta)$ for all monotonic functions $g$. The last property shows that the sign rank can be dramatically smaller than the conventional matrix rank. Therefore, our model $\caliM(r)$ is strictly richer than the usual low-rank model. 
 
-A key advantage about the sign rank concept is that the low sign rank assumption is more relaxed and hence more realistic than the classical low matrix rank assumption. We next revisit the high-rank matrix model in Fig~\ref{fig:limit}(a) to show that $\mB$ is of a high matrix rank but a low sign rank. Meanwhile, we provide some additional examples of low sign rank matrices in Section~\ref{sec:signrank} of the Appendix, including matrices with repeating patterns \cite{chan2014consistent}, banded matrices, and the identity matrix.
+A key advantage about the sign rank concept is that the low sign rank assumption is more relaxed and hence more realistic than the classical low matrix rank assumption. We next revisit the high-rank matrix model in Fig~\ref{fig:limit}(a) to show that $\mB$ is of a high matrix rank but a low sign rank. Meanwhile, we provide some additional examples of low sign rank matrices in Section~\ref{sec:signrank} of the Appendix, including matrices with repeating patterns \citep{chan2014consistent}, banded matrices, and the identity matrix.
 
 \begin{example}[Single index model based matrix completion]
 For the model in Fig~\ref{fig:limit}(a), $g(\mB)$ is a low sign rank matrix because $\srank(g(\mB)-\pi)\leq 1+\rank(\mB)=6$ for all $\pi$ in the function range. However, $g(\mB)$ itself is often high-rank as shown in Fig~\ref{fig:limit}(a).
@@ -570,11 +570,11 @@ Consider the matrix model~\eqref{eq:modelcompletion} with $\alpha$-smooth signal
 We remark that our estimation accuracy \eqref{eq:real} applies to both low-rank and high-rank signal matrices. Moreover, the estimation rate depends on the sign complexity $\mTheta\in\caliM(r)$, where $r$ can be much smaller than the usual matrix rank as shown in Proposition \ref{prop:signrank}. In fact, our theorem can also be relaxed for a growing $|\tN|_{\text{cover}}$ as a function of $d$, with a slight modification on the setup; see Appendix~\ref{sec:unbounded} for such an extension. We next illustrate Theorem \ref{thm:estimation} with two matrix completion examples and compare with the existing literature.  
 
 \begin{example}[Stochastic block model based matrix completion]
-The stochastic block model \cite{chi2020provable} assumes a checkerboard structure under marginal row and column permutations. The signal matrix belongs to our sign representable family $\mTheta \in \caliM(r)$, where $r$ is the number of blocks. Besides, the block matrix is $\infty$-globally smooth, because $\tN$ consists of finitely many $2\Delta s$-bin's covering the block means. Our signal estimate achieves the rate $\tilde \tO(d^{-1/2})$ when $\alpha=\infty$ with no missingness. This rate agrees with the minimax root-mean-square error (RMSE) rate for stochastic block models with a fixed number of blocks \cite{gao2016optimal}. 
+The stochastic block model \citep{chi2020provable} assumes a checkerboard structure under marginal row and column permutations. The signal matrix belongs to our sign representable family $\mTheta \in \caliM(r)$, where $r$ is the number of blocks. Besides, the block matrix is $\infty$-globally smooth, because $\tN$ consists of finitely many $2\Delta s$-bin's covering the block means. Our signal estimate achieves the rate $\tilde \tO(d^{-1/2})$ when $\alpha=\infty$ with no missingness. This rate agrees with the minimax root-mean-square error (RMSE) rate for stochastic block models with a fixed number of blocks \citep{gao2016optimal}. 
 \end{example}
 
 \begin{example}[Single index model based matrix completion]
-The single index model based completion \cite{ganti2015matrix} admits a signal matrix $\mTheta=g(\mB)$, where $g$ is an unknown monotonic function, and $\mB$ is an unknown low-rank matrix. Note that $\mTheta$ itself is often of a high matrix rank as shown in Fig~\ref{fig:limit}(a). Suppose the CDF of $\mTheta(\omega)$ has a bounded pseudo density with $\alpha=1$. Applying Theorem~\ref{thm:estimation} yields the estimation error rate $\tilde \tO(d^{-1/3})$, which is faster compared to the RMSE rate $\tilde \tO(d^{-1/4})$ obtained earlier \cite{ganti2015matrix}. 
+The single index model based completion \citep{ganti2015matrix} admits a signal matrix $\mTheta=g(\mB)$, where $g$ is an unknown monotonic function, and $\mB$ is an unknown low-rank matrix. Note that $\mTheta$ itself is often of a high matrix rank as shown in Fig~\ref{fig:limit}(a). Suppose the CDF of $\mTheta(\omega)$ has a bounded pseudo density with $\alpha=1$. Applying Theorem~\ref{thm:estimation} yields the estimation error rate $\tilde \tO(d^{-1/3})$, which is faster compared to the RMSE rate $\tilde \tO(d^{-1/4})$ obtained earlier \citep{ganti2015matrix}. 
 \end{example}
 
 Finally, we obtain the sample complexity of the nonparametric matrix completion, summarized in the next corollary.
@@ -587,7 +587,7 @@ Suppose the same conditions of Theorem~\ref{thm:estimation} hold. When $\alpha\n
 \end{corollary}
 
 \noindent
-Corollary \ref{thm:sample-complexity} improves the earlier work~\cite{yuan2016tensor, pmlr-v119-lee20i} by allowing both low-rank and high-rank signals. Moreover, the sample size requirement depends only on the sign complexity $\tilde \tO(dr)$, but not the nonparametric complexity $\alpha$. We also note that $\tilde \tO(dr)$ roughly matches the degree of freedom of the signals, suggesting the optimality of our sample requirements.
+Corollary \ref{thm:sample-complexity} improves the earlier work~\citep{yuan2016tensor, pmlr-v119-lee20i} by allowing both low-rank and high-rank signals. Moreover, the sample size requirement depends only on the sign complexity $\tilde \tO(dr)$, but not the nonparametric complexity $\alpha$. We also note that $\tilde \tO(dr)$ roughly matches the degree of freedom of the signals, suggesting the optimality of our sample requirements.
 
 
 
@@ -597,7 +597,7 @@ Corollary \ref{thm:sample-complexity} improves the earlier work~\cite{yuan2016te
 \section{Large-margin implementation and ADMM algorithm}
 \label{sec:estimation}
 
-In Section \ref{sec:bridge}, we have established the methodology and theory for the nonparametric matrix trace regression under the 0-1 loss, since this is the canonical loss for classification. However, this loss may be difficult to optimize in practice. In this section, we extend it with a continuous large-margin loss, and present the corresponding optimization algorithm. We consider two loss functions: the hinge loss $F(z) = (1-z)_+$ for support vector machines, and the psi-loss $F(z)=2\min(1,(1-z)_+)$ with $z_{+}=\max(z,0)$~\cite{shen2003psi}. These two losses are most commonly used in classification, and both satisfy the linear excess risk bound; see Section~\ref{sec:large-margin}. We focus on the nonparametric low-rank sparse matrix regression problem. With some straightforward modification, the solution applies to matrix completion and other matrix learning problems as well. 
+In Section \ref{sec:bridge}, we have established the methodology and theory for the nonparametric matrix trace regression under the 0-1 loss, since this is the canonical loss for classification. However, this loss may be difficult to optimize in practice. In this section, we extend it with a continuous large-margin loss, and present the corresponding optimization algorithm. We consider two loss functions: the hinge loss $F(z) = (1-z)_+$ for support vector machines, and the psi-loss $F(z)=2\min(1,(1-z)_+)$ with $z_{+}=\max(z,0)$~\citep{shen2003psi}. These two losses are most commonly used in classification, and both satisfy the linear excess risk bound; see Section~\ref{sec:large-margin}. We focus on the nonparametric low-rank sparse matrix regression problem. With some straightforward modification, the solution applies to matrix completion and other matrix learning problems as well. 
 
 
 
@@ -608,7 +608,7 @@ Specifically, we generalize the 0-1 loss minimization \eqref{eq:loss} to the fol
 \begin{align}\label{eq:large-margin}
 \hat \phi_{\pi, F} = \argmin_{\phi \in\Phi(r,s_1,s_2)}\left\{ {1\over n}\sum_{i=1}^n |Y_i-\pi|F(\phi(\mX_i)\sign(Y_i-\pi))+ \lambda \FnormSize{}{\phi}^2\right\},
 \end{align}
-where $F(z)\colon \mathbb{R}\mapsto \mathbb{R}_{\geq 0}$ is a continuous function of the margin $z=y\phi(\mX)$, $\lambda>0$ is the penalty parameter, and $\FnormSize{}{\phi}$ is the penalty function. We set $\FnormSize{}{\phi}=\FnormSize{}{\mB}$, with $\mB$ being the coefficient matrix associated with $\phi\in\Phi(r,s_1,s_2)$. The use of large-margin loss in \eqref{eq:large-margin} allows us to leverage efficient large-margin optimization algorithms, while maintaining desirable statistical properties under mild conditions. The benefit of ridge penalization has been studied \cite{shen2003psi}. We obtain the corresponding regression function estimate as, 
+where $F(z)\colon \mathbb{R}\mapsto \mathbb{R}_{\geq 0}$ is a continuous function of the margin $z=y\phi(\mX)$, $\lambda>0$ is the penalty parameter, and $\FnormSize{}{\phi}$ is the penalty function. We set $\FnormSize{}{\phi}=\FnormSize{}{\mB}$, with $\mB$ being the coefficient matrix associated with $\phi\in\Phi(r,s_1,s_2)$. The use of large-margin loss in \eqref{eq:large-margin} allows us to leverage efficient large-margin optimization algorithms, while maintaining desirable statistical properties under mild conditions. The benefit of ridge penalization has been studied \citep{shen2003psi}. We obtain the corresponding regression function estimate as, 
 \begin{equation}\label{eq:stepfunction-large-margin}
 \hat f_{F} = {1\over 2H+1}\sum_{\pi \in \tH} \sign \hat \phi_{\pi, F}.
 \end{equation}
@@ -636,13 +636,13 @@ Specifically, given variables $(\mS,\mLambda,\rho)$ and $\bar \mS = (2\rho\mS-\m
 \begin{equation*} \label{eq:primal}
 L(\mB,b|\mS,\mLambda,\rho)={1\over n}\sum_{i=1}^n |\bar Y_{\pi, i}| F\big ([\langle \mX_i,\mB \rangle+b]\sign \bar Y_{\pi, i}\big) +(\lambda+\rho)\FnormSize{}{\mB-\bar \mS}^2.
 \end{equation*}
-Optimization with~\eqref{eq:primal} is a standard vector based classification problem with a ridge penalty and an offset $\bar \mS$. There are a number of state-of-art algorithms for weighted SVM~\cite{wang2008probability} and psi-learning~\cite{shen2003psi}, which are readily available to solve this problem.  
+Optimization with~\eqref{eq:primal} is a standard vector based classification problem with a ridge penalty and an offset $\bar \mS$. There are a number of state-of-art algorithms for weighted SVM~\citep{wang2008probability} and psi-learning~\citep{shen2003psi}, which are readily available to solve this problem.  
 
 Next, given $(\mB,b,\mLambda,\rho)$, and $\bar \mB=(2\rho\mB+\mLambda) / (2\rho)$, the objective with respect to $\mS$ is
 \begin{equation}\label{eq:dual}
 L(\mS|\mB,b,\mLambda,\rho)=\FnormSize{}{\mS-\bar \mB}^2,\quad \text{subject to} ~~ \rank(\mS)\leq r \text{ and }\text{supp}(\mS)\leq (s_1,s_2).
 \end{equation}
-This is equivalent to the best sparse low-rank approximation, in the least-square sense, to the matrix $\mB$. Compared to the original objective~\eqref{eq:sampleoptim}, the least-square objective is easier to handle. A number of learning algorithms have been designed to solve this problem, e.g., sparse PCA, sparse SVD, and projection pursuit \citep{Ma2013}. We adopt the recently developed double projection method, which has a competitive performance in the high dimensional regime \cite{Ma2016}. 
+This is equivalent to the best sparse low-rank approximation, in the least-square sense, to the matrix $\mB$. Compared to the original objective~\eqref{eq:sampleoptim}, the least-square objective is easier to handle. A number of learning algorithms have been designed to solve this problem, e.g., sparse PCA, sparse SVD, and projection pursuit \citep{Ma2013}. We adopt the recently developed double projection method, which has a competitive performance in the high dimensional regime \citep{Ma2016}. 
 
 Finally, the Lagrangian multiplier $\mLambda$ is updated by $\mLambda\leftarrow\mLambda+2\rho(\mB-\mS)$. Following some common practice in matrix non-convex optimization \citep{Ma2016}, we run the optimization from multiple initializations to locate a final estimate with the lowest objective value. We summarize the above optimization procedure in Algorithm \ref{alg:weighted}. 
 
@@ -651,7 +651,7 @@ Finally, the Lagrangian multiplier $\mLambda$ is updated by $\mLambda\leftarrow\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Hyperparameter tuning}
 
-We briefly describe the hyperparameters in Algorithm~\ref{alg:weighted} and discuss their choices in practice. There are two sets of hyperparameters, one set for model specification, and the other for algorithmic stability. The model hyperparameters are $(r,s_1,s_2)$, which determine the complexity of sign functions. We choose $(r,s_1,s_2)$ via a grid search based on cross-validation regression error. The resolution in grid search depends on the problem size; for instance, in our brain connectivity data example with $d_1=d_2=68$ in Section~\ref{sec:brain}, we search for the optimal values of $r, s_1,s_2$ over $[d]$, with an increment of 5, under the natural constraint $r\leq s_1=s_2$. The algorithm hyperparameters are $(H, \lambda, \rho)$. For $H$ and $\lambda$, their optimal choices are given in Theorems \ref{thm:regression} and \ref{thm:extension}, respectively. In practice, we default $H=\min(20, \sqrt{n})$, and $\lambda=\min(0.1,n^{-1})$, which perform well in our numerical experiments. For the step size $\rho$ that controls the closeness between the dual and primal variables, we initialize from $1$, and increase its value geometrically by 1.1 during the iterations until the relative change in the primal residual $\FnormSize{}{\mB-\bar \mS}$ falls below a threshold~\cite{parikh2014proximal}. In our numerical analyses, we observe this scheme provides a stable optimization trajectory. 
+We briefly describe the hyperparameters in Algorithm~\ref{alg:weighted} and discuss their choices in practice. There are two sets of hyperparameters, one set for model specification, and the other for algorithmic stability. The model hyperparameters are $(r,s_1,s_2)$, which determine the complexity of sign functions. We choose $(r,s_1,s_2)$ via a grid search based on cross-validation regression error. The resolution in grid search depends on the problem size; for instance, in our brain connectivity data example with $d_1=d_2=68$ in Section~\ref{sec:brain}, we search for the optimal values of $r, s_1,s_2$ over $[d]$, with an increment of 5, under the natural constraint $r\leq s_1=s_2$. The algorithm hyperparameters are $(H, \lambda, \rho)$. For $H$ and $\lambda$, their optimal choices are given in Theorems \ref{thm:regression} and \ref{thm:extension}, respectively. In practice, we default $H=\min(20, \sqrt{n})$, and $\lambda=\min(0.1,n^{-1})$, which perform well in our numerical experiments. For the step size $\rho$ that controls the closeness between the dual and primal variables, we initialize from $1$, and increase its value geometrically by 1.1 during the iterations until the relative change in the primal residual $\FnormSize{}{\mB-\bar \mS}$ falls below a threshold~\citep{parikh2014proximal}. In our numerical analyses, we observe this scheme provides a stable optimization trajectory. 
 
 \begin{algorithm}[t!]
 \caption{{\bf Nonparametric low-rank two-way sparse matrix regression via ADMM} } \label{alg:weighted}
@@ -693,7 +693,7 @@ denote the 0-1 risk and F-risk, respectively, where $F$ is the surrogate continu
 \end{assumption}
 
 \noindent
-Assumption~\ref{ass:main}(a) quantifies the representation capability of $F$ and $\Phi(r, s1, s2)$. We note that, although the Bayes rule $\bayespif$ also depends on $n$ implicitly through $d=d(n)$, we drop the dependence on $n$ for simpler notation. Assumption~\ref{ass:main}(b) implies the Fisher consistency bound for the weighted risk \cite{scott2011surrogate},
+Assumption~\ref{ass:main}(a) quantifies the representation capability of $F$ and $\Phi(r, s1, s2)$. We note that, although the Bayes rule $\bayespif$ also depends on $n$ implicitly through $d=d(n)$, we drop the dependence on $n$ for simpler notation. Assumption~\ref{ass:main}(b) implies the Fisher consistency bound for the weighted risk \citep{scott2011surrogate},
 \begin{equation*} \label{eq:fisher}
 \risk(\phi)-\risk(\bayespif)\leq C[\riskF(\phi)-\riskF(\bayespif)], \text{ for all $\pi\in[-1,1]$ and all $\phi$}.
 \end{equation*}
@@ -776,10 +776,10 @@ where the edge connectivity strength, denoted by $g_{ij}(\pi)$, varies depending
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=3.3cm]{figure/cross.pdf}
-\includegraphics[width=3.3cm]{figure/block.pdf}
-\includegraphics[width=3.3cm]{figure/star.pdf}
-\includegraphics[width=4.1cm]{figure/circle.pdf}
+\includegraphics[width=3.8cm]{figure/cross.pdf}
+\includegraphics[width=3.8cm]{figure/block.pdf}
+\includegraphics[width=3.8cm]{figure/star.pdf}
+\includegraphics[width=4.7cm]{figure/circle.pdf}
 \caption{Four activation patterns in simulations. The active region is divided into four or five subregions, denoted by I, II, ..., V, each of which has its own edge connectivity signal $g_{pq}(\pi)$.}
 \label{fig:region}
 \end{figure}
@@ -789,9 +789,9 @@ We compare the following four estimation methods.
 \begin{itemize}
 \item Unstructured logistic regression for vector predictors (\Lasso, \citep{Zou2005}). This method vectorizes the matrix predictor into a high dimensional vector, then employs a logistic loss with an elastic net penalty. 
 
-\item Generalized trace regression for matrix predictors (\LogisticM,~\cite{relion2019network}). This method fits a parametric trace regression model with a logistic link and a symmetric matrix predictor. It imposes a group lasso penalty to encourage two-way sparsity. 
+\item Generalized trace regression for matrix predictors (\LogisticM,~\citep{relion2019network}). This method fits a parametric trace regression model with a logistic link and a symmetric matrix predictor. It imposes a group lasso penalty to encourage two-way sparsity. 
 
-\item Convolutional Neural Network (\CNN) with two hidden layers implemented in Keras \cite{chollet2018deep}. We apply 64 filters with $3\times 3$ convolutional kernels to the matrix-valued predictor, followed by a pooling layer with size $5\times 5$. The resulting features are fed to a fully connected layer of neural network with ReLU activation. 
+\item Convolutional Neural Network (\CNN) with two hidden layers implemented in Keras \citep{chollet2018deep}. We apply 64 filters with $3\times 3$ convolutional kernels to the matrix-valued predictor, followed by a pooling layer with size $5\times 5$. The resulting features are fed to a fully connected layer of neural network with ReLU activation. 
 
 \item {\bf A}ggegration of {\bf S}tructured {\bf SI}gn {\bf S}eries for {\bf T}race regression (\NonparaM), our method. 
 \end{itemize}
@@ -810,10 +810,10 @@ Fig \ref{fig:compare} reports both the prediction error $\onenormSize{}{\hat f -
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=7.05cm]{figure/est_cross.pdf} 
-\includegraphics[width=7.05cm]{figure/est_block.pdf}
-\includegraphics[width=7.05cm]{figure/est_star.pdf}
-\includegraphics[width=7.05cm]{figure/est_circle.pdf}
+\includegraphics[width=8.1cm]{figure/est_cross.pdf} 
+\includegraphics[width=8.1cm]{figure/est_block.pdf}
+\includegraphics[width=8.1cm]{figure/est_star.pdf}
+\includegraphics[width=8.1cm]{figure/est_circle.pdf}
 \caption{Example output returned by {\bf \scriptsize ASSIST} based on the moving average of the feature weights, and the scatter plot of the edge connectivity strength, averaged by each subregion, versus the estimated mean response. The dashed curve shows the true function. }
 \label{fig:compare2}
 \end{figure}
@@ -836,7 +836,7 @@ We present two real data applications, in parallel to the two matrix learning ta
 \subsection{Brain connectivity analysis}
 \label{sec:brain}
 
-The first example is a brain connectivity data analysis, which aims to understand the relation between brain connectivity network and cognitive performance. The data is obtained from the Human Connectome Project (HCP) \cite{van2013wu}, and consists of $n=212$ healthy subjects. For each subject, a binary connectivity network is extracted, with nodes corresponding to $d=68$ brain regions-of-interest following the Desikan atlas \cite{desikan2006automated}, and links corresponding to the structural connectivity evaluated by diffusion tensor imaging \cite{zhang2018mapping}. The outcome is the dichotomized version of a visuospatial processing test score, corresponding to a high or low performance score \cite{wang2019common}. We adjust age and gender as additional covariates in our analysis. We note that, although our model focuses on a matrix predictor, it is straightforward to incorporate additional vector-valued covariates. We use a random 60-20-20 split of the data for training, validation, and testing. 
+The first example is a brain connectivity data analysis, which aims to understand the relation between brain connectivity network and cognitive performance. The data is obtained from the Human Connectome Project (HCP) \citep{van2013wu}, and consists of $n=212$ healthy subjects. For each subject, a binary connectivity network is extracted, with nodes corresponding to $d=68$ brain regions-of-interest following the Desikan atlas \citep{desikan2006automated}, and links corresponding to the structural connectivity evaluated by diffusion tensor imaging \citep{zhang2018mapping}. The outcome is the dichotomized version of a visuospatial processing test score, corresponding to a high or low performance score \citep{wang2019common}. We adjust age and gender as additional covariates in our analysis. We note that, although our model focuses on a matrix predictor, it is straightforward to incorporate additional vector-valued covariates. We use a random 60-20-20 split of the data for training, validation, and testing. 
 
 \begin{table}[t!]
 \caption{Brain connectivity analysis. (a) Comparison of prediction accuracy measured by AUC, with standard errors over 5-fold cross validation in the parentheses. For {\scriptsize \bf CNN}, there is no report for node selection. (b) Top edges selected by the method {\scriptsize \bf ASSIST-p}. The letters ``r'' and ``l'' in node names indicate the right and left hemisphere, respectively. The $p$-value is calculated from the two-sample test of edge connection strength between two individual groups. }
@@ -877,7 +877,7 @@ Rank &Node &  Node& $p$-value \\
 \label{fig:real2}
 \end{figure}
 
-We compare our method with the same alternatives as in Section \ref{sec:comparison}. Table~\ref{fig:real}(a) shows that our method achieves the highest accuracy, measured by the area under receiver operating characteristic (AUC). Moreover, as common in the high dimensional setting, we see the model with a good cross-validation accuracy tends to include a large number of noise variables. A useful heuristic called the ``one-standard-error rule'', suggested by \cite{hastie2015statistical}, selects the most parsimonious model with cross-validation accuracy within one standard error of the best. We apply this rule and report the results as {\bf \footnotesize ASSIST-p}. It is remarkable to see that {\bf \footnotesize ASSIST-p} results in 12\% reduction of active nodes but still achieves a comparable accuracy to the best one. Table~\ref{fig:real}(b) lists the top brain links identified by our method. The edges are ranked by their maximal values in the feature weights $(\hat \mB_\pi)_{\pi \in \tH}$ via moving averaging. We find that the top edges involve connections between frontal and occipital regions in the right hemisphere. This is consistent with recent findings of dysfunction in right posterior regions for deficits in visuospatial processing \cite{wang2019common}. Fig~\ref{fig:real2}(a) shows the top selected edges overlaid on a brain template. Moreover, we find the relationship between the edge connection strength and the mean response to be nonlinear. Fig~\ref{fig:real2}(b) plots the edge connectivity strength versus the estimated mean response. We see that the connection between r-parstriangularis and r-supramarginal grows slowly when the mean response is small but fast when it is large. In contrary, the connection between r-posteriorcingulate and r-precentral  grows fast initially, then reaches a plateau as the mean response increases. Such patterns suggest heterogeneous changes in brain connectivity with respect to the visuospatial processing capability. 
+We compare our method with the same alternatives as in Section \ref{sec:comparison}. Table~\ref{fig:real}(a) shows that our method achieves the highest accuracy, measured by the area under receiver operating characteristic (AUC). Moreover, as common in the high dimensional setting, we see the model with a good cross-validation accuracy tends to include a large number of noise variables. A useful heuristic called the ``one-standard-error rule'', suggested by \cite{hastie2015statistical}, selects the most parsimonious model with cross-validation accuracy within one standard error of the best. We apply this rule and report the results as {\bf \footnotesize ASSIST-p}. It is remarkable to see that {\bf \footnotesize ASSIST-p} results in 12\% reduction of active nodes but still achieves a comparable accuracy to the best one. Table~\ref{fig:real}(b) lists the top brain links identified by our method. The edges are ranked by their maximal values in the feature weights $(\hat \mB_\pi)_{\pi \in \tH}$ via moving averaging. We find that the top edges involve connections between frontal and occipital regions in the right hemisphere. This is consistent with recent findings of dysfunction in right posterior regions for deficits in visuospatial processing \citep{wang2019common}. Fig~\ref{fig:real2}(a) shows the top selected edges overlaid on a brain template. Moreover, we find the relationship between the edge connection strength and the mean response to be nonlinear. Fig~\ref{fig:real2}(b) plots the edge connectivity strength versus the estimated mean response. We see that the connection between r-parstriangularis and r-supramarginal grows slowly when the mean response is small but fast when it is large. In contrary, the connection between r-posteriorcingulate and r-precentral  grows fast initially, then reaches a plateau as the mean response increases. Such patterns suggest heterogeneous changes in brain connectivity with respect to the visuospatial processing capability. 
 
 
 
@@ -887,7 +887,7 @@ We compare our method with the same alternatives as in Section \ref{sec:comparis
 
 The second application is an imaging matrix completion, where the goal is to recover and restore the partially observed gray-scaled hot air balloon image. This image is a standard benchmark in computer vision, and is organized as a 217-by-217 matrix, whose entries represent pixel values in $[0,1]$. We randomly mask a subset of entries and perform matrix completion based on the observed entries. 
 
-We compare our method with three alternatives: a soft imputation method based on matrix nuclear norm regularization (\SoftImpute)~\cite{hastie2015matrix}, a hard imputation method with ridge regression (\HardImpute)~\cite{mazumder2010spectral}, and a hard imputation based on alternating SVD (\ALT)~\cite{rennie2005fast}. We evaluate the recovery accuracy by MAE on the unobserved entries, and we tune all the parameters based on 5-fold cross-validation. 
+We compare our method with three alternatives: a soft imputation method based on matrix nuclear norm regularization (\SoftImpute)~\citep{hastie2015matrix}, a hard imputation method with ridge regression (\HardImpute)~\citep{mazumder2010spectral}, and a hard imputation based on alternating SVD (\ALT)~\citep{rennie2005fast}. We evaluate the recovery accuracy by MAE on the unobserved entries, and we tune all the parameters based on 5-fold cross-validation. 
 
 \begin{figure}[t!]
 \includegraphics[width = \textwidth]{figure/completion.pdf}
@@ -1241,7 +1241,7 @@ We construct a shifted trace function,
 \[
 \phi^*\colon \mX\mapsto \hat \phi(\mX) - (m-1)\sign\hat \phi(\mX_{i^*}) = \KeepStyleUnderBrace{\langle \mX, \hat \mB \rangle}_{\text{trace}}+\KeepStyleUnderBrace{\hat b -(m-1)\sign\hat \phi(\mX_{i^*}) }_{\text{new intercept $=:\hat b^*$}}.
 \]
-The assumption $m>1$ implies that, for each $i\in[n]$, $\hat \phi(\mX_i) \sign \bar Y_{\pi, i}$ is either $\geq m>1$ or $\leq -m <-1$. By the definition of $\phi^*$ and loss function $F$, we have
+The assumption $m>1$ implies that, for each $i\in[n]$, $\hat \phi(\mX_i) \sign \bar Y_{i}$ is either $\geq m>1$ or $\leq -m <-1$. By the definition of $\phi^*$ and loss function $F$, we have
 \[
 F\left(\phi^*(\mX_i)\sign \bar Y_{i}\right)=
 \begin{cases}
@@ -2080,7 +2080,7 @@ For any given $k\geq 1$, define a matrix family
 \mB& 0\\
 0 & b\\
  \end{bmatrix}
- \in\mathbb{R}^{(d_1+1) \times (d_2+1)} \colon \rank(\mB)\leq r,\ \supp(\mB)\leq (s_1,s_2),\ |b|\leq k+1, \ \FnormSize{}{\mB}^2\leq  k
+ \in\mathbb{R}^{(d_1+1) \times (d_2+1)} \colon \rank(\mB)\leq r,\ \supp(\mB)\leq (s_1,s_2),\ |b|\leq \sqrt{k}+1, \ \FnormSize{}{\mB}\leq  \sqrt{k}
  \right\}
  \end{align}
 By definition of trace functions, there is an onto mapping from matrices in $\tB$ to functions in $\Phi^k$; i.e. 
@@ -2099,7 +2099,7 @@ Based on~\citet[Theorem 9.23]{kosorok2007introduction}, the $L_2$-metric, $(2\va
 \[
 \tH_{[\ ]}(2\varepsilon,\ \Phi^k,\ \vnormSize{}{\cdot}) \leq \tH \left(\varepsilon,\ \tB,\ \FnormSize{}{\cdot}\right)
 \]
-where $\tH$ denotes the log covering number for the (non-bracketing) set. Therefore, it suffices to bound $\tH(\varepsilon,\ \tB,\ \FnormSize{}{\cdot})$ where $\tB$ is included in a $(\sqrt{5}k)$-ball by definition of $\tB$. Now fix two subsets $S_1,S_2\subset [d]$ with $|S_1|=s_1$ and $|S_2|=s_2$, where $|\cdot|$ denotes the cardinality of the sets. Let $\tB_{S_1,S_2}\subset \tB$ denote the subset of matrices satisfying $\mB(i,j)=0$ whenever $(i,j)\notin S_1\times S_2$. Based on~\citet[Lemma 3.1]{candes2011tight}, the log covering number for $\tB_{S_1,S_2}$ is
+where $\tH$ denotes the log covering number for the (non-bracketing) set. Therefore, it suffices to bound $\tH(\varepsilon,\ \tB,\ \FnormSize{}{\cdot})$ where $\tB$ is included in a $(\sqrt{5k})$-ball by definition of $\tB$. Now fix two subsets $S_1,S_2\subset [d]$ with $|S_1|=s_1$ and $|S_2|=s_2$, where $|\cdot|$ denotes the cardinality of the sets. Let $\tB_{S_1,S_2}\subset \tB$ denote the subset of matrices satisfying $\mB(i,j)=0$ whenever $(i,j)\notin S_1\times S_2$. Based on~\citet[Lemma 3.1]{candes2011tight}, the log covering number for $\tB_{S_1,S_2}$ is
 \begin{align}\label{eq:bracketsparse}
 \tH \left(\varepsilon,\ \tB_{S_1,S_2},\ \Fnorm{\cdot}\right)\lesssim r(s_1+s_2+1)\log\left({k\over \varepsilon}\right).
 \end{align}
@@ -2162,7 +2162,7 @@ Let $X_1,\ldots,X_n$ be independent sub-Gaussian zero-mean random variables with
 \begin{proof}[Proof of Lemma~\ref{lem:subg}]
 The conclusion follows from
 \begin{align}
-\mathbb{P}[\max_{1\leq i\leq n}X_i\geq u] \leq \sum_{i=1}^n\mathbb{P}[X_i\geq u]\leq n e^{-{u^2\over 2\sigma^2}} = e^{-s},
+\mathbb{P}[\max_{1\leq i\leq n}|X_i|\geq u] \leq \sum_{i=1}^n\mathbb{P}[|X_i|\geq u]\leq 2n e^{-{u^2\over 2\sigma^2}} = 2e^{-s},
 \end{align}
 where we set $u = \sqrt{2\sigma^2(\log n+s)}.$
 \end{proof}

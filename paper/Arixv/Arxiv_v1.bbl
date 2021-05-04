@@ -1,0 +1,315 @@
+\begin{thebibliography}{49}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Balabdaoui et~al.(2019)Balabdaoui, Durot, and
+  Jankowski]{balabdaoui2019least}
+Fadoua Balabdaoui, C{\'e}cile Durot, and Hanna Jankowski.
+\newblock Least squares estimation in the monotone single index model.
+\newblock \emph{Bernoulli}, 25\penalty0 (4B):\penalty0 3276--3310, 2019.
+
+\bibitem[Bartlett et~al.(2006)Bartlett, Jordan, and
+  McAuliffe]{bartlett2006convexity}
+Peter~L Bartlett, Michael~I Jordan, and Jon~D McAuliffe.
+\newblock Convexity, classification, and risk bounds.
+\newblock \emph{Journal of the American Statistical Association}, 101\penalty0
+  (473):\penalty0 138--156, 2006.
+
+\bibitem[Cai et~al.(2016)Cai, Cai, and Zhang]{Cai2016}
+Tianxi Cai, T.~Tony Cai, and Anru Zhang.
+\newblock Structured matrix completion with applications to genomic data
+  integration.
+\newblock \emph{Journal of the American Statistical Association}, 111\penalty0
+  (514):\penalty0 621--633, 2016.
+
+\bibitem[Candes and Plan(2011)]{candes2011tight}
+Emmanuel~J Candes and Yaniv Plan.
+\newblock Tight oracle inequalities for low-rank matrix recovery from a minimal
+  number of noisy random measurements.
+\newblock \emph{IEEE Transactions on Information Theory}, 57\penalty0
+  (4):\penalty0 2342--2359, 2011.
+
+\bibitem[Caruana(1997)]{caruana1997multitask}
+Rich Caruana.
+\newblock Multitask learning.
+\newblock \emph{Machine learning}, 28\penalty0 (1):\penalty0 41--75, 1997.
+
+\bibitem[Chan and Airoldi(2014)]{chan2014consistent}
+Stanley Chan and Edoardo Airoldi.
+\newblock A consistent histogram estimator for exchangeable graph models.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  208--216, 2014.
+
+\bibitem[Chi et~al.(2020)Chi, Gaines, Sun, Zhou, and Yang]{chi2020provable}
+Eric~C Chi, Brian~J Gaines, Will~Wei Sun, Hua Zhou, and Jian Yang.
+\newblock Provable convex co-clustering of tensors.
+\newblock \emph{Journal of Machine Learning Research}, 21\penalty0
+  (214):\penalty0 1--58, 2020.
+
+\bibitem[Chollet and Allaire(2018)]{chollet2018deep}
+Fran{\c{c}}ois Chollet and Joseph~J Allaire.
+\newblock \emph{Deep Learning mit R und Keras: Das Praxis-Handbuch von den
+  Entwicklern von Keras und RStudio}.
+\newblock MITP-Verlags GmbH \& Co. KG, 2018.
+
+\bibitem[Cohn and Umans(2013)]{cohn2013fast}
+Henry Cohn and Christopher Umans.
+\newblock Fast matrix multiplication using coherent configurations.
+\newblock In \emph{Proceedings of the twenty-fourth annual ACM-SIAM symposium
+  on Discrete algorithms}, pages 1074--1087. SIAM, 2013.
+
+\bibitem[De~Wolf(2003)]{de2003nondeterministic}
+Ronald De~Wolf.
+\newblock Nondeterministic quantum query and communication complexities.
+\newblock \emph{SIAM Journal on Computing}, 32\penalty0 (3):\penalty0 681--699,
+  2003.
+
+\bibitem[Desikan et~al.(2006)Desikan, S{\'e}gonne, Fischl, Quinn, Dickerson,
+  Blacker, Buckner, Dale, Maguire, Hyman, et~al.]{desikan2006automated}
+Rahul~S Desikan, Florent S{\'e}gonne, Bruce Fischl, Brian~T Quinn, Bradford~C
+  Dickerson, Deborah Blacker, Randy~L Buckner, Anders~M Dale, R~Paul Maguire,
+  Bradley~T Hyman, et~al.
+\newblock An automated labeling system for subdividing the human cerebral
+  cortex on mri scans into gyral based regions of interest.
+\newblock \emph{Neuroimage}, 31\penalty0 (3):\penalty0 968--980, 2006.
+
+\bibitem[Fan et~al.(2019)Fan, Gong, and Zhu]{fan2019generalized}
+Jianqing Fan, Wenyan Gong, and Ziwei Zhu.
+\newblock Generalized high-dimensional trace regression via nuclear norm
+  regularization.
+\newblock \emph{Journal of Econometrics}, 212\penalty0 (1):\penalty0 177--202,
+  2019.
+
+\bibitem[Ganti et~al.(2017)Ganti, Rao, Balzano, Willett, and
+  Nowak]{ganti2017learning}
+Ravi Ganti, Nikhil Rao, Laura Balzano, Rebecca Willett, and Robert Nowak.
+\newblock On learning high dimensional structured single index models.
+\newblock In \emph{Proceedings of the Thirty-First AAAI Conference on
+  Artificial Intelligence}, pages 1898--1904, 2017.
+
+\bibitem[Ganti et~al.(2015)Ganti, Balzano, and Willett]{ganti2015matrix}
+Ravi~Sastry Ganti, Laura Balzano, and Rebecca Willett.
+\newblock Matrix completion under monotonic single index models.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~28, pages 1873--1881, 2015.
+
+\bibitem[Gao et~al.(2016)Gao, Lu, Ma, and Zhou]{gao2016optimal}
+Chao Gao, Yu~Lu, Zongming Ma, and Harrison~H Zhou.
+\newblock Optimal estimation and completion of matrices with biclustering
+  structures.
+\newblock \emph{Journal of Machine Learning Research}, 17\penalty0
+  (1):\penalty0 5602--5630, 2016.
+
+\bibitem[Gibou et~al.(2018)Gibou, Fedkiw, and Osher]{gibou2018review}
+Frederic Gibou, Ronald Fedkiw, and Stanley Osher.
+\newblock A review of level-set methods and some recent applications.
+\newblock \emph{Journal of Computational Physics}, 353:\penalty0 82--109, 2018.
+
+\bibitem[Goodfellow et~al.(2016)Goodfellow, Bengio, Courville, and
+  Bengio]{goodfellow2016deep}
+Ian Goodfellow, Yoshua Bengio, Aaron Courville, and Yoshua Bengio.
+\newblock \emph{Deep learning}, volume 1(2).
+\newblock MIT press Cambridge, 2016.
+
+\bibitem[Hamidi and Bayati(2019)]{hamidi2019low}
+Nima Hamidi and Mohsen Bayati.
+\newblock On low-rank trace regression under general sampling distribution.
+\newblock \emph{arXiv preprint arXiv:1904.08576}, 2019.
+
+\bibitem[Hao et~al.(2019)Hao, Wang, Wang, Zhang, Yang, and Sun]{hao2019sparse}
+Botao Hao, Boxiang Wang, Pengyuan Wang, Jingfei Zhang, Jian Yang, and Will~Wei
+  Sun.
+\newblock Sparse tensor additive regression.
+\newblock \emph{arXiv preprint arXiv:1904.00479}, 2019.
+
+\bibitem[Hastie et~al.(2015{\natexlab{a}})Hastie, Mazumder, Lee, and
+  Zadeh]{hastie2015matrix}
+Trevor Hastie, Rahul Mazumder, Jason~D Lee, and Reza Zadeh.
+\newblock Matrix completion and low-rank svd via fast alternating least
+  squares.
+\newblock \emph{The Journal of Machine Learning Research}, 16\penalty0
+  (1):\penalty0 3367--3402, 2015{\natexlab{a}}.
+
+\bibitem[Hastie et~al.(2015{\natexlab{b}})Hastie, Tibshirani, and
+  Wainwright]{hastie2015statistical}
+Trevor Hastie, Robert Tibshirani, and Martin Wainwright.
+\newblock \emph{Statistical learning with sparsity: the lasso and
+  generalizations}.
+\newblock CRC press, 2015{\natexlab{b}}.
+
+\bibitem[Hu et~al.(2020)Hu, Shen, Zhou, and Kong]{hu2020matrix}
+Wei Hu, Weining Shen, Hua Zhou, and Dehan Kong.
+\newblock Matrix linear discriminant analysis.
+\newblock \emph{Technometrics}, 62\penalty0 (2):\penalty0 196--205, 2020.
+
+\bibitem[Kosorok(2007)]{kosorok2007introduction}
+Michael~R Kosorok.
+\newblock \emph{Introduction to empirical processes and semiparametric
+  inference}.
+\newblock Springer Science \& Business Media, 2007.
+
+\bibitem[Lee and Wang(2020)]{pmlr-v119-lee20i}
+Chanwoo Lee and Miaoyan Wang.
+\newblock Tensor denoising and completion based on ordinal observations.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  5778--5788, 2020.
+
+\bibitem[Ma(2013)]{Ma2013}
+Zongming Ma.
+\newblock {Sparse principal component analysis and iterative thresholding}.
+\newblock \emph{The Annals of Statistics}, 41\penalty0 (2):\penalty0 772--801,
+  2013.
+
+\bibitem[Mazumder et~al.(2010)Mazumder, Hastie, and
+  Tibshirani]{mazumder2010spectral}
+Rahul Mazumder, Trevor Hastie, and Robert Tibshirani.
+\newblock Spectral regularization algorithms for learning large incomplete
+  matrices.
+\newblock \emph{The Journal of Machine Learning Research}, 11:\penalty0
+  2287--2322, 2010.
+
+\bibitem[Parikh and Boyd(2014)]{parikh2014proximal}
+Neal Parikh and Stephen Boyd.
+\newblock Proximal algorithms.
+\newblock \emph{Foundations and Trends in Optimization}, 1\penalty0
+  (3):\penalty0 127--239, 2014.
+
+\bibitem[Recht et~al.(2010)Recht, Fazel, and Parrilo]{recht2010guaranteed}
+Benjamin Recht, Maryam Fazel, and Pablo~A Parrilo.
+\newblock Guaranteed minimum-rank solutions of linear matrix equations via
+  nuclear norm minimization.
+\newblock \emph{SIAM review}, 52\penalty0 (3):\penalty0 471--501, 2010.
+
+\bibitem[Reli{\'o}n et~al.(2019)Reli{\'o}n, Kessler, Levina, and
+  Taylor]{relion2019network}
+Jes{\'u}s D~Arroyo Reli{\'o}n, Daniel Kessler, Elizaveta Levina, and Stephan~F
+  Taylor.
+\newblock Network classification with applications to brain connectomics.
+\newblock \emph{The Annals of Applied Statistics}, 13\penalty0 (3):\penalty0
+  1648--1677, 2019.
+
+\bibitem[Rennie and Srebro(2005)]{rennie2005fast}
+Jasson~DM Rennie and Nathan Srebro.
+\newblock Fast maximum margin matrix factorization for collaborative
+  prediction.
+\newblock In \emph{Proceedings of the 22nd international conference on Machine
+  learning}, pages 713--719, 2005.
+
+\bibitem[Scott(2011)]{scott2011surrogate}
+Clayton Scott.
+\newblock Surrogate losses and regret bounds for cost-sensitive classification
+  with example-dependent costs.
+\newblock In \emph{International Conference on Machine Learning}, 2011.
+
+\bibitem[Shen and Wong(1994)]{shen1994convergence}
+Xiaotong Shen and Wing~Hung Wong.
+\newblock Convergence rate of sieve estimates.
+\newblock \emph{The Annals of Statistics}, pages 580--615, 1994.
+
+\bibitem[Shen et~al.(2003)Shen, Tseng, Zhang, and Wong]{shen2003psi}
+Xiaotong Shen, George~C Tseng, Xuegong Zhang, and Wing~Hung Wong.
+\newblock On $\psi$-learning.
+\newblock \emph{Journal of the American Statistical Association}, 98\penalty0
+  (463):\penalty0 724--734, 2003.
+
+\bibitem[Singh et~al.(2009)Singh, Scott, and Nowak]{singh2009adaptive}
+Aarti Singh, Clayton Scott, and Robert Nowak.
+\newblock Adaptive {H}ausdorff estimation of density level sets.
+\newblock \emph{The Annals of Statistics}, 37\penalty0 (5B):\penalty0
+  2760--2782, 2009.
+
+\bibitem[Tsybakov(2004)]{tsybakov2004optimal}
+Alexander~B Tsybakov.
+\newblock Optimal aggregation of classifiers in statistical learning.
+\newblock \emph{The Annals of Statistics}, 32\penalty0 (1):\penalty0 135--166,
+  2004.
+
+\bibitem[Tsybakov(1997)]{tsybakov1997nonparametric}
+Alexandre~B Tsybakov.
+\newblock On nonparametric estimation of density level sets.
+\newblock \emph{The Annals of Statistics}, 25\penalty0 (3):\penalty0 948--969,
+  1997.
+
+\bibitem[Van~Essen et~al.(2013)Van~Essen, Smith, Barch, Behrens, Yacoub,
+  Ugurbil, and Consortium]{van2013wu}
+David~C Van~Essen, Stephen~M Smith, Deanna~M Barch, Timothy~EJ Behrens, Essa
+  Yacoub, Kamil Ugurbil, and Wu-Minn~HCP Consortium.
+\newblock The {WU-M}inn human connectome project: an overview.
+\newblock \emph{Neuroimage}, 80:\penalty0 62--79, 2013.
+
+\bibitem[Wang et~al.(2008)Wang, Shen, and Liu]{wang2008probability}
+Junhui Wang, Xiaotong Shen, and Yufeng Liu.
+\newblock Probability estimation for large-margin classifiers.
+\newblock \emph{Biometrika}, 95\penalty0 (1):\penalty0 149--167, 2008.
+
+\bibitem[Wang et~al.(2019)Wang, Zhang, and Dunson]{wang2019common}
+Lu~Wang, Zhengwu Zhang, and David Dunson.
+\newblock Common and individual structure of brain networks.
+\newblock \emph{The Annals of Applied Statistics}, 13\penalty0 (1):\penalty0
+  85--112, 2019.
+
+\bibitem[Wang et~al.(2017)Wang, Zhu, and Initiative]{wang2017generalized}
+Xiao Wang, Hongtu Zhu, and Alzheimer’s Disease~Neuroimaging Initiative.
+\newblock Generalized scalar-on-image regression models via total variation.
+\newblock \emph{Journal of the American Statistical Association}, 112\penalty0
+  (519):\penalty0 1156--1168, 2017.
+
+\bibitem[Wang et~al.(2014)Wang, Curry, and Montana]{wang2014network}
+Zi~Wang, Edward Curry, and Giovanni Montana.
+\newblock Network-guided regression for detecting associations between dna
+  methylation and gene expression.
+\newblock \emph{Bioinformatics}, 30\penalty0 (19):\penalty0 2693--2701, 2014.
+
+\bibitem[Xu et~al.(2020)Xu, Dan, Khim, and Ravikumar]{xu2020class}
+Ziyu Xu, Chen Dan, Justin Khim, and Pradeep Ravikumar.
+\newblock Class-weighted classification: Trade-offs and robust approaches.
+\newblock In \emph{International Conference on Machine Learning}, 2020.
+
+\bibitem[Yang et~al.(2016)Yang, Ma, and Buja]{Ma2016}
+Dan Yang, Zongming Ma, and Andreas Buja.
+\newblock Rate optimal denoising of simultaneously sparse and low rank
+  matrices.
+\newblock \emph{Journal of Machine Learning Research}, 17\penalty0
+  (92):\penalty0 1--27, 2016.
+
+\bibitem[Yuan and Zhang(2016)]{yuan2016tensor}
+Ming Yuan and Cun-Hui Zhang.
+\newblock On tensor completion via nuclear norm minimization.
+\newblock \emph{Foundations of Computational Mathematics}, 16\penalty0
+  (4):\penalty0 1031--1068, 2016.
+
+\bibitem[Zhang et~al.(2015)Zhang, Wu, Li, Caffo, and Boatman-Reich]{Zhang2015}
+Tingting Zhang, Jingwei Wu, Fan Li, Brian Caffo, and Dana Boatman-Reich.
+\newblock A dynamic directional model for effective brain connectivity using
+  electrocorticographic {(ECoG)} time series.
+\newblock \emph{Journal of the American Statistical Association}, 110:\penalty0
+  93--106, 2015.
+
+\bibitem[Zhang et~al.(2018)Zhang, Descoteaux, Zhang, Girard, Chamberland,
+  Dunson, Srivastava, and Zhu]{zhang2018mapping}
+Zhengwu Zhang, Maxime Descoteaux, Jingwen Zhang, Gabriel Girard, Maxime
+  Chamberland, David Dunson, Anuj Srivastava, and Hongtu Zhu.
+\newblock Mapping population-based structural connectomes.
+\newblock \emph{NeuroImage}, 172:\penalty0 130--145, 2018.
+
+\bibitem[Zhou and Li(2014)]{zhou2014regularized}
+Hua Zhou and Lexin Li.
+\newblock Regularized matrix regression.
+\newblock \emph{Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 76\penalty0 (2):\penalty0 463--483, 2014.
+
+\bibitem[Zhou et~al.(2020)Zhou, Wong, and He]{zhou2020broadcasted}
+Ya~Zhou, Raymond~KW Wong, and Kejun He.
+\newblock Broadcasted nonparametric tensor regression.
+\newblock \emph{arXiv preprint arXiv:2008.12927}, 2020.
+
+\bibitem[Zou and Hastie(2005)]{Zou2005}
+Hui Zou and Trevor Hastie.
+\newblock Regularization and variable selection via the elastic net.
+\newblock \emph{Journal of the Royal Statistical Society. Series B (Statistical
+  Methodology)}, 67\penalty0 (2):\penalty0 301--320, 2005.
+
+\end{thebibliography}
