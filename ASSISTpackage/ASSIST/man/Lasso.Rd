@@ -11,16 +11,16 @@ Lasso(xvec,y,xnew,lambda)
 
 \item{y}{Binary response variable.}
 
-\item{xnew}{Matrix of new values at which predictions are to made.}
+\item{xnew}{New predictors in the test data. Organized as a matrix with each row being a data point.}
 
 \item{lambda}{The regularization penalty.}
 }
 \value{
 The returned object is a list of components.
 
-\code{B_est} - The estimated coefficient matrix of linear predictor.
+\code{B_est} - The estimated coefficient vector of linear predictor.
 
-\code{prob} - The estimated probabilities of the binary response at the predictors xnew.
+\code{prob} - The predicted probabilities for the test data.
 }
 \description{
 Fit a logistic probability model based on Lasso penalty

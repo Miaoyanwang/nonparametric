@@ -7,25 +7,25 @@
 CNN(X,y,X_new,plot.figure = FALSE)
 }
 \arguments{
-\item{X}{A list of predictor matrices.}
+\item{X}{A list of matrix-valued predictors.}
 
 \item{y}{Binary response variable.}
 
-\item{X_new}{A list of new matrices at which predictions are to made.}
+\item{X_new}{A list of new matrices in the test data.}
 
 \item{plot.figure}{Option for plotting trajectory of accuracy over epochs.}
 }
 \value{
 The returned object is a list of components.
 
-\code{prob} - The estimated probabilities of the binary response at the predictors Xnew.
+\code{prob} - The predicted probabilities for the test data.
 
-\code{class} - The estimated binary response at the predictors Xnew.
+\code{class} - The estimated binary response for the test data.
 
-\code{history} - The trajectory of accuracy over epochs.
+\code{history} - The trajectory of classification accuracy over epochs.
 
 \code{acc} - The classification accuracy on test data.
 }
 \description{
-Implement a CNN with two hidden layers and ReLu activation.
+Implement a CNN with two hidden layers and ReLU activation.
 }

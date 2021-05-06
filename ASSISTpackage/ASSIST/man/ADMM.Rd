@@ -7,23 +7,23 @@
 ADMM(X,ybar,Weight,Covariate=NULL,r,srow,scol,lambda=0,rho.ini=1)
 }
 \arguments{
-\item{X}{A list of predictor matrices.}
+\item{X}{A list of matrix-valued predictors.}
 
 \item{ybar}{A vector of  shifted response variables.}
 
 \item{Weight}{Classification weight.}
 
-\item{Covariate}{Additional covariate including intercept. \code{Covariate = NULL} does not include covariate.}
+\item{Covariate}{Additional covariates including intercept. \code{Covariate = NULL} indicates no covariates.}
 
-\item{r}{A rank of coefficient matrix to be fitted.}
+\item{r}{The rank of coefficient matrix to be fitted.}
 
 \item{srow}{The number of zero rows in coefficient matrix.}
 
 \item{scol}{The number of zero columns in coefficient matrix.}
 
-\item{lambda}{Lagrangian multiplier.}
+\item{lambda}{Lagrangian multiplier. Default is zero.}
 
-\item{rho.ini}{Initial step size.}
+\item{rho.ini}{Initial step size. Default is 1.}
 }
 \value{
 The returned object is a list of components.
@@ -38,7 +38,7 @@ The returned object is a list of components.
 
 \code{iter} - The number of iterations.
 
-\code{fitted} - A vector of fitted values from estimated classifier.
+\code{fitted} - A vector of fitted reponse from estimated classifier.
 
 \code{B} - The estimated coefficient matrix of the classifier.
 }
@@ -46,7 +46,7 @@ The returned object is a list of components.
 Implement an ADMM algorithm to optimize the weigthed classificiation loss.
 }
 \examples{
-### Generate predictor matrices ##########
+#### Generate matrix predictors  ##########
 X = list()
 for(i in 1:10){
  X[[i]] = matrix(runif(4,-1,1),nrow = 2,ncol = 2)
@@ -61,9 +61,10 @@ for(i in 1:10){
  y = c(y,sign(sum(X[[i]]*B)+rnorm(1,sd = 0.1)))
 }
 
-#### classification with equal weight #########
+#### classification with equal weights #########
 res = ADMM(X,y,rep(1,10),r = 1,srow = 0,scol = 0)
-### Misclassification rate on training data #################
+
+### Misclassification rate on training data ######
 mean(sign(res$fitted)-y)
 }
 \references{

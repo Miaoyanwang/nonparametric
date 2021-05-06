@@ -67,11 +67,11 @@ function_matrix_denoise=function(res,X,node_ID1,node_ID2,group){
 #' Fit a logistic probability model based on Lasso penalty
 #' @param xvec An input matrix. Each row is a vectorized predictor.
 #' @param y Binary response variable.
-#' @param xnew Matrix of new values at which predictions are to made.
+#' @param xnew New predictors in the test data. Organized as a matrix with each row being a data point.
 #' @param lambda The regularization penalty.
 #' @return The returned object is a list of components.
-#' @return \code{B_est} - The estimated coefficient matrix of linear predictor.
-#' @return \code{prob} - The estimated probabilities of the binary response at the predictors xnew.
+#' @return \code{B_est} - The estimated coefficient vector of linear predictor.
+#' @return \code{prob} - The predicted probabilities for the test data.
 #' @usage Lasso(xvec,y,xnew,lambda)
 #' @export
 #' @importFrom glmnet "glmnet"
@@ -93,14 +93,14 @@ Lasso=function(xvec,y,xnew,lambda){
 
 #' Convolutional Neural Network (CNN) with two hidden layers
 #'
-#' Implement a CNN with two hidden layers and ReLu activation.
-#' @param X A list of predictor matrices.
+#' Implement a CNN with two hidden layers and ReLU activation.
+#' @param X A list of matrix-valued predictors.
 #' @param y Binary response variable.
-#' @param X_new A list of new matrices at which predictions are to made.
+#' @param X_new A list of new matrices in the test data.
 #' @param plot.figure Option for plotting trajectory of accuracy over epochs.
 #' @return The returned object is a list of components.
-#' @return \code{prob} - The estimated probabilities of the binary response at the predictors Xnew.
-#' @return \code{class} - The estimated binary response at the predictors Xnew.
+#' @return \code{prob} - The predicted probabilities for the test data.
+#' @return \code{class} - The estimated binary response for the test data.
 #' @return \code{history} - The trajectory of classification accuracy over epochs.
 #' @return \code{acc} - The classification accuracy on test data.
 #' @usage CNN(X,y,X_new,plot.figure = FALSE)
@@ -195,26 +195,26 @@ objective=function(b,yfit,ybar,Weight,type=c("logistic","hinge","binary")){
 
 #' Aggregation of structured sign series for trace regression (ASSIST)
 #'
-#' Implement ASSIST based on ADMM algorithm.
-#' @param X A list of predictor matrices.
+#' Main function for fitting the nonparametric trace regression. The algorithm uses a learning reduction approach to estimate the nonparametric trace regression via ASSIST.
+#' @param X A list of matrix-valued predictors.
 #' @param y A vector of response variables.
-#' @param X_new A list of new matrices at which predictions are to made. \code{X_new = NULL} is regarded as \code{X_new = X}.
-#' @param r A rank of sign representable function to be fitted.
+#' @param X_new A list of new matrices in the test data. \code{X_new = NULL} returns fitted values in the training data.
+#' @param r The rank of sign representable function to be fitted.
 #' @param sparse_r The number of zero rows in coefficient matrix.
 #' @param sparse_c The number of zero columns in coefficient matrix.
-#' @param H Resoution parameter.
+#' @param H Resoution parameter that controls the number of classifiers to aggregate.
 #' @param lambda Lagrangian multiplier.
 #' @param rho.ini Initial step size.
 #' @param min Minimum value of the response variables
 #' @param max Maximum value of the response variables.
 #' @return The returned object is a list of components.
-#' @return \code{B_est} - An array of which slices are the estimated coefficient matrix at each level.
-#' @return \code{fitted} - The estimated responses at the predictor Xnew.
-#' @return \code{sign_fitted} - A matrix of which rows are the sign of responses shifted by each level.
+#' @return \code{B_est} - An array that collects a series of coefficient matrices for the classifiers used in the algorithm.
+#' @return \code{fitted} - The predicted responses in the test data.
+#' @return \code{sign_fitted} - A matrix that collects a series of predicted signs for the classifiers used in the algorithm.
 #' @usage ASSIST(X,y,X_new=NULL,r,sparse_r,sparse_c,H=10,lambda=0,rho.ini=0.1,min,max)
 #' @references Lee, C., Li, L., Zhang, H., and Wang, M. (2021). Nonparametric Trace Regression via Sign Series Representation. \emph{arXiv preprint arXiv:2105.01783}.
 #' @examples
-#' ######### Generate predictor matrices ###########################
+#' ######### Generate matrices in the training data ################
 #' X = list()
 #' for(i in 1:10){
 #'  X[[i]] = matrix(runif(4,-1,1),nrow = 2,ncol = 2)
@@ -236,7 +236,7 @@ objective=function(b,yfit,ybar,Weight,type=c("logistic","hinge","binary")){
 #' mean(abs(res$fitted-signal))
 #'
 #'
-#' ######### Generate new matrices at which predictions are to made #
+#' ######### Generate new matrices in the test data ################
 #' X_new = list()
 #' for(i in 1:10){
 #'   X_new[[i]] = matrix(runif(4,-1,1),nrow = 2,ncol = 2)
@@ -279,27 +279,27 @@ ASSIST=function(X,y,X_new=NULL,r,sparse_r,sparse_c,H=10,lambda=0,rho.ini=0.1,min
 #' ADMM algorithm for weighted classification
 #'
 #' Implement an ADMM algorithm to optimize the weigthed classificiation loss.
-#' @param X A list of predictor matrices.
+#' @param X A list of matrix-valued predictors.
 #' @param ybar A vector of  shifted response variables.
 #' @param Weight Classification weight.
-#' @param Covariate Additional covariate including intercept. \code{Covariate = NULL} does not include covariate.
-#' @param r A rank of coefficient matrix to be fitted.
+#' @param Covariate Additional covariates including intercept. \code{Covariate = NULL} indicates no covariates.
+#' @param r The rank of coefficient matrix to be fitted.
 #' @param srow The number of zero rows in coefficient matrix.
 #' @param scol The number of zero columns in coefficient matrix.
-#' @param lambda Lagrangian multiplier.
-#' @param rho.ini Initial step size.
+#' @param lambda Lagrangian multiplier. Default is zero.
+#' @param rho.ini Initial step size. Default is 1.
 #' @return The returned object is a list of components.
 #' @return \code{intercept} - The estimated intercept of the classifier.
 #' @return \code{P_row} - The left-singular vectors of the coefficient matrix.
 #' @return \code{P_col} - The right-singular vectors of the coefficient matrix.
 #' @return \code{obj} - Trajectory of weighted classification loss values over iterations.
 #' @return \code{iter} - The number of iterations.
-#' @return \code{fitted} - A vector of fitted values from estimated classifier.
+#' @return \code{fitted} - A vector of fitted reponse from estimated classifier.
 #' @return \code{B} - The estimated coefficient matrix of the classifier.
 #' @usage ADMM(X,ybar,Weight,Covariate=NULL,r,srow,scol,lambda=0,rho.ini=1)
 #' @references Lee, C., Li, L., Zhang, H., and Wang, M. (2021). Nonparametric Trace Regression via Sign Series Representation. \emph{arXiv preprint arXiv:2105.01783}.
 #' @examples
-#' ### Generate predictor matrices ##########
+#' #### Generate matrix predictors  ##########
 #' X = list()
 #' for(i in 1:10){
 #'  X[[i]] = matrix(runif(4,-1,1),nrow = 2,ncol = 2)
@@ -314,9 +314,10 @@ ASSIST=function(X,y,X_new=NULL,r,sparse_r,sparse_c,H=10,lambda=0,rho.ini=0.1,min
 #'  y = c(y,sign(sum(X[[i]]*B)+rnorm(1,sd = 0.1)))
 #' }
 #'
-#' #### classification with equal weight #########
+#' #### classification with equal weights #########
 #' res = ADMM(X,y,rep(1,10),r = 1,srow = 0,scol = 0)
-#' ### Misclassification rate on training data #################
+#'
+#' ### Misclassification rate on training data ######
 #' mean(sign(res$fitted)-y)
 #' @export
 #' @importFrom quadprog "solve.QP"
