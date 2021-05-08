@@ -1,0 +1,16 @@
+Package: TraceAssist
+Type: Package
+Title: Nonparametric Trace Regression via Sign Series Representation
+Version: 0.1.0
+Author: Chanwoo Lee <chanwoo.lee@wisc.edu>, Lexin Li <lexinli@berkeley.edu>, Hao Helen Zhang <hzhang@math.arizona.edu>, Miaoyan Wang <miaoyan.wang@wisc.edu>
+Maintainer: Chanwoo Lee <chanwoo.lee@wisc.edu>
+Description: Efficient method for fitting nonparametric matrix trace regression model. The detailed description can be found in  C. Lee, L. Li, H. Zhang, and M. Wang (2021). Nonparametric Trace Regression via Sign Series Representation. <arXiv:2105.01783>. The method employs the aggregation of structured sign series for trace regression (ASSIST) algorithm.
+URL: https://arxiv.org/abs/2105.01783
+Imports: 
+  quadprog,
+  Matrix,
+  glmnet,
+  keras
+License: GPL(>=2)
+Encoding: UTF-8
+RoxygenNote: 7.1.1
